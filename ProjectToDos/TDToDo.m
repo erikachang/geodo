@@ -19,4 +19,16 @@
     }
     return self;
 }
+
+-(void)addNotificationConfigurationWithLocation:(NSString *)aLocation
+{
+    TDNotificationConfiguration *notification = [[TDNotificationConfiguration alloc] initWithLocation:aLocation];
+    [self.reminders addObject:notification];
+}
+
+-(void)addNotificationConfigurationWithDateTime:(NSDate *)aDateTime
+{
+    TDNotificationConfiguration *notification = [[TDNotificationConfiguration alloc] initWithDateAndTime:aDateTime];
+    [self.reminders addObject:notification];
+}
 @end

@@ -7,12 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "TDNotificationConfiguration.h"
 
 @interface TDToDo : NSObject
 @property NSString *description;
 @property (readonly) NSMutableArray *reminders;
 @property BOOL active;
 
-- (instancetype)initWithDescription:(NSString *)aDescription;
-
+-(instancetype)initWithDescription:(NSString *)aDescription;
+-(void)addNotificationConfigurationWithLocation:(NSString *)aLocation;
+-(void)addNotificationConfigurationWithDateTime:(NSDate *)aDateTime;
 @end
