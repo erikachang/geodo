@@ -22,7 +22,6 @@
 		F46BED1F18969D08009B5251 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F46BED0118969D07009B5251 /* UIKit.framework */; };
 		F46BED2718969D08009B5251 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F46BED2518969D08009B5251 /* InfoPlist.strings */; };
 		F46BED2918969D08009B5251 /* ProjectToDosTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F46BED2818969D08009B5251 /* ProjectToDosTests.m */; };
-		F46BED341896A1D7009B5251 /* TDTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F46BED331896A1D7009B5251 /* TDTableViewController.m */; };
 		F4941B631897D16200894C8B /* TDEditToDoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4941B621897D16200894C8B /* TDEditToDoViewController.m */; };
 		F4A7C3F11899707F00CB8B0C /* TDNotificationConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A7C3F01899707F00CB8B0C /* TDNotificationConfiguration.m */; };
 /* End PBXBuildFile section */
@@ -59,8 +58,6 @@
 		F46BED2418969D08009B5251 /* ProjectToDosTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ProjectToDosTests-Info.plist"; sourceTree = "<group>"; };
 		F46BED2618969D08009B5251 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F46BED2818969D08009B5251 /* ProjectToDosTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProjectToDosTests.m; sourceTree = "<group>"; };
-		F46BED321896A1D7009B5251 /* TDTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDTableViewController.h; sourceTree = "<group>"; };
-		F46BED331896A1D7009B5251 /* TDTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDTableViewController.m; sourceTree = "<group>"; };
 		F4941B611897D16200894C8B /* TDEditToDoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDEditToDoViewController.h; sourceTree = "<group>"; };
 		F4941B621897D16200894C8B /* TDEditToDoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDEditToDoViewController.m; sourceTree = "<group>"; };
 		F4A7C3EF1899707F00CB8B0C /* TDNotificationConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDNotificationConfiguration.h; sourceTree = "<group>"; };
@@ -142,8 +139,6 @@
 				F46BED0F18969D07009B5251 /* Main.storyboard */,
 				F46BED1518969D07009B5251 /* Images.xcassets */,
 				F46BED0418969D07009B5251 /* Supporting Files */,
-				F46BED321896A1D7009B5251 /* TDTableViewController.h */,
-				F46BED331896A1D7009B5251 /* TDTableViewController.m */,
 			);
 			path = ProjectToDos;
 			sourceTree = "<group>";
@@ -288,7 +283,6 @@
 			files = (
 				F46BED1418969D07009B5251 /* TDViewController.m in Sources */,
 				F406A4E91897DD1E0004F19E /* TDToDo.m in Sources */,
-				F46BED341896A1D7009B5251 /* TDTableViewController.m in Sources */,
 				F4A7C3F11899707F00CB8B0C /* TDNotificationConfiguration.m in Sources */,
 				F4941B631897D16200894C8B /* TDEditToDoViewController.m in Sources */,
 				F46BED0E18969D07009B5251 /* TDAppDelegate.m in Sources */,
