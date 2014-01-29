@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F406A4E91897DD1E0004F19E /* TDToDo.m in Sources */ = {isa = PBXBuildFile; fileRef = F406A4E81897DD1E0004F19E /* TDToDo.m */; };
 		F46BECFE18969D07009B5251 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F46BECFD18969D07009B5251 /* Foundation.framework */; };
 		F46BED0018969D07009B5251 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F46BECFF18969D07009B5251 /* CoreGraphics.framework */; };
 		F46BED0218969D07009B5251 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F46BED0118969D07009B5251 /* UIKit.framework */; };
@@ -21,6 +22,8 @@
 		F46BED1F18969D08009B5251 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F46BED0118969D07009B5251 /* UIKit.framework */; };
 		F46BED2718969D08009B5251 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F46BED2518969D08009B5251 /* InfoPlist.strings */; };
 		F46BED2918969D08009B5251 /* ProjectToDosTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F46BED2818969D08009B5251 /* ProjectToDosTests.m */; };
+		F46BED341896A1D7009B5251 /* TDTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F46BED331896A1D7009B5251 /* TDTableViewController.m */; };
+		F4941B631897D16200894C8B /* TDEditToDoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4941B621897D16200894C8B /* TDEditToDoViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F406A4E71897DD1E0004F19E /* TDToDo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDToDo.h; sourceTree = "<group>"; };
+		F406A4E81897DD1E0004F19E /* TDToDo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDToDo.m; sourceTree = "<group>"; };
 		F46BECFA18969D07009B5251 /* ProjectToDos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectToDos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F46BECFD18969D07009B5251 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F46BECFF18969D07009B5251 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -53,6 +58,10 @@
 		F46BED2418969D08009B5251 /* ProjectToDosTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ProjectToDosTests-Info.plist"; sourceTree = "<group>"; };
 		F46BED2618969D08009B5251 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F46BED2818969D08009B5251 /* ProjectToDosTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProjectToDosTests.m; sourceTree = "<group>"; };
+		F46BED321896A1D7009B5251 /* TDTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDTableViewController.h; sourceTree = "<group>"; };
+		F46BED331896A1D7009B5251 /* TDTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDTableViewController.m; sourceTree = "<group>"; };
+		F4941B611897D16200894C8B /* TDEditToDoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDEditToDoViewController.h; sourceTree = "<group>"; };
+		F4941B621897D16200894C8B /* TDEditToDoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDEditToDoViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +88,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F406A4E61897DD0A0004F19E /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				F406A4E71897DD1E0004F19E /* TDToDo.h */,
+				F406A4E81897DD1E0004F19E /* TDToDo.m */,
+			);
+			name = Objects;
+			sourceTree = "<group>";
+		};
 		F46BECF118969D07009B5251 = {
 			isa = PBXGroup;
 			children = (
@@ -112,13 +130,15 @@
 		F46BED0318969D07009B5251 /* ProjectToDos */ = {
 			isa = PBXGroup;
 			children = (
+				F406A4E61897DD0A0004F19E /* Objects */,
+				F4941B5D1897CE9B00894C8B /* ToDoManagementViews */,
 				F46BED0C18969D07009B5251 /* TDAppDelegate.h */,
 				F46BED0D18969D07009B5251 /* TDAppDelegate.m */,
 				F46BED0F18969D07009B5251 /* Main.storyboard */,
-				F46BED1218969D07009B5251 /* TDViewController.h */,
-				F46BED1318969D07009B5251 /* TDViewController.m */,
 				F46BED1518969D07009B5251 /* Images.xcassets */,
 				F46BED0418969D07009B5251 /* Supporting Files */,
+				F46BED321896A1D7009B5251 /* TDTableViewController.h */,
+				F46BED331896A1D7009B5251 /* TDTableViewController.m */,
 			);
 			path = ProjectToDos;
 			sourceTree = "<group>";
@@ -150,6 +170,17 @@
 				F46BED2518969D08009B5251 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F4941B5D1897CE9B00894C8B /* ToDoManagementViews */ = {
+			isa = PBXGroup;
+			children = (
+				F46BED1218969D07009B5251 /* TDViewController.h */,
+				F46BED1318969D07009B5251 /* TDViewController.m */,
+				F4941B611897D16200894C8B /* TDEditToDoViewController.h */,
+				F4941B621897D16200894C8B /* TDEditToDoViewController.m */,
+			);
+			name = ToDoManagementViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -251,6 +282,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				F46BED1418969D07009B5251 /* TDViewController.m in Sources */,
+				F406A4E91897DD1E0004F19E /* TDToDo.m in Sources */,
+				F46BED341896A1D7009B5251 /* TDTableViewController.m in Sources */,
+				F4941B631897D16200894C8B /* TDEditToDoViewController.m in Sources */,
 				F46BED0E18969D07009B5251 /* TDAppDelegate.m in Sources */,
 				F46BED0A18969D07009B5251 /* main.m in Sources */,
 			);
@@ -461,6 +495,7 @@
 				F46BED2E18969D08009B5251 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F46BED2F18969D08009B5251 /* Build configuration list for PBXNativeTarget "ProjectToDosTests" */ = {
 			isa = XCConfigurationList;
@@ -469,6 +504,7 @@
 				F46BED3118969D08009B5251 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

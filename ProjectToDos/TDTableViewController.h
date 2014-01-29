@@ -1,5 +1,5 @@
 //
-//  TDViewController.h
+//  TDTableViewController.h
 //  ProjectToDos
 //
 //  Created by Stephan Chang on 1/27/14.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TDViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>
+@interface TDTableViewController : UITableViewController
 
 @end
