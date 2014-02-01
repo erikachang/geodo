@@ -22,8 +22,14 @@
 
 - (IBAction)changeToDoNameAndViewTitle:(UITextField *)sender {
     [self resignFirstResponder];
-    self.toDo.description = self.titleTextField.text;
-    self.title = self.titleTextField.text;
+    
+    if ([self.titleTextField.text isEqualToString:@""]) {
+        self.titleTextField.text = self.toDo.description;
+    }
+    else {
+        self.toDo.description = self.titleTextField.text;
+        self.title = self.titleTextField.text;
+    }
 }
 
 - (NSMutableDictionary *)sectionsDic
