@@ -21,6 +21,15 @@
 @end
 
 @implementation TDViewController
+- (IBAction)editToDoDescription:(UITextField *)sender {
+    [self resignFirstResponder];
+    
+    if (![sender.text isEqualToString:@""]) {
+        TDToDo *toDo = [self.toDosDataSource objectAtIndex:sender.tag];
+        
+        toDo.description = sender.text;
+    }
+}
 - (NSMutableArray *)toDosDataSource {
     if (_toDosDataSource == nil)
         _toDosDataSource = [[NSMutableArray alloc] init];
@@ -63,7 +72,7 @@
     
     NSMutableArray *newList = [[NSMutableArray alloc] init];
     TDToDo *newTodo = [[TDToDo alloc] initWithDescription:sender.text];
-    
+    newTodo.active = YES;
     [newList addObject:newTodo];
     
     for (TDToDo *todo in self.toDosDataSource) {
@@ -162,22 +171,24 @@ CGPoint originalCenter;
     [longPressRec setNumberOfTouchesRequired:1];
     [self.toDosTableView addGestureRecognizer:longPressRec];
     
-    CALayer *redLineLayer = [[CALayer alloc] init];
-    redLineLayer.frame = CGRectMake(20, (self.view.bounds.size.height-self.toDosTableView.bounds.size.height), 2.0f, self.toDosTableView.bounds.size.height);
-    redLineLayer.backgroundColor = [[UIColor blackColor] CGColor];
+    // Add vertical line to look line a notebook
+//    CALayer *redLineLayer = [[CALayer alloc] init];
+//    redLineLayer.frame = CGRectMake(20, (self.view.bounds.size.height-self.toDosTableView.bounds.size.height)-40, 2.0f, self.toDosTableView.bounds.size.height+40);
+//    redLineLayer.backgroundColor = [[UIColor redColor] CGColor];
+//    
+//    [self.view.layer addSublayer:redLineLayer];
     
-    [self.view.layer addSublayer:redLineLayer];
+//    [self.searchAndAddTextField setFont:[UIFont fontWithName:@"Chalkduster" size:18.0]];
     
     CAGradientLayer *gradientLayer = [CAGradientLayer layer];
     gradientLayer.frame = self.view.bounds;
-    gradientLayer.colors = @[(id)[[UIColor colorWithRed:0.0f green:0.8f blue:1.0f alpha:1.0f ] CGColor],
-                             (id)[[UIColor colorWithRed:0.0f green:0.6f blue:1.0f alpha:.75f ] CGColor],
-                             (id)[[UIColor colorWithRed:0.0f green:0.4f blue:1.0f alpha:.25f ] CGColor],
-                             (id)[[UIColor colorWithRed:0.0f green:0.2f blue:1.0f alpha:.5f ] CGColor]];
-    gradientLayer.locations = @[@0.00f, @0.50f, @0.99f, @1.00f];
+    gradientLayer.colors = @[(id)[[UIColor colorWithRed:1.0f green:1.f blue:1.0f alpha:1.0f ] CGColor],
+                             (id)[[UIColor colorWithRed:.8f green:0.8f blue:.8f alpha:.75f ] CGColor],
+                             (id)[[UIColor colorWithRed:0.7f green:0.7f blue:0.7f alpha:.25f ] CGColor],
+                             (id)[[UIColor colorWithRed:.6f green:.6f blue:.6f alpha:.5f ] CGColor]];
+    gradientLayer.locations = @[@0.05f];
     [self.view.layer insertSublayer:gradientLayer atIndex:0];
     [self.toDosTableView setBackgroundColor:[UIColor clearColor]];
-//    [self.toDosTableView layoutSubviews];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -195,14 +206,19 @@ CGPoint originalCenter;
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     TDEditToDoViewController *editView = [segue destinationViewController];
-    
+
+    NSLog(@"Swiped left");
     CGPoint location = [sender locationInView:self.toDosTableView];
     
     NSIndexPath *indexPath = [self.toDosTableView indexPathForRowAtPoint:location];
-    UITableViewCell *cell = [self.toDosTableView cellForRowAtIndexPath:indexPath];
+
+
+    if (self.isFiltering) {
+        editView.toDo = [self.filteredToDosDataSource objectAtIndex:indexPath.row];
+    } else {
+        editView.toDo = [self.toDosDataSource objectAtIndex:indexPath.row];
+    }
     
-//    editView.toDo = [self.toDosDataSource objectAtIndex:[sender indexPathForSelectedRow].row];
-    editView.toDo = [self.toDosDataSource objectAtIndex:indexPath.row];
 }
 
 #pragma mark - Shake Motion Detection
@@ -238,10 +254,8 @@ CGPoint originalCenter;
         //[self.toDosTableView reloadData];
         
         [self.toDosTableView beginUpdates];
-        {
         [self.toDosTableView deleteRowsAtIndexPaths:indexPaths
-                                       withRowAnimation:UITableViewRowAnimationLeft];
-        }
+                                       withRowAnimation:UITableViewRowAnimationAutomatic];
         [self.toDosTableView endUpdates];
     }
 }
@@ -255,12 +269,9 @@ CGPoint originalCenter;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (self.isFiltering)
-    {
+    if (self.isFiltering) {
         return self.filteredToDosDataSource.count;
-    }
-    else
-    {
+    } else {
         return self.toDosDataSource.count;
     }
 }
@@ -279,41 +290,27 @@ CGPoint originalCenter;
 {
     NSLog(@"Swiped right");
     CGPoint location = [gesture locationInView:self.toDosTableView];
-
     NSIndexPath *indexPath = [self.toDosTableView indexPathForRowAtPoint:location];
-    UITableViewCell *cell = [self.toDosTableView cellForRowAtIndexPath:indexPath];
     TDToDo *toDo = [self.toDosDataSource objectAtIndex:indexPath.row];
-    
-    if (toDo.active) {
-        CALayer *lineLayer = [CALayer layer];
-        [lineLayer setBackgroundColor:[[UIColor grayColor] CGColor]];
-        [cell.layer addSublayer:lineLayer];
-
-
-        [UIView animateWithDuration:1.0 animations:^{
-            lineLayer.frame = CGRectMake(0, cell.bounds.size.height/2, cell.bounds.size.width, 1.0f);
-        } ];
-    } else {
-        
-    }
-    
-    toDo.active = !toDo.active;
-//    cell.textLabel.attributedText = [self strikeThroughText:cell.textLabel.text];
-//    [[self.toDosDataSource objectAtIndex:indexPath.row] setActive:NO];
+    [toDo setActive:!toDo.active];
+    [self.toDosTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 - (void)swipeLeft:(UISwipeGestureRecognizer *)gesture
 {
     NSLog(@"Swiped left");
-//    CGPoint location = [gesture locationInView:self.toDosTableView];
-//    NSIndexPath *indexPath = [self.toDosTableView indexPathForRowAtPoint:location];
-//    UITableViewCell *cell = [self.toDosTableView cellForRowAtIndexPath:indexPath];
-//    
-////    cell.textLabel.attributedText = [self strikeThroughText:cell.textLabel.text];
-//    cell.textLabel.text = cell.textLabel.text;
-//    [[self.toDosDataSource objectAtIndex:indexPath.row] setActive:YES];
+    CGPoint location = [gesture locationInView:self.toDosTableView];
     
-    [self performSegueWithIdentifier:@"DetailToDo" sender:gesture];
+    NSIndexPath *indexPath = [self.toDosTableView indexPathForRowAtPoint:location];
+
+    if (indexPath) {
+        [self performSegueWithIdentifier:@"DetailToDo" sender:gesture];
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 40;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -332,27 +329,20 @@ CGPoint originalCenter;
     }
     
     if (todo.active) {
-        [cell.toDosCustomLabel setText:todo.description];
+        [cell.toDosTextField setText:todo.description];
     }
     else {
-        cell.toDosCustomLabel.attributedText = [self strikeThroughText:todo.description];
+        cell.toDosTextField.attributedText = [self strikeThroughText:todo.description];
     }
     
-    [cell setBackgroundColor:[UIColor clearColor]];
-    
-    CALayer *lineLayer = [CALayer layer];
-    [lineLayer setBackgroundColor:[[UIColor blackColor] CGColor]];
-    
-    lineLayer.frame = CGRectMake(0, cell.textLabel.frame.size.height, cell.bounds.size.width, 1.0f);
-    
-    [cell.layer addSublayer:lineLayer];
+    cell.toDosTextField.tag = indexPath.row;
     
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+//{
 //    [self performSegueWithIdentifier:@"DetailToDo" sender:tableView];
-}
+//}
 
 @end

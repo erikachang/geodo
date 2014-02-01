@@ -24,7 +24,6 @@
 		F46BED2918969D08009B5251 /* ProjectToDosTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F46BED2818969D08009B5251 /* ProjectToDosTests.m */; };
 		F4941B631897D16200894C8B /* TDEditToDoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4941B621897D16200894C8B /* TDEditToDoViewController.m */; };
 		F4A7C3F11899707F00CB8B0C /* TDNotificationConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A7C3F01899707F00CB8B0C /* TDNotificationConfiguration.m */; };
-		F4A7C3F4189B355C00CB8B0C /* TDToDosTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A7C3F3189B355C00CB8B0C /* TDToDosTableView.m */; };
 		F4A7C412189C52AC00CB8B0C /* TDToDosCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A7C411189C52AC00CB8B0C /* TDToDosCell.m */; };
 /* End PBXBuildFile section */
 
@@ -64,8 +63,6 @@
 		F4941B621897D16200894C8B /* TDEditToDoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDEditToDoViewController.m; sourceTree = "<group>"; };
 		F4A7C3EF1899707F00CB8B0C /* TDNotificationConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDNotificationConfiguration.h; sourceTree = "<group>"; };
 		F4A7C3F01899707F00CB8B0C /* TDNotificationConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDNotificationConfiguration.m; sourceTree = "<group>"; };
-		F4A7C3F2189B355C00CB8B0C /* TDToDosTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDToDosTableView.h; sourceTree = "<group>"; };
-		F4A7C3F3189B355C00CB8B0C /* TDToDosTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDToDosTableView.m; sourceTree = "<group>"; };
 		F4A7C410189C52AC00CB8B0C /* TDToDosCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDToDosCell.h; sourceTree = "<group>"; };
 		F4A7C411189C52AC00CB8B0C /* TDToDosCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDToDosCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -193,8 +190,6 @@
 		F4A7C40F189C528C00CB8B0C /* Custom Controls */ = {
 			isa = PBXGroup;
 			children = (
-				F4A7C3F2189B355C00CB8B0C /* TDToDosTableView.h */,
-				F4A7C3F3189B355C00CB8B0C /* TDToDosTableView.m */,
 				F4A7C410189C52AC00CB8B0C /* TDToDosCell.h */,
 				F4A7C411189C52AC00CB8B0C /* TDToDosCell.m */,
 			);
@@ -306,7 +301,6 @@
 				F4941B631897D16200894C8B /* TDEditToDoViewController.m in Sources */,
 				F46BED0E18969D07009B5251 /* TDAppDelegate.m in Sources */,
 				F46BED0A18969D07009B5251 /* main.m in Sources */,
-				F4A7C3F4189B355C00CB8B0C /* TDToDosTableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

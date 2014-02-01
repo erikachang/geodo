@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TDToDo.h"
 
-@interface TDToDosCell : UITableViewCell <UIGestureRecognizerDelegate>
-@property (weak, nonatomic) IBOutlet UILabel *toDosCustomLabel;
+@interface TDToDosCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UITextField *toDosTextField;
 
 @end

@@ -58,15 +58,25 @@
     [self performSegueWithIdentifier:@"AddLocationNotification" sender:Nil];
 }
 
+- (void)swipeRight:(UISwipeGestureRecognizer *)gesture
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    [[self navigationController] setNavigationBarHidden:NO];
+//    [[self navigationController] setNavigationBarHidden:NO];
     [self.titleTextField setBorderStyle:UITextBorderStyleNone];
     [self.titleTextField setText:self.toDo.description];
     NSDictionary *sections = @{@"Lembre-me:":@"Lembre-me:"};
     [self.sectionsDic addEntriesFromDictionary:sections];
+ 
+    // Adding Swip Gesture Recognizers
+    UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRight:)];
+    [swipeRecognizer setDirection:UISwipeGestureRecognizerDirectionRight];
+    [self.view addGestureRecognizer:swipeRecognizer];
     
     // Date and Time Notification button customization
     {
