@@ -23,8 +23,6 @@
 {
     [super layoutSubviews];
     
-//    [self.toDosTextField setFont:[UIFont fontWithName:@"Cochin-Italic" size:24.0]];
-    
     [self.toDosTextField setBorderStyle:UITextBorderStyleNone];
     [self.toDosTextField setBackgroundColor:[UIColor clearColor]];
     [self setBackgroundColor:[UIColor clearColor]];

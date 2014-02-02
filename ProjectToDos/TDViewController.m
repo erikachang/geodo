@@ -99,6 +99,7 @@ CGPoint originalCenter;
     if (gesture.state == UIGestureRecognizerStateBegan) {
         
         NSLog(@"Long press began at: %@.", NSStringFromCGPoint([gesture locationInView:self.toDosTableView]));
+        [self resignFirstResponder];
         CGPoint cellLocation = [gesture locationInView:self.toDosTableView];
         longPressSelectedIndexPath =  [self.toDosTableView indexPathForRowAtPoint:cellLocation];
         longPressSelectedToDo = [self.toDosDataSource objectAtIndex:longPressSelectedIndexPath.row];
@@ -180,14 +181,14 @@ CGPoint originalCenter;
     
 //    [self.searchAndAddTextField setFont:[UIFont fontWithName:@"Chalkduster" size:18.0]];
     
-    CAGradientLayer *gradientLayer = [CAGradientLayer layer];
-    gradientLayer.frame = self.view.bounds;
-    gradientLayer.colors = @[(id)[[UIColor colorWithRed:1.0f green:1.f blue:1.0f alpha:1.0f ] CGColor],
-                             (id)[[UIColor colorWithRed:.8f green:0.8f blue:.8f alpha:.75f ] CGColor],
-                             (id)[[UIColor colorWithRed:0.7f green:0.7f blue:0.7f alpha:.25f ] CGColor],
-                             (id)[[UIColor colorWithRed:.6f green:.6f blue:.6f alpha:.5f ] CGColor]];
-    gradientLayer.locations = @[@0.05f];
-    [self.view.layer insertSublayer:gradientLayer atIndex:0];
+//    CAGradientLayer *gradientLayer = [CAGradientLayer layer];
+//    gradientLayer.frame = self.view.bounds;
+//    gradientLayer.colors = @[(id)[[UIColor colorWithRed:1.0f green:1.f blue:1.0f alpha:1.0f ] CGColor],
+//                             (id)[[UIColor colorWithRed:.8f green:0.8f blue:.8f alpha:.75f ] CGColor],
+//                             (id)[[UIColor colorWithRed:0.7f green:0.7f blue:0.7f alpha:.25f ] CGColor],
+//                             (id)[[UIColor colorWithRed:.6f green:.6f blue:.6f alpha:.5f ] CGColor]];
+//    gradientLayer.locations = @[@0.05f];
+//    [self.view.layer insertSublayer:gradientLayer atIndex:0];
     [self.toDosTableView setBackgroundColor:[UIColor clearColor]];
 }
 
