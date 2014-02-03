@@ -15,4 +15,5 @@
 @property (weak, nonatomic) IBOutlet UISwitch *switcher;
 @property (weak, nonatomic) IBOutlet UILabel *label2;
 
+- (void) returnWeekDays:(NSMutableArray *)wd;
 @end

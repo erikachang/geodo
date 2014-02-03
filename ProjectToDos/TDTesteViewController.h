@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TDDateAndTimeViewController.h"
 
 @interface TDTesteViewController : UITableViewController
 @property (weak, nonatomic) IBOutlet UILabel *dom;
@@ -16,4 +17,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *qui;
 @property (weak, nonatomic) IBOutlet UILabel *sex;
 @property (weak, nonatomic) IBOutlet UILabel *sab;
+
+@property (nonatomic, retain) TDDateAndTimeViewController *superController;
 @end

@@ -12,7 +12,9 @@
 
 @end
 
-@implementation TDTesteViewController
+@implementation TDTesteViewController {
+    NSMutableArray *wd;
+}
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -26,11 +28,14 @@
 - (void)swipeRight:(UISwipeGestureRecognizer *)gesture
 {
     [self.navigationController popViewControllerAnimated:YES];
+    [self.superController returnWeekDays:wd];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    wd = [[NSMutableArray alloc] init];
     
     // Adding Swip Gesture Recognizers
     UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRight:)];
@@ -48,12 +53,19 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    NSLog(@"%@", cell.textLabel.text);
     
     if (cell.accessoryType == UITableViewCellAccessoryNone)
+    {
 		cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        [wd addObject:cell.textLabel.text];
+    }
 	else
+    {
 		cell.accessoryType = UITableViewCellAccessoryNone;
-    
+        [wd removeObject:cell];
+    }
     cell.selected = NO;
 }
+
 @end
