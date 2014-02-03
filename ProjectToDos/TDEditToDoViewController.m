@@ -144,6 +144,8 @@
         CLRegion* regAux = [[[SL_armazenaDados sharedArmazenaDados]listLocalidades][i] regiao];
         [self.locationManager startMonitoringForRegion: regAux];
     }
+    
+    //caso já esteja na região tem que adicionar o localnotification
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -159,7 +161,6 @@
 -(void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region {
     //terá que ser visto qual é a data para saber colocar no fireDate e também ver se já passou a data
     //para cancelar o region monitoring
-    
     
     NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
     NSDate *currentDate = [NSDate date];
