@@ -139,15 +139,15 @@
 - (void) freshLatitudeLongitude :(SL_Localidades*)local with: (BOOL)estaNaRegiao {
     
     self.location = self.locationManager.location;
-    
+    CLRegion* regAux;
     for(int i=0; i<[[[SL_armazenaDados sharedArmazenaDados] listLocalidades]count];i++){
-        CLRegion* regAux = [[[SL_armazenaDados sharedArmazenaDados]listLocalidades][i] regiao];
+        regAux = [[[SL_armazenaDados sharedArmazenaDados]listLocalidades][i] regiao];
         [self.locationManager startMonitoringForRegion: regAux];
     }
     
-    //caso já esteja na região tem que adicionar o localnotification
+    //caso já esteja na região tem que adicionar o localnotification e isso por enquanto é igual ao didEnterRegion
     if(estaNaRegiao){
-        NSLog(@"sim senhor!");
+        [self criarLocalNotification: local.regiao];
     }
 }
 
@@ -162,6 +162,10 @@
 
 
 -(void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region {
+    [self criarLocalNotification:region];
+}
+
+-(void) criarLocalNotification: (CLRegion*)region{
     //terá que ser visto qual é a data para saber colocar no fireDate e também ver se já passou a data
     //para cancelar o region monitoring
     
@@ -185,6 +189,7 @@
     [[UIApplication sharedApplication] scheduleLocalNotification:notification];
     
     [[[SL_armazenaDados sharedArmazenaDados]dicNotsRegs] setObject:notification forKey:region.identifier];
+
 }
 
 -(void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region {
