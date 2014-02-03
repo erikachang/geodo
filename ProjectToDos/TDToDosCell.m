@@ -24,7 +24,6 @@
     [super layoutSubviews];
     
     [self.toDosTextField setBorderStyle:UITextBorderStyleNone];
-    [self.toDosTextField setBackgroundColor:[UIColor clearColor]];
     [self setBackgroundColor:[UIColor clearColor]];
 }
 

@@ -72,7 +72,7 @@
     
     NSMutableArray *newList = [[NSMutableArray alloc] init];
     TDToDo *newTodo = [[TDToDo alloc] initWithDescription:sender.text];
-    newTodo.active = YES;
+
     [newList addObject:newTodo];
     
     for (TDToDo *todo in self.toDosDataSource) {
@@ -287,13 +287,23 @@ CGPoint originalCenter;
     return attrText;
 }
 
+//- (void)toggleToDoPriority
+//{
+//    NSLog(@"Swiped up!");
+//    CGPoint location = [gesture locationInView:self.toDosTableView];
+//    NSIndexPath *indexPath = [self.toDosTableView indexPathForRowAtPoint:location];
+//    TDToDo *toDo = [self.toDosDataSource objectAtIndex:indexPath.row];
+//    [toDo togglePriority];
+//    [self.toDosTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+//}
+
 - (void)swipeRight:(UISwipeGestureRecognizer *)gesture
 {
     NSLog(@"Swiped right");
     CGPoint location = [gesture locationInView:self.toDosTableView];
     NSIndexPath *indexPath = [self.toDosTableView indexPathForRowAtPoint:location];
     TDToDo *toDo = [self.toDosDataSource objectAtIndex:indexPath.row];
-    [toDo setActive:!toDo.active];
+    [toDo toggleActive];
     [self.toDosTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
@@ -328,8 +338,11 @@ CGPoint originalCenter;
     else {
         todo = [self.toDosDataSource objectAtIndex:indexPath.row];
     }
-    
+    cell.toDosTextField.textColor = [UIColor blackColor];
     if (todo.active) {
+        if (todo.priority) {
+            cell.toDosTextField.textColor = [UIColor redColor];
+        }
         [cell.toDosTextField setText:todo.description];
     }
     else {
@@ -338,12 +351,21 @@ CGPoint originalCenter;
     
     cell.toDosTextField.tag = indexPath.row;
     
+    CALayer *leftSquare = [CALayer layer];
+    leftSquare.frame = CGRectMake(0, 0, 10, cell.bounds.size.height);
+    leftSquare.backgroundColor = [[UIColor blueColor] CGColor];
+    [cell.layer addSublayer:leftSquare];
+    
     return cell;
 }
 
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-//{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
 //    [self performSegueWithIdentifier:@"DetailToDo" sender:tableView];
-//}
+    TDToDo *toDo = [self.toDosDataSource objectAtIndex:indexPath.row];
+    [toDo togglePriority];
+    [self.toDosTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+
+}
 
 @end

@@ -14,21 +14,37 @@
 {
     if (self = [super init])
     {
-        self.description = aDescription;
-        self.active = YES;
+        _description = aDescription;
+        _active = YES;
+        _priority = NO;
     }
     return self;
 }
 
--(void)addNotificationConfigurationWithLocation:(NSString *)aLocation
+- (void)addNotificationConfigurationWithLocation:(NSString *)aLocation
 {
     TDNotificationConfiguration *notification = [[TDNotificationConfiguration alloc] initWithLocation:aLocation];
     [self.reminders addObject:notification];
 }
 
--(void)addNotificationConfigurationWithDateTime:(NSDate *)aDateTime
+- (void)addNotificationConfigurationWithDateTime:(NSDate *)aDateTime
 {
     TDNotificationConfiguration *notification = [[TDNotificationConfiguration alloc] initWithDateAndTime:aDateTime];
     [self.reminders addObject:notification];
+}
+
+- (void)toggleActive
+{
+    _active = !_active;
+    if (!_active) {
+        _priority = NO;
+    }
+}
+
+- (void)togglePriority
+{
+    if (_active) {
+        _priority = !_priority;
+    }
 }
 @end
