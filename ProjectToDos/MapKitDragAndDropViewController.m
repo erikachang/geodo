@@ -19,6 +19,8 @@
     float currLongitude;
     id currCircle;
     UITextField *nomeLocal;
+    
+    int initialY;
 }
 
 @synthesize mapView;
@@ -49,6 +51,8 @@
     UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)];
     [swipeRight setDirection:UISwipeGestureRecognizerDirectionRight];
     [self.view addGestureRecognizer:swipeRight];
+    
+    initialY=60;
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation{
@@ -240,7 +244,7 @@
 
 - (IBAction)showMenuDown:(id)sender {
     
-    if(_content.frame.origin.x == 0) //only show the menu if it is not already shown
+    if(_content.frame.origin.y == initialY) //only show the menu if it is not already shown
         [self showMenu];
     else
         [self hideMenu];
@@ -254,8 +258,7 @@
     //slide the content view to the right to reveal the menu
     [UIView animateWithDuration:.25
                      animations:^{
-                         
-                         [_content setFrame:CGRectMake(_menuView.frame.size.width, _content.frame.origin.y, _content.frame.size.width, _content.frame.size.height)];
+                         [_content setFrame:CGRectMake(_content.frame.origin.x, _menuView.frame.size.height, _content.frame.size.width, _content.frame.size.height)];
                      }
      ];
     
@@ -264,8 +267,8 @@
     //slide the content view to the left to hide the menu
     [UIView animateWithDuration:.25
                      animations:^{
+                         [_content setFrame:CGRectMake(0, initialY, _content.frame.size.width, _content.frame.size.height)];
                          
-                         [_content setFrame:CGRectMake(0, _content.frame.origin.y, _content.frame.size.width, _content.frame.size.height)];
                      }
      ];
 }

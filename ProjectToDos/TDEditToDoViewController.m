@@ -90,6 +90,11 @@
         [self.addLocationNotificationButton setTitle:@"+ Local" forState:UIControlStateNormal];
         [self.addLocationNotificationButton addTarget:self action:@selector(gotoLocation) forControlEvents:UIControlEventTouchDown];
     }
+    
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+    self.locationManager.delegate = self;
+    [self.locationManager startUpdatingLocation];
 }
 
 - (void)didReceiveMemoryWarning

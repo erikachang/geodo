@@ -15,7 +15,7 @@
 #import "SL_Localidades.h"
 
 
-@interface TDEditToDoViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface TDEditToDoViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate>
 @property (strong, nonatomic) TDToDo *toDo;
 
 @property (strong, nonatomic) CLLocationManager *locationManager;
