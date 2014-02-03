@@ -136,7 +136,7 @@
 
 #pragma mark - Parte da notificacao por local
 
-- (void) freshLatitudeLongitude :(SL_Localidades*)local{
+- (void) freshLatitudeLongitude :(SL_Localidades*)local with: (BOOL)estaNaRegiao {
     
     self.location = self.locationManager.location;
     
@@ -146,6 +146,9 @@
     }
     
     //caso já esteja na região tem que adicionar o localnotification
+    if(estaNaRegiao){
+        NSLog(@"sim senhor!");
+    }
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

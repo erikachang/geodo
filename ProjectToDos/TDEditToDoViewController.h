@@ -21,5 +21,5 @@
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) CLLocation *location;
 
--(void) freshLatitudeLongitude : (SL_Localidades*)local;
+-(void) freshLatitudeLongitude : (SL_Localidades*)local with: (BOOL)estaNaRegiao;
 @end

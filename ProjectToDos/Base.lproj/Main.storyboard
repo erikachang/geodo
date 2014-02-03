@@ -184,15 +184,35 @@
                                             <action selector="btAdicionar_Click:" destination="sH9-0W-Kfr" eventType="touchUpInside" id="Jdh-v0-cQW"/>
                                         </connections>
                                     </button>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="b8Z-ju-86D">
+                                        <rect key="frame" x="20" y="65" width="97" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <action selector="txtRaio_EditingEnd:" destination="sH9-0W-Kfr" eventType="editingDidEnd" id="l9h-NU-6Uf"/>
+                                            <action selector="txtRaio_Touchdown:" destination="sH9-0W-Kfr" eventType="touchDown" id="LIo-iz-F6X"/>
+                                        </connections>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PE5-d8-a0s">
+                                        <rect key="frame" x="125" y="64" width="46" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="OK">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="btOk_Click:" destination="sH9-0W-Kfr" eventType="touchUpInside" id="OWB-Z6-HmP"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mtu-A2-cfJ">
-                                <rect key="frame" x="0.0" y="60" width="320" height="506"/>
+                                <rect key="frame" x="0.0" y="60" width="320" height="508"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="cWU-s9-gYc">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="506"/>
+                                        <rect key="frame" x="0.0" y="-5" width="320" height="513"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <connections>
                                             <outlet property="delegate" destination="sH9-0W-Kfr" id="KF1-NI-Yb3"/>
@@ -209,6 +229,7 @@
                         <outlet property="content" destination="mtu-A2-cfJ" id="ts4-1Q-ZI5"/>
                         <outlet property="mapView" destination="cWU-s9-gYc" id="hzb-jS-9RX"/>
                         <outlet property="menuView" destination="X5G-oO-Aj4" id="ZRd-U9-d5M"/>
+                        <outlet property="txtRaio" destination="b8Z-ju-86D" id="UsZ-l9-Dc2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A93-0B-fWW" userLabel="First Responder" sceneMemberID="firstResponder"/>

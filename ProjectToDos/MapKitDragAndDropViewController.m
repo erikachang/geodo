@@ -42,6 +42,11 @@
 	annotation.subtitle = [NSString	stringWithFormat:@"%f %f", annotation.coordinate.latitude, annotation.coordinate.longitude];
 	
 	[self.mapView addAnnotation:annotation];
+    
+    
+    _locationManager = [[CLLocationManager alloc] init];
+    _locationManager.distanceFilter = kCLDistanceFilterNone; // whenever we move
+    _locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters; // 100 m
     [_locationManager startUpdatingLocation];
     
     UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeLeft:)];
@@ -53,10 +58,6 @@
     [self.view addGestureRecognizer:swipeRight];
     
     initialY=60;
-}
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation{
-    NSLog(@"aaaaa");
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -188,7 +189,15 @@
             //acho que o texto fica melhor com o nome da notificacao para poder ter mais de um por regiao.
             SL_Localidades *sl = [[SL_Localidades alloc]initAll:texto with:currLatitude with:currLongitude with:[_txtRaio.text floatValue]];
             [[[SL_armazenaDados sharedArmazenaDados] listLocalidades] addObject:sl];
-            [self.superController freshLatitudeLongitude: sl];
+            
+            CLLocation *centro = [[CLLocation alloc] initWithLatitude:sl.latitude longitude:sl.longitude];
+
+            NSLog(@"%f",[_locationManager.location distanceFromLocation:centro]);
+            if([_locationManager.location distanceFromLocation:centro] < [_txtRaio.text floatValue]){
+                [self.superController freshLatitudeLongitude: sl with: YES];
+            }else{
+                [self.superController freshLatitudeLongitude: sl with: NO];
+            }
             [self.navigationController popViewControllerAnimated:YES];
         }
     }
@@ -200,7 +209,7 @@
     }
 }
 
-- (IBAction)txtRaio_TouchDown:(id)sender {
+- (IBAction)txtRaio_Touchdown:(id)sender {
     self.txtRaio.keyboardType = UIKeyboardTypeNumberPad;
     [self.txtRaio resignFirstResponder];
 }
