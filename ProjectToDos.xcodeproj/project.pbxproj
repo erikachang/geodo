@@ -15,6 +15,11 @@
 		38D4A4EA189FDFAE0020723A /* PinDown3.png in Resources */ = {isa = PBXBuildFile; fileRef = 38D4A4E3189FDFAE0020723A /* PinDown3.png */; };
 		38D4A4EB189FDFAE0020723A /* PinFloating.png in Resources */ = {isa = PBXBuildFile; fileRef = 38D4A4E4189FDFAE0020723A /* PinFloating.png */; };
 		38D4A4EC189FDFAE0020723A /* PinShadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 38D4A4E5189FDFAE0020723A /* PinShadow.png */; };
+		38D4A4F4189FE1170020723A /* DDAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D4A4EF189FE1170020723A /* DDAnnotation.m */; };
+		38D4A4F5189FE1170020723A /* DDAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D4A4F1189FE1170020723A /* DDAnnotationView.m */; };
+		38D4A4F6189FE1170020723A /* MapKitDragAndDropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D4A4F3189FE1170020723A /* MapKitDragAndDropViewController.m */; };
+		38D4A4FB189FE1240020723A /* SL_armazenaDados.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D4A4F8189FE1240020723A /* SL_armazenaDados.m */; };
+		38D4A4FC189FE1240020723A /* SL_Localidades.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D4A4FA189FE1240020723A /* SL_Localidades.m */; };
 		A0C3F39C189F1F2B00F97340 /* TDTesteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C3F39B189F1F2B00F97340 /* TDTesteViewController.m */; };
 		A0C3F39F189F22C100F97340 /* TDDateAndTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C3F39E189F22C100F97340 /* TDDateAndTimeViewController.m */; };
 		F406A4E91897DD1E0004F19E /* TDToDo.m in Sources */ = {isa = PBXBuildFile; fileRef = F406A4E81897DD1E0004F19E /* TDToDo.m */; };
@@ -56,6 +61,16 @@
 		38D4A4E3189FDFAE0020723A /* PinDown3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PinDown3.png; sourceTree = SOURCE_ROOT; };
 		38D4A4E4189FDFAE0020723A /* PinFloating.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PinFloating.png; sourceTree = SOURCE_ROOT; };
 		38D4A4E5189FDFAE0020723A /* PinShadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PinShadow.png; sourceTree = SOURCE_ROOT; };
+		38D4A4EE189FE1170020723A /* DDAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAnnotation.h; sourceTree = "<group>"; };
+		38D4A4EF189FE1170020723A /* DDAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAnnotation.m; sourceTree = "<group>"; };
+		38D4A4F0189FE1170020723A /* DDAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAnnotationView.h; sourceTree = "<group>"; };
+		38D4A4F1189FE1170020723A /* DDAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAnnotationView.m; sourceTree = "<group>"; };
+		38D4A4F2189FE1170020723A /* MapKitDragAndDropViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapKitDragAndDropViewController.h; sourceTree = "<group>"; };
+		38D4A4F3189FE1170020723A /* MapKitDragAndDropViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapKitDragAndDropViewController.m; sourceTree = "<group>"; };
+		38D4A4F7189FE1240020723A /* SL_armazenaDados.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SL_armazenaDados.h; sourceTree = "<group>"; };
+		38D4A4F8189FE1240020723A /* SL_armazenaDados.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SL_armazenaDados.m; sourceTree = "<group>"; };
+		38D4A4F9189FE1240020723A /* SL_Localidades.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SL_Localidades.h; sourceTree = "<group>"; };
+		38D4A4FA189FE1240020723A /* SL_Localidades.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SL_Localidades.m; sourceTree = "<group>"; };
 		A0C3F39A189F1F2B00F97340 /* TDTesteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDTesteViewController.h; sourceTree = "<group>"; };
 		A0C3F39B189F1F2B00F97340 /* TDTesteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDTesteViewController.m; sourceTree = "<group>"; };
 		A0C3F39D189F22C100F97340 /* TDDateAndTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDDateAndTimeViewController.h; sourceTree = "<group>"; };
@@ -114,9 +129,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		38D4A4ED189FE1000020723A /* DDManagemViews */ = {
+			isa = PBXGroup;
+			children = (
+				38D4A4EE189FE1170020723A /* DDAnnotation.h */,
+				38D4A4EF189FE1170020723A /* DDAnnotation.m */,
+				38D4A4F0189FE1170020723A /* DDAnnotationView.h */,
+				38D4A4F1189FE1170020723A /* DDAnnotationView.m */,
+				38D4A4F2189FE1170020723A /* MapKitDragAndDropViewController.h */,
+				38D4A4F3189FE1170020723A /* MapKitDragAndDropViewController.m */,
+			);
+			name = DDManagemViews;
+			sourceTree = "<group>";
+		};
 		F406A4E61897DD0A0004F19E /* Objects */ = {
 			isa = PBXGroup;
 			children = (
+				38D4A4F7189FE1240020723A /* SL_armazenaDados.h */,
+				38D4A4F8189FE1240020723A /* SL_armazenaDados.m */,
+				38D4A4F9189FE1240020723A /* SL_Localidades.h */,
+				38D4A4FA189FE1240020723A /* SL_Localidades.m */,
 				F406A4E71897DD1E0004F19E /* TDToDo.h */,
 				F406A4E81897DD1E0004F19E /* TDToDo.m */,
 				A0C3F39A189F1F2B00F97340 /* TDTesteViewController.h */,
@@ -163,6 +195,7 @@
 		F46BED0318969D07009B5251 /* ProjectToDos */ = {
 			isa = PBXGroup;
 			children = (
+				38D4A4ED189FE1000020723A /* DDManagemViews */,
 				F4A7C40F189C528C00CB8B0C /* Custom Controls */,
 				F406A4E61897DD0A0004F19E /* Objects */,
 				F4941B5D1897CE9B00894C8B /* ToDoManagementViews */,
@@ -337,12 +370,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				F46BED1418969D07009B5251 /* TDViewController.m in Sources */,
+				38D4A4F6189FE1170020723A /* MapKitDragAndDropViewController.m in Sources */,
 				F4A7C412189C52AC00CB8B0C /* TDToDosCell.m in Sources */,
+				38D4A4F4189FE1170020723A /* DDAnnotation.m in Sources */,
 				F406A4E91897DD1E0004F19E /* TDToDo.m in Sources */,
 				A0C3F39C189F1F2B00F97340 /* TDTesteViewController.m in Sources */,
+				38D4A4F5189FE1170020723A /* DDAnnotationView.m in Sources */,
 				F4A7C3F11899707F00CB8B0C /* TDNotificationConfiguration.m in Sources */,
+				38D4A4FC189FE1240020723A /* SL_Localidades.m in Sources */,
 				F4941B631897D16200894C8B /* TDEditToDoViewController.m in Sources */,
 				F46BED0E18969D07009B5251 /* TDAppDelegate.m in Sources */,
+				38D4A4FB189FE1240020723A /* SL_armazenaDados.m in Sources */,
 				F46BED0A18969D07009B5251 /* main.m in Sources */,
 				A0C3F39F189F22C100F97340 /* TDDateAndTimeViewController.m in Sources */,
 			);
