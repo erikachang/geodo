@@ -143,10 +143,10 @@
             </objects>
             <point key="canvasLocation" x="332" y="74"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Date And Time View Controller-->
         <scene sceneID="BGS-Dk-P8l">
             <objects>
-                <tableViewController id="sef-AP-ZNx" sceneMemberID="viewController">
+                <tableViewController id="sef-AP-ZNx" customClass="TDDateAndTimeViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="XGm-YE-qIp">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -226,7 +226,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="FUd-mP-nDG" kind="push" id="8XP-UX-toS"/>
+                                            <segue destination="FUd-mP-nDG" kind="push" identifier="AddWeeklyInfo" id="8XP-UX-toS"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="eDL-n7-6LT">
@@ -258,15 +258,22 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="QtJ-rp-joy"/>
+                    <connections>
+                        <outlet property="datePicker" destination="RVs-Ah-7fW" id="Egp-xQ-dA1"/>
+                        <outlet property="diasSemana" destination="6Jn-lT-NyR" id="GFj-lx-jpb"/>
+                        <outlet property="label1" destination="Zws-N2-Zhq" id="DLo-2f-kPT"/>
+                        <outlet property="label2" destination="OVB-qN-8wX" id="SK1-Vb-TEe"/>
+                        <outlet property="switcher" destination="EzP-oG-lld" id="NnC-gH-lvt"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="37U-7c-gP4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="948" y="636"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Teste View Controller - Dias da Semana-->
         <scene sceneID="VtF-rv-TEz">
             <objects>
-                <tableViewController id="FUd-mP-nDG" sceneMemberID="viewController">
+                <tableViewController id="FUd-mP-nDG" customClass="TDTesteViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="IpW-Ry-wIR">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -394,11 +401,20 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                             <outlet property="delegate" destination="FUd-mP-nDG" id="KEo-kD-M8K"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="zwb-0q-Ngk"/>
+                    <navigationItem key="navigationItem" title="Dias da Semana" id="zwb-0q-Ngk"/>
+                    <connections>
+                        <outlet property="dom" destination="els-VP-lHF" id="Qoc-ei-z0F"/>
+                        <outlet property="qua" destination="hJd-fx-XmC" id="ThY-Fb-END"/>
+                        <outlet property="qui" destination="4yi-63-fXS" id="hic-Tq-bBX"/>
+                        <outlet property="sab" destination="cBE-S6-6U8" id="PmB-CW-jzA"/>
+                        <outlet property="seg" destination="hMV-Fq-Iwd" id="iLT-it-dc0"/>
+                        <outlet property="sex" destination="3vv-y5-TnZ" id="Y07-qw-Rkv"/>
+                        <outlet property="ter" destination="TfY-eu-Mci" id="Jg7-C5-hON"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="asI-O7-Pve" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1572" y="689"/>
+            <point key="canvasLocation" x="1482" y="636"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="tKY-Zs-Gy8">

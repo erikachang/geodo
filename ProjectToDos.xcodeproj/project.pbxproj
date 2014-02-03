@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A0C3F39C189F1F2B00F97340 /* TDTesteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C3F39B189F1F2B00F97340 /* TDTesteViewController.m */; };
+		A0C3F39F189F22C100F97340 /* TDDateAndTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C3F39E189F22C100F97340 /* TDDateAndTimeViewController.m */; };
 		F406A4E91897DD1E0004F19E /* TDToDo.m in Sources */ = {isa = PBXBuildFile; fileRef = F406A4E81897DD1E0004F19E /* TDToDo.m */; };
 		F46BECFE18969D07009B5251 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F46BECFD18969D07009B5251 /* Foundation.framework */; };
 		F46BED0018969D07009B5251 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F46BECFF18969D07009B5251 /* CoreGraphics.framework */; };
@@ -37,6 +39,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A0C3F39A189F1F2B00F97340 /* TDTesteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDTesteViewController.h; sourceTree = "<group>"; };
+		A0C3F39B189F1F2B00F97340 /* TDTesteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDTesteViewController.m; sourceTree = "<group>"; };
+		A0C3F39D189F22C100F97340 /* TDDateAndTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDDateAndTimeViewController.h; sourceTree = "<group>"; };
+		A0C3F39E189F22C100F97340 /* TDDateAndTimeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDDateAndTimeViewController.m; sourceTree = "<group>"; };
 		F406A4E71897DD1E0004F19E /* TDToDo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDToDo.h; sourceTree = "<group>"; };
 		F406A4E81897DD1E0004F19E /* TDToDo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDToDo.m; sourceTree = "<group>"; };
 		F46BECFA18969D07009B5251 /* ProjectToDos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectToDos.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -93,8 +99,12 @@
 			children = (
 				F406A4E71897DD1E0004F19E /* TDToDo.h */,
 				F406A4E81897DD1E0004F19E /* TDToDo.m */,
+				A0C3F39A189F1F2B00F97340 /* TDTesteViewController.h */,
+				A0C3F39B189F1F2B00F97340 /* TDTesteViewController.m */,
 				F4A7C3EF1899707F00CB8B0C /* TDNotificationConfiguration.h */,
 				F4A7C3F01899707F00CB8B0C /* TDNotificationConfiguration.m */,
+				A0C3F39D189F22C100F97340 /* TDDateAndTimeViewController.h */,
+				A0C3F39E189F22C100F97340 /* TDDateAndTimeViewController.m */,
 			);
 			name = Objects;
 			sourceTree = "<group>";
@@ -283,10 +293,12 @@
 			files = (
 				F46BED1418969D07009B5251 /* TDViewController.m in Sources */,
 				F406A4E91897DD1E0004F19E /* TDToDo.m in Sources */,
+				A0C3F39C189F1F2B00F97340 /* TDTesteViewController.m in Sources */,
 				F4A7C3F11899707F00CB8B0C /* TDNotificationConfiguration.m in Sources */,
 				F4941B631897D16200894C8B /* TDEditToDoViewController.m in Sources */,
 				F46BED0E18969D07009B5251 /* TDAppDelegate.m in Sources */,
 				F46BED0A18969D07009B5251 /* main.m in Sources */,
+				A0C3F39F189F22C100F97340 /* TDDateAndTimeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
