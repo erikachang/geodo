@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		380ECE53189FCD5600FEE7F1 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 380ECE52189FCD5600FEE7F1 /* CoreLocation.framework */; };
+		381D150A18A04B2A00A8CD86 /* mapIco.png in Resources */ = {isa = PBXBuildFile; fileRef = 381D150918A04B2A00A8CD86 /* mapIco.png */; };
 		38D4A4E6189FDFAE0020723A /* alarm.wav in Resources */ = {isa = PBXBuildFile; fileRef = 38D4A4DF189FDFAE0020723A /* alarm.wav */; };
 		38D4A4E7189FDFAE0020723A /* Pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 38D4A4E0189FDFAE0020723A /* Pin.png */; };
 		38D4A4E8189FDFAE0020723A /* PinDown1.png in Resources */ = {isa = PBXBuildFile; fileRef = 38D4A4E1189FDFAE0020723A /* PinDown1.png */; };
@@ -54,6 +55,7 @@
 
 /* Begin PBXFileReference section */
 		380ECE52189FCD5600FEE7F1 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		381D150918A04B2A00A8CD86 /* mapIco.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mapIco.png; sourceTree = SOURCE_ROOT; };
 		38D4A4DF189FDFAE0020723A /* alarm.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = alarm.wav; sourceTree = SOURCE_ROOT; };
 		38D4A4E0189FDFAE0020723A /* Pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pin.png; sourceTree = SOURCE_ROOT; };
 		38D4A4E1189FDFAE0020723A /* PinDown1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PinDown1.png; sourceTree = SOURCE_ROOT; };
@@ -211,6 +213,7 @@
 		F46BED0418969D07009B5251 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				381D150918A04B2A00A8CD86 /* mapIco.png */,
 				F46BED0518969D07009B5251 /* ProjectToDos-Info.plist */,
 				F46BED0618969D07009B5251 /* InfoPlist.strings */,
 				F46BED0918969D07009B5251 /* main.m */,
@@ -343,6 +346,7 @@
 			files = (
 				F46BED1618969D07009B5251 /* Images.xcassets in Resources */,
 				F46BED0818969D07009B5251 /* InfoPlist.strings in Resources */,
+				381D150A18A04B2A00A8CD86 /* mapIco.png in Resources */,
 				F46BED1118969D07009B5251 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
