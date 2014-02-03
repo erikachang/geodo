@@ -8,6 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		380ECE53189FCD5600FEE7F1 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 380ECE52189FCD5600FEE7F1 /* CoreLocation.framework */; };
+		38D4A4E6189FDFAE0020723A /* alarm.wav in Resources */ = {isa = PBXBuildFile; fileRef = 38D4A4DF189FDFAE0020723A /* alarm.wav */; };
+		38D4A4E7189FDFAE0020723A /* Pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 38D4A4E0189FDFAE0020723A /* Pin.png */; };
+		38D4A4E8189FDFAE0020723A /* PinDown1.png in Resources */ = {isa = PBXBuildFile; fileRef = 38D4A4E1189FDFAE0020723A /* PinDown1.png */; };
+		38D4A4E9189FDFAE0020723A /* PinDown2.png in Resources */ = {isa = PBXBuildFile; fileRef = 38D4A4E2189FDFAE0020723A /* PinDown2.png */; };
+		38D4A4EA189FDFAE0020723A /* PinDown3.png in Resources */ = {isa = PBXBuildFile; fileRef = 38D4A4E3189FDFAE0020723A /* PinDown3.png */; };
+		38D4A4EB189FDFAE0020723A /* PinFloating.png in Resources */ = {isa = PBXBuildFile; fileRef = 38D4A4E4189FDFAE0020723A /* PinFloating.png */; };
+		38D4A4EC189FDFAE0020723A /* PinShadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 38D4A4E5189FDFAE0020723A /* PinShadow.png */; };
 		A0C3F39C189F1F2B00F97340 /* TDTesteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C3F39B189F1F2B00F97340 /* TDTesteViewController.m */; };
 		A0C3F39F189F22C100F97340 /* TDDateAndTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C3F39E189F22C100F97340 /* TDDateAndTimeViewController.m */; };
 		F406A4E91897DD1E0004F19E /* TDToDo.m in Sources */ = {isa = PBXBuildFile; fileRef = F406A4E81897DD1E0004F19E /* TDToDo.m */; };
@@ -42,6 +49,13 @@
 
 /* Begin PBXFileReference section */
 		380ECE52189FCD5600FEE7F1 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		38D4A4DF189FDFAE0020723A /* alarm.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = alarm.wav; sourceTree = SOURCE_ROOT; };
+		38D4A4E0189FDFAE0020723A /* Pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pin.png; sourceTree = SOURCE_ROOT; };
+		38D4A4E1189FDFAE0020723A /* PinDown1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PinDown1.png; sourceTree = SOURCE_ROOT; };
+		38D4A4E2189FDFAE0020723A /* PinDown2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PinDown2.png; sourceTree = SOURCE_ROOT; };
+		38D4A4E3189FDFAE0020723A /* PinDown3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PinDown3.png; sourceTree = SOURCE_ROOT; };
+		38D4A4E4189FDFAE0020723A /* PinFloating.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PinFloating.png; sourceTree = SOURCE_ROOT; };
+		38D4A4E5189FDFAE0020723A /* PinShadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PinShadow.png; sourceTree = SOURCE_ROOT; };
 		A0C3F39A189F1F2B00F97340 /* TDTesteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDTesteViewController.h; sourceTree = "<group>"; };
 		A0C3F39B189F1F2B00F97340 /* TDTesteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDTesteViewController.m; sourceTree = "<group>"; };
 		A0C3F39D189F22C100F97340 /* TDDateAndTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDDateAndTimeViewController.h; sourceTree = "<group>"; };
@@ -184,6 +198,13 @@
 		F46BED2318969D08009B5251 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				38D4A4DF189FDFAE0020723A /* alarm.wav */,
+				38D4A4E0189FDFAE0020723A /* Pin.png */,
+				38D4A4E1189FDFAE0020723A /* PinDown1.png */,
+				38D4A4E2189FDFAE0020723A /* PinDown2.png */,
+				38D4A4E3189FDFAE0020723A /* PinDown3.png */,
+				38D4A4E4189FDFAE0020723A /* PinFloating.png */,
+				38D4A4E5189FDFAE0020723A /* PinShadow.png */,
 				F46BED2418969D08009B5251 /* ProjectToDosTests-Info.plist */,
 				F46BED2518969D08009B5251 /* InfoPlist.strings */,
 			);
@@ -297,7 +318,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38D4A4E7189FDFAE0020723A /* Pin.png in Resources */,
+				38D4A4E6189FDFAE0020723A /* alarm.wav in Resources */,
+				38D4A4E9189FDFAE0020723A /* PinDown2.png in Resources */,
+				38D4A4EA189FDFAE0020723A /* PinDown3.png in Resources */,
 				F46BED2718969D08009B5251 /* InfoPlist.strings in Resources */,
+				38D4A4EC189FDFAE0020723A /* PinShadow.png in Resources */,
+				38D4A4E8189FDFAE0020723A /* PinDown1.png in Resources */,
+				38D4A4EB189FDFAE0020723A /* PinFloating.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
