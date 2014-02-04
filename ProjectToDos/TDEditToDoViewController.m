@@ -136,6 +136,23 @@
 
 #pragma mark - Parte da notificacao por local
 
+- (IBAction)btLocal_click:(id)sender {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sua decisão"
+                                                    message:@"Escolha entre local existente e um novo local"
+                                                   delegate:self
+                                          cancelButtonTitle:@"Existente"
+                                          otherButtonTitles:@"Adicionar Local",nil];
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 0){
+        [self performSegueWithIdentifier:@"getExistentLocal" sender:self];
+    }else{
+        [self performSegueWithIdentifier:@"AddLocationNotification" sender:self];
+    }
+}
+
 - (void) freshLatitudeLongitude :(SL_Localidades*)local with: (BOOL)estaNaRegiao {
     
     self.location = self.locationManager.location;
