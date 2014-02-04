@@ -287,16 +287,6 @@ CGPoint originalCenter;
     return attrText;
 }
 
-//- (void)toggleToDoPriority
-//{
-//    NSLog(@"Swiped up!");
-//    CGPoint location = [gesture locationInView:self.toDosTableView];
-//    NSIndexPath *indexPath = [self.toDosTableView indexPathForRowAtPoint:location];
-//    TDToDo *toDo = [self.toDosDataSource objectAtIndex:indexPath.row];
-//    [toDo togglePriority];
-//    [self.toDosTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-//}
-
 - (void)swipeRight:(UISwipeGestureRecognizer *)gesture
 {
     NSLog(@"Swiped right");
@@ -361,11 +351,9 @@ CGPoint originalCenter;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    [self performSegueWithIdentifier:@"DetailToDo" sender:tableView];
     TDToDo *toDo = [self.toDosDataSource objectAtIndex:indexPath.row];
     [toDo togglePriority];
     [self.toDosTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-
 }
 
 @end
