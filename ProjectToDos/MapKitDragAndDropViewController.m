@@ -31,11 +31,16 @@
     [super viewDidLoad];
 	
 	CLLocationCoordinate2D theCoordinate;
-	theCoordinate.latitude = 37.810000;
-    theCoordinate.longitude = -122.477989;
+	theCoordinate.latitude = -30.060351;
+    theCoordinate.longitude = -51.171228;
     currLatitude = theCoordinate.latitude;
     currLongitude = theCoordinate.longitude;
     [self drawCircle];
+    
+    MKCoordinateSpan span = {.latitudeDelta =  1, .longitudeDelta =  1};
+    MKCoordinateRegion region = {theCoordinate, span};
+    [self.mapView setRegion:region];
+
 	
 	DDAnnotation *annotation = [[DDAnnotation alloc] initWithCoordinate:theCoordinate addressDictionary:nil] ;
 	annotation.title = @"Drag to Move Pin";
@@ -214,20 +219,7 @@
     [self.txtRaio resignFirstResponder];
 }
 
-#pragma mark -
-#pragma mark functions
 
-- (void) drawCircle {
-    [self.mapView removeOverlay:currCircle];
-    CLLocationCoordinate2D center = {currLatitude, currLongitude};
-    MKCircle *circle = [MKCircle circleWithCenterCoordinate:center radius:[_txtRaio.text intValue]];
-    [self.mapView addOverlay:circle];
-    currCircle = circle;
-}
-
-
-#pragma mark -
-#pragma mark actions
 -(IBAction)findMyLocation:(id)sender{
     [mapView setDelegate:self];
     [mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
@@ -237,6 +229,9 @@
     actual.longitude = _locationManager.location.coordinate.longitude;
     
     [[self.mapView annotations][0] setCoordinate:actual];
+    
+    CLLocationCoordinate2D cl = [self geoCodeUsingAddress:@"pucrs, Porto Alegre"];
+    NSLog(@"%f - %f",cl.latitude, cl.longitude);
 }
 
 
@@ -251,7 +246,7 @@
         case 2:
             mapView.mapType = MKMapTypeHybrid;
             break;
-
+            
         default:
             break;
     }
@@ -264,6 +259,39 @@
     else
         [self hideMenu];
     
+}
+
+#pragma mark -
+#pragma mark functions
+
+- (void) drawCircle {
+    [self.mapView removeOverlay:currCircle];
+    CLLocationCoordinate2D center = {currLatitude, currLongitude};
+    MKCircle *circle = [MKCircle circleWithCenterCoordinate:center radius:[_txtRaio.text intValue]];
+    [self.mapView addOverlay:circle];
+    currCircle = circle;
+}
+
+
+- (CLLocationCoordinate2D) geoCodeUsingAddress:(NSString *)address
+{
+    double latitude = 0, longitude = 0;
+    NSString *esc_addr =  [address stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *req = [NSString stringWithFormat:@"http://maps.google.com/maps/api/geocode/json?sensor=false&address=%@", esc_addr];
+    NSString *result = [NSString stringWithContentsOfURL:[NSURL URLWithString:req] encoding:NSUTF8StringEncoding error:NULL];
+    if (result) {
+        NSScanner *scanner = [NSScanner scannerWithString:result];
+        if ([scanner scanUpToString:@"\"lat\" :" intoString:nil] && [scanner scanString:@"\"lat\" :" intoString:nil]) {
+            [scanner scanDouble:&latitude];
+            if ([scanner scanUpToString:@"\"lng\" :" intoString:nil] && [scanner scanString:@"\"lng\" :" intoString:nil]) {
+                [scanner scanDouble:&longitude];
+            }
+        }
+    }
+    CLLocationCoordinate2D center;
+    center.latitude = latitude;
+    center.longitude = longitude;
+    return center;
 }
 
 
