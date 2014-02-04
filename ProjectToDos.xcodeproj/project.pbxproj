@@ -41,6 +41,7 @@
 		F4941B631897D16200894C8B /* TDEditToDoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4941B621897D16200894C8B /* TDEditToDoViewController.m */; };
 		F4A7C3F11899707F00CB8B0C /* TDNotificationConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A7C3F01899707F00CB8B0C /* TDNotificationConfiguration.m */; };
 		F4A7C412189C52AC00CB8B0C /* TDToDosCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A7C411189C52AC00CB8B0C /* TDToDosCell.m */; };
+		F4DAB4CA18A0FD3600C0516B /* TDToDosTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = F4DAB4C918A0FD3600C0516B /* TDToDosTextField.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,6 +105,8 @@
 		F4A7C3F01899707F00CB8B0C /* TDNotificationConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDNotificationConfiguration.m; sourceTree = "<group>"; };
 		F4A7C410189C52AC00CB8B0C /* TDToDosCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDToDosCell.h; sourceTree = "<group>"; };
 		F4A7C411189C52AC00CB8B0C /* TDToDosCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDToDosCell.m; sourceTree = "<group>"; };
+		F4DAB4C818A0FD3600C0516B /* TDToDosTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDToDosTextField.h; sourceTree = "<group>"; };
+		F4DAB4C918A0FD3600C0516B /* TDToDosTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDToDosTextField.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -263,6 +266,8 @@
 			children = (
 				F4A7C410189C52AC00CB8B0C /* TDToDosCell.h */,
 				F4A7C411189C52AC00CB8B0C /* TDToDosCell.m */,
+				F4DAB4C818A0FD3600C0516B /* TDToDosTextField.h */,
+				F4DAB4C918A0FD3600C0516B /* TDToDosTextField.m */,
 			);
 			name = "Custom Controls";
 			sourceTree = "<group>";
@@ -378,6 +383,7 @@
 				F4A7C412189C52AC00CB8B0C /* TDToDosCell.m in Sources */,
 				38D4A4F4189FE1170020723A /* DDAnnotation.m in Sources */,
 				F406A4E91897DD1E0004F19E /* TDToDo.m in Sources */,
+				F4DAB4CA18A0FD3600C0516B /* TDToDosTextField.m in Sources */,
 				A0C3F39C189F1F2B00F97340 /* TDTesteViewController.m in Sources */,
 				38D4A4F5189FE1170020723A /* DDAnnotationView.m in Sources */,
 				F4A7C3F11899707F00CB8B0C /* TDNotificationConfiguration.m in Sources */,

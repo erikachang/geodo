@@ -73,6 +73,7 @@
     [self.titleTextField setText:self.toDo.description];
     NSDictionary *sections = @{@"Lembre-me:":@"Lembre-me:"};
     [self.sectionsDic addEntriesFromDictionary:sections];
+    [self.remindersTableView setBackgroundColor:[UIColor clearColor]];
  
     // Adding Swip Gesture Recognizers
     UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRight:)];

@@ -10,6 +10,7 @@
 #import "TDEditToDoViewController.h"
 #import "TDToDo.h"
 #import "TDToDosCell.h"
+#import "TDToDosTextField.h"
 
 @interface TDViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *searchAndAddTextField;
@@ -171,24 +172,8 @@ CGPoint originalCenter;
     UILongPressGestureRecognizer *longPressRec = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
     [longPressRec setNumberOfTouchesRequired:1];
     [self.toDosTableView addGestureRecognizer:longPressRec];
+
     
-    // Add vertical line to look line a notebook
-//    CALayer *redLineLayer = [[CALayer alloc] init];
-//    redLineLayer.frame = CGRectMake(20, (self.view.bounds.size.height-self.toDosTableView.bounds.size.height)-40, 2.0f, self.toDosTableView.bounds.size.height+40);
-//    redLineLayer.backgroundColor = [[UIColor redColor] CGColor];
-//    
-//    [self.view.layer addSublayer:redLineLayer];
-    
-//    [self.searchAndAddTextField setFont:[UIFont fontWithName:@"Chalkduster" size:18.0]];
-    
-//    CAGradientLayer *gradientLayer = [CAGradientLayer layer];
-//    gradientLayer.frame = self.view.bounds;
-//    gradientLayer.colors = @[(id)[[UIColor colorWithRed:1.0f green:1.f blue:1.0f alpha:1.0f ] CGColor],
-//                             (id)[[UIColor colorWithRed:.8f green:0.8f blue:.8f alpha:.75f ] CGColor],
-//                             (id)[[UIColor colorWithRed:0.7f green:0.7f blue:0.7f alpha:.25f ] CGColor],
-//                             (id)[[UIColor colorWithRed:.6f green:.6f blue:.6f alpha:.5f ] CGColor]];
-//    gradientLayer.locations = @[@0.05f];
-//    [self.view.layer insertSublayer:gradientLayer atIndex:0];
     [self.toDosTableView setBackgroundColor:[UIColor clearColor]];
 }
 
@@ -328,23 +313,26 @@ CGPoint originalCenter;
     else {
         todo = [self.toDosDataSource objectAtIndex:indexPath.row];
     }
+    
+    [cell.toDosTextField setEnabled:NO];
     cell.toDosTextField.textColor = [UIColor blackColor];
+    
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:cell.toDosTextField action:@selector(doubleTap:)];
+    tapRecognizer.numberOfTapsRequired = 2;
+    tapRecognizer.numberOfTouchesRequired = 1;
+    [cell.toDosTextField addGestureRecognizer:tapRecognizer];
+    
     if (todo.active) {
         if (todo.priority) {
             cell.toDosTextField.textColor = [UIColor redColor];
         }
         [cell.toDosTextField setText:todo.description];
-    }
-    else {
+    } else {
+
         cell.toDosTextField.attributedText = [self strikeThroughText:todo.description];
     }
     
     cell.toDosTextField.tag = indexPath.row;
-    
-    CALayer *leftSquare = [CALayer layer];
-    leftSquare.frame = CGRectMake(0, 0, 10, cell.bounds.size.height);
-    leftSquare.backgroundColor = [[UIColor blueColor] CGColor];
-    [cell.layer addSublayer:leftSquare];
     
     return cell;
 }
