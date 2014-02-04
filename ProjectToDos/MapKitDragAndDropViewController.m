@@ -40,14 +40,15 @@
     MKCoordinateSpan span = {.latitudeDelta =  1, .longitudeDelta =  1};
     MKCoordinateRegion region = {theCoordinate, span};
     [self.mapView setRegion:region];
-
+    
 	
 	DDAnnotation *annotation = [[DDAnnotation alloc] initWithCoordinate:theCoordinate addressDictionary:nil] ;
 	annotation.title = @"Drag to Move Pin";
-	annotation.subtitle = [NSString	stringWithFormat:@"%f %f", annotation.coordinate.latitude, annotation.coordinate.longitude];
 	
 	[self.mapView addAnnotation:annotation];
     
+    CLLocation* locationEndereco = [[CLLocation alloc]initWithLatitude:theCoordinate.latitude longitude:theCoordinate.longitude];
+    [self geoCodeUsingCoordinateToTextField:locationEndereco]; //já bota no text field pois foi o jeito encontrado.
     
     _locationManager = [[CLLocationManager alloc] init];
     _locationManager.distanceFilter = kCLDistanceFilterNone; // whenever we move
@@ -103,16 +104,6 @@
 
 
 #pragma mark -
-#pragma mark DDAnnotationCoordinateDidChangeNotification
-
-// NOTE: DDAnnotationCoordinateDidChangeNotification won't fire in iOS 4, use -mapView:annotationView:didChangeDragState:fromOldState: instead.
-- (void)coordinateChanged_:(NSNotification *)notification {
-	
-	DDAnnotation *annotation = notification.object;
-	annotation.subtitle = [NSString	stringWithFormat:@"%f %f", annotation.coordinate.latitude, annotation.coordinate.longitude];
-}
-
-#pragma mark -
 #pragma mark MKMapViewDelegate
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)annotationView didChangeDragState:(MKAnnotationViewDragState)newState fromOldState:(MKAnnotationViewDragState)oldState {
@@ -166,12 +157,28 @@
 
 #pragma mark -
 #pragma mark actions
+- (IBAction)btEndereco_click:(id)sender {
+    CLLocationCoordinate2D cl = [self geoCodeUsingAddress:_txtEndereco.text];
+    
+    currLatitude = cl.latitude;
+    currLongitude = cl.longitude;
+    
+    MKCoordinateSpan span = {.latitudeDelta =  1, .longitudeDelta =  1};
+    MKCoordinateRegion region = {cl, span};
+    [self.mapView setRegion:region];
+    
+    [[self.mapView annotations][0] setCoordinate:cl];
+    [self drawCircle];
+    [self.txtEndereco resignFirstResponder];
+    [self.txtRaio resignFirstResponder];
+}
 
 - (IBAction)btOk_Click:(id)sender {
     if(_txtRaio.text != nil){
         [self drawCircle];
     }
     [self.txtRaio resignFirstResponder];
+    [self.txtEndereco resignFirstResponder];
 }
 
 - (IBAction)btAdicionar_Click:(id)sender {
@@ -196,7 +203,7 @@
             [[[SL_armazenaDados sharedArmazenaDados] listLocalidades] addObject:sl];
             
             CLLocation *centro = [[CLLocation alloc] initWithLatitude:sl.latitude longitude:sl.longitude];
-
+            
             NSLog(@"%f",[_locationManager.location distanceFromLocation:centro]);
             if([_locationManager.location distanceFromLocation:centro] < [_txtRaio.text floatValue]){
                 [self.superController freshLatitudeLongitude: sl with: YES];
@@ -228,10 +235,11 @@
 	actual.latitude = _locationManager.location.coordinate.latitude;
     actual.longitude = _locationManager.location.coordinate.longitude;
     
-    [[self.mapView annotations][0] setCoordinate:actual];
+    currLatitude = actual.latitude;
+    currLongitude = actual.longitude;
     
-    CLLocationCoordinate2D cl = [self geoCodeUsingAddress:@"pucrs, Porto Alegre"];
-    NSLog(@"%f - %f",cl.latitude, cl.longitude);
+    [[self.mapView annotations][0] setCoordinate:actual];
+    [self drawCircle];
 }
 
 
@@ -294,6 +302,29 @@
     return center;
 }
 
+- (void)geoCodeUsingCoordinateToTextField:(CLLocation*)location
+{
+    CLGeocoder* geocoder;
+    if (!geocoder)
+        geocoder = [[CLGeocoder alloc] init];
+    
+    [geocoder reverseGeocodeLocation:location completionHandler:
+     ^(NSArray* placemarks, NSError* error){
+         if ([placemarks count] > 0)
+         {
+             CLPlacemark *placemark = [placemarks objectAtIndex:0];
+             NSString *strCountry = [placemark country];
+             NSString *strState = [placemark administrativeArea];
+             NSString *strCity = [placemark locality];
+             NSString *strAv = [placemark thoroughfare];
+             NSString *strBairro = [placemark subLocality];
+             
+             NSString *endereco = [[NSString alloc]initWithFormat:@"%@,%@. %@-%@, %@",strAv, strBairro,strCity,strState, strCountry];
+             _txtEndereco.text = endereco;
+         }
+     }];
+}
+
 
 #pragma mark - animations -
 -(void)showMenu{
@@ -327,3 +358,5 @@
         [self showMenu];
 }
 @end
+
+
