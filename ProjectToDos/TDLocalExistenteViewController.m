@@ -30,6 +30,7 @@
     return arrayItems.count;
 }
 
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //UILabel *lblTitle = (UILabel *)[cell viewWithTag:10];
@@ -44,8 +45,23 @@
     [cell.lblIdentificador setText:[arrayItems objectAtIndex:indexPath.row]];
     
     cell.btConfirma.tag = indexPath.row;
+    [cell.btConfirma addTarget:self action:@selector(btConfirma_Click:) forControlEvents:UIControlEventTouchUpInside];
+    
     return cell;
 }
+
+-(void)btConfirma_Click :(id)sender
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Custom Button Pressed"
+                                                        message:[NSString stringWithFormat: @"You pressed the custom button on cell"]
+                                                       delegate:self cancelButtonTitle:@"Great"
+                                              otherButtonTitles:nil];
+    [alertView show];
+    NSInteger tag = [sender tag];
+    NSString* identificador = arrayItems[tag];
+    NSLog(@"%@",identificador);
+}
+
 
 
 - (void)didReceiveMemoryWarning
