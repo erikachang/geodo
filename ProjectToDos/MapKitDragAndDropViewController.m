@@ -231,6 +231,12 @@
 -(IBAction)findMyLocation:(id)sender{
     [mapView setDelegate:self];
     [mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
+    
+	CLLocationCoordinate2D actual;
+	actual.latitude = _locationManager.location.coordinate.latitude;
+    actual.longitude = _locationManager.location.coordinate.longitude;
+    
+    [[self.mapView annotations][0] setCoordinate:actual];
 }
 
 

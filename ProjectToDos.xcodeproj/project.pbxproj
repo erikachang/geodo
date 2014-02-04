@@ -21,6 +21,8 @@
 		38D4A4F6189FE1170020723A /* MapKitDragAndDropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D4A4F3189FE1170020723A /* MapKitDragAndDropViewController.m */; };
 		38D4A4FB189FE1240020723A /* SL_armazenaDados.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D4A4F8189FE1240020723A /* SL_armazenaDados.m */; };
 		38D4A4FC189FE1240020723A /* SL_Localidades.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D4A4FA189FE1240020723A /* SL_Localidades.m */; };
+		38E17DAC18A0FB2E0051A27A /* TDLocalExistenteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E17DAB18A0FB2E0051A27A /* TDLocalExistenteViewController.m */; };
+		38E17DAF18A103960051A27A /* TDLocaisCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E17DAE18A103960051A27A /* TDLocaisCell.m */; };
 		A0C3F39C189F1F2B00F97340 /* TDTesteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C3F39B189F1F2B00F97340 /* TDTesteViewController.m */; };
 		A0C3F39F189F22C100F97340 /* TDDateAndTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C3F39E189F22C100F97340 /* TDDateAndTimeViewController.m */; };
 		F406A4E91897DD1E0004F19E /* TDToDo.m in Sources */ = {isa = PBXBuildFile; fileRef = F406A4E81897DD1E0004F19E /* TDToDo.m */; };
@@ -73,6 +75,10 @@
 		38D4A4F8189FE1240020723A /* SL_armazenaDados.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SL_armazenaDados.m; sourceTree = "<group>"; };
 		38D4A4F9189FE1240020723A /* SL_Localidades.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SL_Localidades.h; sourceTree = "<group>"; };
 		38D4A4FA189FE1240020723A /* SL_Localidades.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SL_Localidades.m; sourceTree = "<group>"; };
+		38E17DAA18A0FB2E0051A27A /* TDLocalExistenteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDLocalExistenteViewController.h; sourceTree = "<group>"; };
+		38E17DAB18A0FB2E0051A27A /* TDLocalExistenteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDLocalExistenteViewController.m; sourceTree = "<group>"; };
+		38E17DAD18A103960051A27A /* TDLocaisCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDLocaisCell.h; sourceTree = "<group>"; };
+		38E17DAE18A103960051A27A /* TDLocaisCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDLocaisCell.m; sourceTree = "<group>"; };
 		A0C3F39A189F1F2B00F97340 /* TDTesteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDTesteViewController.h; sourceTree = "<group>"; };
 		A0C3F39B189F1F2B00F97340 /* TDTesteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDTesteViewController.m; sourceTree = "<group>"; };
 		A0C3F39D189F22C100F97340 /* TDDateAndTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDDateAndTimeViewController.h; sourceTree = "<group>"; };
@@ -140,6 +146,8 @@
 				38D4A4F1189FE1170020723A /* DDAnnotationView.m */,
 				38D4A4F2189FE1170020723A /* MapKitDragAndDropViewController.h */,
 				38D4A4F3189FE1170020723A /* MapKitDragAndDropViewController.m */,
+				38E17DAA18A0FB2E0051A27A /* TDLocalExistenteViewController.h */,
+				38E17DAB18A0FB2E0051A27A /* TDLocalExistenteViewController.m */,
 			);
 			name = DDManagemViews;
 			sourceTree = "<group>";
@@ -263,6 +271,8 @@
 			children = (
 				F4A7C410189C52AC00CB8B0C /* TDToDosCell.h */,
 				F4A7C411189C52AC00CB8B0C /* TDToDosCell.m */,
+				38E17DAD18A103960051A27A /* TDLocaisCell.h */,
+				38E17DAE18A103960051A27A /* TDLocaisCell.m */,
 			);
 			name = "Custom Controls";
 			sourceTree = "<group>";
@@ -379,11 +389,13 @@
 				38D4A4F4189FE1170020723A /* DDAnnotation.m in Sources */,
 				F406A4E91897DD1E0004F19E /* TDToDo.m in Sources */,
 				A0C3F39C189F1F2B00F97340 /* TDTesteViewController.m in Sources */,
+				38E17DAC18A0FB2E0051A27A /* TDLocalExistenteViewController.m in Sources */,
 				38D4A4F5189FE1170020723A /* DDAnnotationView.m in Sources */,
 				F4A7C3F11899707F00CB8B0C /* TDNotificationConfiguration.m in Sources */,
 				38D4A4FC189FE1240020723A /* SL_Localidades.m in Sources */,
 				F4941B631897D16200894C8B /* TDEditToDoViewController.m in Sources */,
 				F46BED0E18969D07009B5251 /* TDAppDelegate.m in Sources */,
+				38E17DAF18A103960051A27A /* TDLocaisCell.m in Sources */,
 				38D4A4FB189FE1240020723A /* SL_armazenaDados.m in Sources */,
 				F46BED0A18969D07009B5251 /* main.m in Sources */,
 				A0C3F39F189F22C100F97340 /* TDDateAndTimeViewController.m in Sources */,
