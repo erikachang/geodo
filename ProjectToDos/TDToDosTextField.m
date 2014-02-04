@@ -19,9 +19,10 @@
     return self;
 }
 
-- (void)doubleTap:(UIGestureRecognizer *)gesture
+- (void)doubleTap:(UITapGestureRecognizer *)gesture
 {
-    [self setEnabled:YES];
+    NSLog(@"Double tap detected.");
+    [self setSelected:YES];
 }
 
 - (void)layoutSubviews

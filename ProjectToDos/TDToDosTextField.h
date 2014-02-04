@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TDToDosTextField : UITextField <UIGestureRecognizerDelegate>
+@interface TDToDosTextField : UITextField
+- (void)doubleTap:(UITapGestureRecognizer *)gesture;
 
 @end

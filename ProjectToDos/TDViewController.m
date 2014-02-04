@@ -31,6 +31,7 @@
         toDo.description = sender.text;
     }
 }
+
 - (NSMutableArray *)toDosDataSource {
     if (_toDosDataSource == nil)
         _toDosDataSource = [[NSMutableArray alloc] init];
@@ -314,7 +315,7 @@ CGPoint originalCenter;
         todo = [self.toDosDataSource objectAtIndex:indexPath.row];
     }
     
-    [cell.toDosTextField setEnabled:NO];
+    [cell.toDosTextField setSelected:NO];
     cell.toDosTextField.textColor = [UIColor blackColor];
     
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:cell.toDosTextField action:@selector(doubleTap:)];
