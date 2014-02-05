@@ -47,8 +47,8 @@
 	
 	[self.mapView addAnnotation:annotation];
     
-    CLLocation* locationEndereco = [[CLLocation alloc]initWithLatitude:theCoordinate.latitude longitude:theCoordinate.longitude];
-    [self geoCodeUsingCoordinateToTextField:locationEndereco]; //já bota no text field pois foi o jeito encontrado.
+    //CLLocation* locationEndereco = [[CLLocation alloc]initWithLatitude:theCoordinate.latitude longitude:theCoordinate.longitude];
+    //[self geoCodeUsingCoordinateToTextField:locationEndereco]; //já bota no text field pois foi o jeito encontrado.
     
     _locationManager = [[CLLocationManager alloc] init];
     _locationManager.distanceFilter = kCLDistanceFilterNone; // whenever we move
@@ -301,7 +301,7 @@
     center.longitude = longitude;
     return center;
 }
-
+/*
 - (void)geoCodeUsingCoordinateToTextField:(CLLocation*)location
 {
     CLGeocoder* geocoder;
@@ -324,7 +324,7 @@
          }
      }];
 }
-
+*/
 
 #pragma mark - animations -
 -(void)showMenu{
