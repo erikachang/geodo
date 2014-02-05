@@ -279,6 +279,8 @@
 				F4A7C411189C52AC00CB8B0C /* TDToDosCell.m */,
 				F4DAB4C818A0FD3600C0516B /* TDToDosTextField.h */,
 				F4DAB4C918A0FD3600C0516B /* TDToDosTextField.m */,
+				38E17DAD18A103960051A27A /* TDLocaisCell.h */,
+				38E17DAE18A103960051A27A /* TDLocaisCell.m */,
 			);
 			name = "Custom Controls";
 			sourceTree = "<group>";

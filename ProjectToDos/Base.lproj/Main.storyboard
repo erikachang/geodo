@@ -148,6 +148,8 @@
                         <outlet property="addDateTimeNotificationButton" destination="Aoo-V3-hap" id="oB0-LJ-Dum"/>
                         <outlet property="remindersTableView" destination="ZKf-3y-ph2" id="1d4-pB-vxe"/>
                         <outlet property="titleTextField" destination="kaq-La-xkq" id="iZY-hF-84G"/>
+                        <segue destination="sH9-0W-Kfr" kind="push" identifier="AddLocationNotification" id="HNM-Cf-OUQ"/>
+                        <segue destination="5K4-ga-rUX" kind="push" identifier="getExistentLocal" id="LNJ-oG-16E"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qqd-7c-XYM" userLabel="First Responder" sceneMemberID="firstResponder"/>
