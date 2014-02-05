@@ -7,6 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		380ECE53189FCD5600FEE7F1 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 380ECE52189FCD5600FEE7F1 /* CoreLocation.framework */; };
+		381D150A18A04B2A00A8CD86 /* mapIco.png in Resources */ = {isa = PBXBuildFile; fileRef = 381D150918A04B2A00A8CD86 /* mapIco.png */; };
+		38BCD5C418A11C6900F5789A /* Checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 38BCD5C318A11C6900F5789A /* Checked.png */; };
+		38D4A4E6189FDFAE0020723A /* alarm.wav in Resources */ = {isa = PBXBuildFile; fileRef = 38D4A4DF189FDFAE0020723A /* alarm.wav */; };
+		38D4A4E7189FDFAE0020723A /* Pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 38D4A4E0189FDFAE0020723A /* Pin.png */; };
+		38D4A4E8189FDFAE0020723A /* PinDown1.png in Resources */ = {isa = PBXBuildFile; fileRef = 38D4A4E1189FDFAE0020723A /* PinDown1.png */; };
+		38D4A4E9189FDFAE0020723A /* PinDown2.png in Resources */ = {isa = PBXBuildFile; fileRef = 38D4A4E2189FDFAE0020723A /* PinDown2.png */; };
+		38D4A4EA189FDFAE0020723A /* PinDown3.png in Resources */ = {isa = PBXBuildFile; fileRef = 38D4A4E3189FDFAE0020723A /* PinDown3.png */; };
+		38D4A4EB189FDFAE0020723A /* PinFloating.png in Resources */ = {isa = PBXBuildFile; fileRef = 38D4A4E4189FDFAE0020723A /* PinFloating.png */; };
+		38D4A4EC189FDFAE0020723A /* PinShadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 38D4A4E5189FDFAE0020723A /* PinShadow.png */; };
+		38D4A4F4189FE1170020723A /* DDAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D4A4EF189FE1170020723A /* DDAnnotation.m */; };
+		38D4A4F5189FE1170020723A /* DDAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D4A4F1189FE1170020723A /* DDAnnotationView.m */; };
+		38D4A4F6189FE1170020723A /* MapKitDragAndDropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D4A4F3189FE1170020723A /* MapKitDragAndDropViewController.m */; };
+		38D4A4FB189FE1240020723A /* SL_armazenaDados.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D4A4F8189FE1240020723A /* SL_armazenaDados.m */; };
+		38D4A4FC189FE1240020723A /* SL_Localidades.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D4A4FA189FE1240020723A /* SL_Localidades.m */; };
+		38E17DAC18A0FB2E0051A27A /* TDLocalExistenteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E17DAB18A0FB2E0051A27A /* TDLocalExistenteViewController.m */; };
+		38E17DAF18A103960051A27A /* TDLocaisCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E17DAE18A103960051A27A /* TDLocaisCell.m */; };
 		A0C3F39C189F1F2B00F97340 /* TDTesteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C3F39B189F1F2B00F97340 /* TDTesteViewController.m */; };
 		A0C3F39F189F22C100F97340 /* TDDateAndTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C3F39E189F22C100F97340 /* TDDateAndTimeViewController.m */; };
 		F406A4E91897DD1E0004F19E /* TDToDo.m in Sources */ = {isa = PBXBuildFile; fileRef = F406A4E81897DD1E0004F19E /* TDToDo.m */; };
@@ -27,6 +44,7 @@
 		F4941B631897D16200894C8B /* TDEditToDoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4941B621897D16200894C8B /* TDEditToDoViewController.m */; };
 		F4A7C3F11899707F00CB8B0C /* TDNotificationConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A7C3F01899707F00CB8B0C /* TDNotificationConfiguration.m */; };
 		F4A7C412189C52AC00CB8B0C /* TDToDosCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A7C411189C52AC00CB8B0C /* TDToDosCell.m */; };
+		F4DAB4CA18A0FD3600C0516B /* TDToDosTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = F4DAB4C918A0FD3600C0516B /* TDToDosTextField.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +58,30 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		380ECE52189FCD5600FEE7F1 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		381D150918A04B2A00A8CD86 /* mapIco.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mapIco.png; sourceTree = SOURCE_ROOT; };
+		38BCD5C318A11C6900F5789A /* Checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Checked.png; sourceTree = SOURCE_ROOT; };
+		38D4A4DF189FDFAE0020723A /* alarm.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = alarm.wav; sourceTree = SOURCE_ROOT; };
+		38D4A4E0189FDFAE0020723A /* Pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pin.png; sourceTree = SOURCE_ROOT; };
+		38D4A4E1189FDFAE0020723A /* PinDown1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PinDown1.png; sourceTree = SOURCE_ROOT; };
+		38D4A4E2189FDFAE0020723A /* PinDown2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PinDown2.png; sourceTree = SOURCE_ROOT; };
+		38D4A4E3189FDFAE0020723A /* PinDown3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PinDown3.png; sourceTree = SOURCE_ROOT; };
+		38D4A4E4189FDFAE0020723A /* PinFloating.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PinFloating.png; sourceTree = SOURCE_ROOT; };
+		38D4A4E5189FDFAE0020723A /* PinShadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PinShadow.png; sourceTree = SOURCE_ROOT; };
+		38D4A4EE189FE1170020723A /* DDAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAnnotation.h; sourceTree = "<group>"; };
+		38D4A4EF189FE1170020723A /* DDAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAnnotation.m; sourceTree = "<group>"; };
+		38D4A4F0189FE1170020723A /* DDAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAnnotationView.h; sourceTree = "<group>"; };
+		38D4A4F1189FE1170020723A /* DDAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAnnotationView.m; sourceTree = "<group>"; };
+		38D4A4F2189FE1170020723A /* MapKitDragAndDropViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapKitDragAndDropViewController.h; sourceTree = "<group>"; };
+		38D4A4F3189FE1170020723A /* MapKitDragAndDropViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapKitDragAndDropViewController.m; sourceTree = "<group>"; };
+		38D4A4F7189FE1240020723A /* SL_armazenaDados.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SL_armazenaDados.h; sourceTree = "<group>"; };
+		38D4A4F8189FE1240020723A /* SL_armazenaDados.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SL_armazenaDados.m; sourceTree = "<group>"; };
+		38D4A4F9189FE1240020723A /* SL_Localidades.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SL_Localidades.h; sourceTree = "<group>"; };
+		38D4A4FA189FE1240020723A /* SL_Localidades.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SL_Localidades.m; sourceTree = "<group>"; };
+		38E17DAA18A0FB2E0051A27A /* TDLocalExistenteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDLocalExistenteViewController.h; sourceTree = "<group>"; };
+		38E17DAB18A0FB2E0051A27A /* TDLocalExistenteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDLocalExistenteViewController.m; sourceTree = "<group>"; };
+		38E17DAD18A103960051A27A /* TDLocaisCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDLocaisCell.h; sourceTree = "<group>"; };
+		38E17DAE18A103960051A27A /* TDLocaisCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDLocaisCell.m; sourceTree = "<group>"; };
 		A0C3F39A189F1F2B00F97340 /* TDTesteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDTesteViewController.h; sourceTree = "<group>"; };
 		A0C3F39B189F1F2B00F97340 /* TDTesteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDTesteViewController.m; sourceTree = "<group>"; };
 		A0C3F39D189F22C100F97340 /* TDDateAndTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDDateAndTimeViewController.h; sourceTree = "<group>"; };
@@ -71,6 +113,8 @@
 		F4A7C3F01899707F00CB8B0C /* TDNotificationConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDNotificationConfiguration.m; sourceTree = "<group>"; };
 		F4A7C410189C52AC00CB8B0C /* TDToDosCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDToDosCell.h; sourceTree = "<group>"; };
 		F4A7C411189C52AC00CB8B0C /* TDToDosCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDToDosCell.m; sourceTree = "<group>"; };
+		F4DAB4C818A0FD3600C0516B /* TDToDosTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDToDosTextField.h; sourceTree = "<group>"; };
+		F4DAB4C918A0FD3600C0516B /* TDToDosTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDToDosTextField.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +122,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				380ECE53189FCD5600FEE7F1 /* CoreLocation.framework in Frameworks */,
 				F46BED0018969D07009B5251 /* CoreGraphics.framework in Frameworks */,
 				F46BED0218969D07009B5251 /* UIKit.framework in Frameworks */,
 				F46BECFE18969D07009B5251 /* Foundation.framework in Frameworks */,
@@ -97,9 +142,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		38D4A4ED189FE1000020723A /* DDManagemViews */ = {
+			isa = PBXGroup;
+			children = (
+				38D4A4EE189FE1170020723A /* DDAnnotation.h */,
+				38D4A4EF189FE1170020723A /* DDAnnotation.m */,
+				38D4A4F0189FE1170020723A /* DDAnnotationView.h */,
+				38D4A4F1189FE1170020723A /* DDAnnotationView.m */,
+				38D4A4F2189FE1170020723A /* MapKitDragAndDropViewController.h */,
+				38D4A4F3189FE1170020723A /* MapKitDragAndDropViewController.m */,
+				38E17DAA18A0FB2E0051A27A /* TDLocalExistenteViewController.h */,
+				38E17DAB18A0FB2E0051A27A /* TDLocalExistenteViewController.m */,
+			);
+			name = DDManagemViews;
+			sourceTree = "<group>";
+		};
 		F406A4E61897DD0A0004F19E /* Objects */ = {
 			isa = PBXGroup;
 			children = (
+				38D4A4F7189FE1240020723A /* SL_armazenaDados.h */,
+				38D4A4F8189FE1240020723A /* SL_armazenaDados.m */,
+				38D4A4F9189FE1240020723A /* SL_Localidades.h */,
+				38D4A4FA189FE1240020723A /* SL_Localidades.m */,
 				F406A4E71897DD1E0004F19E /* TDToDo.h */,
 				F406A4E81897DD1E0004F19E /* TDToDo.m */,
 				A0C3F39A189F1F2B00F97340 /* TDTesteViewController.h */,
@@ -134,6 +198,7 @@
 		F46BECFC18969D07009B5251 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				380ECE52189FCD5600FEE7F1 /* CoreLocation.framework */,
 				F46BECFD18969D07009B5251 /* Foundation.framework */,
 				F46BECFF18969D07009B5251 /* CoreGraphics.framework */,
 				F46BED0118969D07009B5251 /* UIKit.framework */,
@@ -145,6 +210,7 @@
 		F46BED0318969D07009B5251 /* ProjectToDos */ = {
 			isa = PBXGroup;
 			children = (
+				38D4A4ED189FE1000020723A /* DDManagemViews */,
 				F4A7C40F189C528C00CB8B0C /* Custom Controls */,
 				F406A4E61897DD0A0004F19E /* Objects */,
 				F4941B5D1897CE9B00894C8B /* ToDoManagementViews */,
@@ -160,6 +226,8 @@
 		F46BED0418969D07009B5251 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				38BCD5C318A11C6900F5789A /* Checked.png */,
+				381D150918A04B2A00A8CD86 /* mapIco.png */,
 				F46BED0518969D07009B5251 /* ProjectToDos-Info.plist */,
 				F46BED0618969D07009B5251 /* InfoPlist.strings */,
 				F46BED0918969D07009B5251 /* main.m */,
@@ -180,6 +248,13 @@
 		F46BED2318969D08009B5251 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				38D4A4DF189FDFAE0020723A /* alarm.wav */,
+				38D4A4E0189FDFAE0020723A /* Pin.png */,
+				38D4A4E1189FDFAE0020723A /* PinDown1.png */,
+				38D4A4E2189FDFAE0020723A /* PinDown2.png */,
+				38D4A4E3189FDFAE0020723A /* PinDown3.png */,
+				38D4A4E4189FDFAE0020723A /* PinFloating.png */,
+				38D4A4E5189FDFAE0020723A /* PinShadow.png */,
 				F46BED2418969D08009B5251 /* ProjectToDosTests-Info.plist */,
 				F46BED2518969D08009B5251 /* InfoPlist.strings */,
 			);
@@ -202,6 +277,10 @@
 			children = (
 				F4A7C410189C52AC00CB8B0C /* TDToDosCell.h */,
 				F4A7C411189C52AC00CB8B0C /* TDToDosCell.m */,
+				F4DAB4C818A0FD3600C0516B /* TDToDosTextField.h */,
+				F4DAB4C918A0FD3600C0516B /* TDToDosTextField.m */,
+				38E17DAD18A103960051A27A /* TDLocaisCell.h */,
+				38E17DAE18A103960051A27A /* TDLocaisCell.m */,
 			);
 			name = "Custom Controls";
 			sourceTree = "<group>";
@@ -283,8 +362,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38BCD5C418A11C6900F5789A /* Checked.png in Resources */,
 				F46BED1618969D07009B5251 /* Images.xcassets in Resources */,
 				F46BED0818969D07009B5251 /* InfoPlist.strings in Resources */,
+				381D150A18A04B2A00A8CD86 /* mapIco.png in Resources */,
 				F46BED1118969D07009B5251 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -293,7 +374,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38D4A4E7189FDFAE0020723A /* Pin.png in Resources */,
+				38D4A4E6189FDFAE0020723A /* alarm.wav in Resources */,
+				38D4A4E9189FDFAE0020723A /* PinDown2.png in Resources */,
+				38D4A4EA189FDFAE0020723A /* PinDown3.png in Resources */,
 				F46BED2718969D08009B5251 /* InfoPlist.strings in Resources */,
+				38D4A4EC189FDFAE0020723A /* PinShadow.png in Resources */,
+				38D4A4E8189FDFAE0020723A /* PinDown1.png in Resources */,
+				38D4A4EB189FDFAE0020723A /* PinFloating.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -305,12 +393,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				F46BED1418969D07009B5251 /* TDViewController.m in Sources */,
+				38D4A4F6189FE1170020723A /* MapKitDragAndDropViewController.m in Sources */,
 				F4A7C412189C52AC00CB8B0C /* TDToDosCell.m in Sources */,
+				38D4A4F4189FE1170020723A /* DDAnnotation.m in Sources */,
 				F406A4E91897DD1E0004F19E /* TDToDo.m in Sources */,
+				F4DAB4CA18A0FD3600C0516B /* TDToDosTextField.m in Sources */,
 				A0C3F39C189F1F2B00F97340 /* TDTesteViewController.m in Sources */,
+				38E17DAC18A0FB2E0051A27A /* TDLocalExistenteViewController.m in Sources */,
+				38D4A4F5189FE1170020723A /* DDAnnotationView.m in Sources */,
 				F4A7C3F11899707F00CB8B0C /* TDNotificationConfiguration.m in Sources */,
+				38D4A4FC189FE1240020723A /* SL_Localidades.m in Sources */,
 				F4941B631897D16200894C8B /* TDEditToDoViewController.m in Sources */,
 				F46BED0E18969D07009B5251 /* TDAppDelegate.m in Sources */,
+				38E17DAF18A103960051A27A /* TDLocaisCell.m in Sources */,
+				38D4A4FB189FE1240020723A /* SL_armazenaDados.m in Sources */,
 				F46BED0A18969D07009B5251 /* main.m in Sources */,
 				A0C3F39F189F22C100F97340 /* TDDateAndTimeViewController.m in Sources */,
 			);

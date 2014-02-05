@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MapKitDragAndDropViewController.h"
 
 @interface TDAppDelegate : UIResponder <UIApplicationDelegate>
-
+{
+    UIWindow *window;
+    MapKitDragAndDropViewController *viewController;
+}
 @property (strong, nonatomic) UIWindow *window;
-
 @end

@@ -12,9 +12,12 @@
 @interface TDToDo : NSObject
 @property NSString *description;
 @property (readonly) NSMutableArray *reminders;
-@property BOOL active;
+@property (readonly) BOOL active;
+@property (readonly) BOOL priority;
 
--(instancetype)initWithDescription:(NSString *)aDescription;
--(void)addNotificationConfigurationWithLocation:(NSString *)aLocation;
--(void)addNotificationConfigurationWithDateTime:(NSDate *)aDateTime;
+- (instancetype)initWithDescription:(NSString *)aDescription;
+- (void)addNotificationConfigurationWithLocation:(NSString *)aLocation;
+- (void)addNotificationConfigurationWithDateTime:(NSDate *)aDateTime;
+- (void)toggleActive;
+- (void)togglePriority;
 @end

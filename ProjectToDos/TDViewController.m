@@ -10,6 +10,7 @@
 #import "TDEditToDoViewController.h"
 #import "TDToDo.h"
 #import "TDToDosCell.h"
+#import "TDToDosTextField.h"
 
 @interface TDViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *searchAndAddTextField;
@@ -30,6 +31,7 @@
         toDo.description = sender.text;
     }
 }
+
 - (NSMutableArray *)toDosDataSource {
     if (_toDosDataSource == nil)
         _toDosDataSource = [[NSMutableArray alloc] init];
@@ -72,7 +74,7 @@
     
     NSMutableArray *newList = [[NSMutableArray alloc] init];
     TDToDo *newTodo = [[TDToDo alloc] initWithDescription:sender.text];
-    newTodo.active = YES;
+
     [newList addObject:newTodo];
     
     for (TDToDo *todo in self.toDosDataSource) {
@@ -171,24 +173,8 @@ CGPoint originalCenter;
     UILongPressGestureRecognizer *longPressRec = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
     [longPressRec setNumberOfTouchesRequired:1];
     [self.toDosTableView addGestureRecognizer:longPressRec];
+
     
-    // Add vertical line to look line a notebook
-//    CALayer *redLineLayer = [[CALayer alloc] init];
-//    redLineLayer.frame = CGRectMake(20, (self.view.bounds.size.height-self.toDosTableView.bounds.size.height)-40, 2.0f, self.toDosTableView.bounds.size.height+40);
-//    redLineLayer.backgroundColor = [[UIColor redColor] CGColor];
-//    
-//    [self.view.layer addSublayer:redLineLayer];
-    
-//    [self.searchAndAddTextField setFont:[UIFont fontWithName:@"Chalkduster" size:18.0]];
-    
-//    CAGradientLayer *gradientLayer = [CAGradientLayer layer];
-//    gradientLayer.frame = self.view.bounds;
-//    gradientLayer.colors = @[(id)[[UIColor colorWithRed:1.0f green:1.f blue:1.0f alpha:1.0f ] CGColor],
-//                             (id)[[UIColor colorWithRed:.8f green:0.8f blue:.8f alpha:.75f ] CGColor],
-//                             (id)[[UIColor colorWithRed:0.7f green:0.7f blue:0.7f alpha:.25f ] CGColor],
-//                             (id)[[UIColor colorWithRed:.6f green:.6f blue:.6f alpha:.5f ] CGColor]];
-//    gradientLayer.locations = @[@0.05f];
-//    [self.view.layer insertSublayer:gradientLayer atIndex:0];
     [self.toDosTableView setBackgroundColor:[UIColor clearColor]];
 }
 
@@ -293,7 +279,7 @@ CGPoint originalCenter;
     CGPoint location = [gesture locationInView:self.toDosTableView];
     NSIndexPath *indexPath = [self.toDosTableView indexPathForRowAtPoint:location];
     TDToDo *toDo = [self.toDosDataSource objectAtIndex:indexPath.row];
-    [toDo setActive:!toDo.active];
+    [toDo toggleActive];
     [self.toDosTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
@@ -329,10 +315,21 @@ CGPoint originalCenter;
         todo = [self.toDosDataSource objectAtIndex:indexPath.row];
     }
     
+    [cell.toDosTextField setSelected:NO];
+    cell.toDosTextField.textColor = [UIColor blackColor];
+    
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:cell.toDosTextField action:@selector(doubleTap:)];
+    tapRecognizer.numberOfTapsRequired = 2;
+    tapRecognizer.numberOfTouchesRequired = 1;
+    [cell.toDosTextField addGestureRecognizer:tapRecognizer];
+    
     if (todo.active) {
+        if (todo.priority) {
+            cell.toDosTextField.textColor = [UIColor redColor];
+        }
         [cell.toDosTextField setText:todo.description];
-    }
-    else {
+    } else {
+
         cell.toDosTextField.attributedText = [self strikeThroughText:todo.description];
     }
     
@@ -341,9 +338,11 @@ CGPoint originalCenter;
     return cell;
 }
 
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    [self performSegueWithIdentifier:@"DetailToDo" sender:tableView];
-//}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    TDToDo *toDo = [self.toDosDataSource objectAtIndex:indexPath.row];
+    [toDo togglePriority];
+    [self.toDosTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
 
 @end

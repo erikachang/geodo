@@ -7,6 +7,7 @@
 //
 
 #import "TDEditToDoViewController.h"
+#import "MapKitDragAndDropViewController.h"
 
 @interface TDEditToDoViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *addDateTimeNotificationButton;
@@ -72,6 +73,7 @@
     [self.titleTextField setText:self.toDo.description];
     NSDictionary *sections = @{@"Lembre-me:":@"Lembre-me:"};
     [self.sectionsDic addEntriesFromDictionary:sections];
+    [self.remindersTableView setBackgroundColor:[UIColor clearColor]];
  
     // Adding Swip Gesture Recognizers
     UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRight:)];
@@ -89,6 +91,11 @@
         [self.addLocationNotificationButton setTitle:@"+ Local" forState:UIControlStateNormal];
         [self.addLocationNotificationButton addTarget:self action:@selector(gotoLocation) forControlEvents:UIControlEventTouchDown];
     }
+    
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+    self.locationManager.delegate = self;
+    [self.locationManager startUpdatingLocation];
 }
 
 - (void)didReceiveMemoryWarning
@@ -126,5 +133,97 @@
     
     return cell;
 }
+
+
+#pragma mark - Parte da notificacao por local
+
+- (IBAction)btLocal_click:(id)sender {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sua decisão"
+                                                    message:@"Escolha entre local existente e um novo local"
+                                                   delegate:self
+                                          cancelButtonTitle:@"Existente"
+                                          otherButtonTitles:@"Adicionar Local",nil];
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 0){
+        [self performSegueWithIdentifier:@"getExistentLocal" sender:self];
+    }else{
+        [self performSegueWithIdentifier:@"AddLocationNotification" sender:self];
+    }
+}
+
+- (void) freshLatitudeLongitude :(SL_Localidades*)local with: (BOOL)estaNaRegiao {
+    
+    self.location = self.locationManager.location;
+    CLRegion* regAux;
+    for(int i=0; i<[[[SL_armazenaDados sharedArmazenaDados] listLocalidades]count];i++){
+        regAux = [[[SL_armazenaDados sharedArmazenaDados]listLocalidades][i] regiao];
+        [self.locationManager startMonitoringForRegion: regAux];
+    }
+    
+    //caso já esteja na região tem que adicionar o localnotification e isso por enquanto é igual ao didEnterRegion
+    if(estaNaRegiao){
+        [self criarLocalNotification: local.regiao];
+    }
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if([[segue identifier] isEqualToString:@"AddLocationNotification"])
+    {
+        MapKitDragAndDropViewController *child = (MapKitDragAndDropViewController *)segue.destinationViewController;
+        [child setSuperController:self];
+    }
+}
+
+
+-(void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region {
+    [self criarLocalNotification:region];
+}
+
+-(void) criarLocalNotification: (CLRegion*)region{
+    //terá que ser visto qual é a data para saber colocar no fireDate e também ver se já passou a data
+    //para cancelar o region monitoring
+    
+    NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
+    NSDate *currentDate = [NSDate date];
+    NSDate *fireDate = nil;
+    
+    [dateComponents setSecond: 1];
+    
+    fireDate = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents
+                                                             toDate:currentDate
+                                                            options:0];
+    
+    UILocalNotification *notification = [[UILocalNotification alloc] init];
+    notification.fireDate = fireDate;
+    NSTimeZone* timezone = [NSTimeZone defaultTimeZone];
+    notification.timeZone = timezone;
+    notification.alertBody = @"Aqui vai a mensagem do corpo da notificação";
+    notification.alertAction = @"Analisar notificação";
+    notification.soundName = @"alarm.wav";
+    [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+    
+    [[[SL_armazenaDados sharedArmazenaDados]dicNotsRegs] setObject:notification forKey:region.identifier];
+
+}
+
+-(void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region {
+    //cancelar a partir da region
+    for(int i=0;i<[[[SL_armazenaDados sharedArmazenaDados] listLocalidades]count];i++){
+        SL_Localidades* locAux = [[SL_armazenaDados sharedArmazenaDados]listLocalidades][i];
+        if([locAux.regiao.identifier isEqualToString : region.identifier]){
+            [[UIApplication sharedApplication] cancelLocalNotification: [[[SL_armazenaDados sharedArmazenaDados]dicNotsRegs] objectForKey:region.identifier]];
+        }
+    }
+}
+
+-(void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region {
+    NSLog(@"Now monitoring for %@", region.identifier);
+}
+
+
 
 @end

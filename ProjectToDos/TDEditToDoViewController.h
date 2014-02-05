@@ -9,7 +9,17 @@
 #import <UIKit/UIKit.h>
 #import "TDToDo.h"
 
-@interface TDEditToDoViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+#import <MapKit/MapKit.h>
+#import <CoreLocation/CoreLocation.h>
+#import "SL_armazenaDados.h"
+#import "SL_Localidades.h"
+
+
+@interface TDEditToDoViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate>
 @property (strong, nonatomic) TDToDo *toDo;
 
+@property (strong, nonatomic) CLLocationManager *locationManager;
+@property (strong, nonatomic) CLLocation *location;
+
+-(void) freshLatitudeLongitude : (SL_Localidades*)local with: (BOOL)estaNaRegiao;
 @end

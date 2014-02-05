@@ -1,14 +1,14 @@
 //
-//  TDToDosCell.m
+//  TDLocaisCell.m
 //  ProjectToDos
 //
-//  Created by Stephan Chang on 1/31/14.
+//  Created by Matheus Cavalca on 04/02/14.
 //  Copyright (c) 2014 The ToDo Party. All rights reserved.
 //
 
-#import "TDToDosCell.h"
+#import "TDLocaisCell.h"
 
-@implementation TDToDosCell
+@implementation TDLocaisCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -23,8 +23,6 @@
 {
     [super layoutSubviews];
     
-    [self.toDosTextField setBorderStyle:UITextBorderStyleNone];
-    [self setBackgroundColor:[UIColor clearColor]];
 }
 
 @end
