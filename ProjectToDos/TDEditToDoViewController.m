@@ -64,11 +64,15 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [[self navigationController] setNavigationBarHidden:YES];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-//    [[self navigationController] setNavigationBarHidden:NO];
     [self.titleTextField setBorderStyle:UITextBorderStyleNone];
     [self.titleTextField setText:self.toDo.description];
     NSDictionary *sections = @{@"Lembre-me:":@"Lembre-me:"};
