@@ -22,8 +22,6 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    
-    [self.toDosTextField setBorderStyle:UITextBorderStyleNone];
     [self setBackgroundColor:[UIColor clearColor]];
 }
 

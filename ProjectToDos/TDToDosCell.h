@@ -8,9 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "TDToDo.h"
-#import "TDToDosTextField.h"
 
 @interface TDToDosCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UITextField *toDosTextField;
 
 @end

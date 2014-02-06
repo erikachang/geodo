@@ -10,7 +10,6 @@
 #import "TDEditToDoViewController.h"
 #import "TDToDo.h"
 #import "TDToDosCell.h"
-#import "TDToDosTextField.h"
 
 @interface TDViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *searchAndAddTextField;
@@ -273,6 +272,22 @@ CGPoint originalCenter;
     return attrText;
 }
 
+- (void)sendToDoToTopOfNonPriorityList:(TDToDo *)toDo CurrentlyAtIndex:(NSIndexPath *)indexPath
+{
+    NSIndexPath *newIndexPath = [self getFirstNonPriorityIndex];
+    
+    [UIView animateWithDuration:.6 animations:^{
+        [self.toDosTableView beginUpdates];
+        
+        [self.toDosDataSource removeObjectAtIndex:indexPath.row];
+        [self.toDosDataSource insertObject:toDo atIndex:newIndexPath.row];
+        
+        [self.toDosTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationMiddle];
+        [self.toDosTableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.toDosTableView endUpdates];
+    }];
+}
+
 - (void)swipeRight:(UISwipeGestureRecognizer *)gesture
 {
     NSLog(@"Swiped right");
@@ -281,9 +296,26 @@ CGPoint originalCenter;
     TDToDo *toDo = [self.toDosDataSource objectAtIndex:indexPath.row];
     [toDo toggleActive];
     
-    [UIView animateWithDuration:.6 animations:^{
-        [self.toDosTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }];
+    if (toDo.active) {
+        [self sendToDoToTopOfNonPriorityList:toDo CurrentlyAtIndex:indexPath];
+    } else {
+    
+        [UIView animateWithDuration:.8 animations:^{
+            [self.toDosTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            
+            [self.toDosTableView beginUpdates];
+            
+            int newIndex = self.toDosDataSource.count-1;
+            
+            [self.toDosDataSource removeObjectAtIndex:indexPath.row];
+            [self.toDosDataSource insertObject:toDo atIndex:newIndex];
+            
+            [self.toDosTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+            [self.toDosTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:newIndex inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
+            [self.toDosTableView endUpdates];
+
+        }];
+    }
 }
 
 - (void)swipeLeft:(UISwipeGestureRecognizer *)gesture
@@ -318,25 +350,19 @@ CGPoint originalCenter;
         todo = [self.toDosDataSource objectAtIndex:indexPath.row];
     }
     
-    [cell.toDosTextField setSelected:NO];
-    cell.toDosTextField.textColor = [UIColor blackColor];
-    
-    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:cell.toDosTextField action:@selector(doubleTap:)];
-    tapRecognizer.numberOfTapsRequired = 2;
-    tapRecognizer.numberOfTouchesRequired = 1;
-    [cell.toDosTextField addGestureRecognizer:tapRecognizer];
+    cell.textLabel.textColor = [UIColor blackColor];
     
     if (todo.active) {
         if (todo.priority) {
-            cell.toDosTextField.textColor = [UIColor redColor];
+            cell.textLabel.textColor = [UIColor redColor];
         }
-        [cell.toDosTextField setText:todo.description];
+        [cell.textLabel setText:todo.description];
     } else {
 
-        cell.toDosTextField.attributedText = [self strikeThroughText:todo.description];
+        cell.textLabel.attributedText = [self strikeThroughText:todo.description];
     }
     
-    cell.toDosTextField.tag = indexPath.row;
+    cell.textLabel.tag = indexPath.row;
     
     return cell;
 }
@@ -371,18 +397,7 @@ CGPoint originalCenter;
         }];
     } else {
         
-        NSIndexPath *newIndexPath = [self getFirstNonPriorityIndex];
-        
-        [UIView animateWithDuration:.6 animations:^{
-            [self.toDosTableView beginUpdates];
-            
-            [self.toDosDataSource removeObjectAtIndex:indexPath.row];
-            [self.toDosDataSource insertObject:toDo atIndex:newIndexPath.row];
-            
-            [self.toDosTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationMiddle];
-            [self.toDosTableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-            [self.toDosTableView endUpdates];
-        }];
+        [self sendToDoToTopOfNonPriorityList:toDo CurrentlyAtIndex:indexPath];
     }
 }
 
