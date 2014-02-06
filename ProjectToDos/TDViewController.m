@@ -272,22 +272,6 @@ CGPoint originalCenter;
     return attrText;
 }
 
-- (void)sendToDoToTopOfNonPriorityList:(TDToDo *)toDo CurrentlyAtIndex:(NSIndexPath *)indexPath
-{
-    NSIndexPath *newIndexPath = [self getFirstNonPriorityIndex];
-    
-    [UIView animateWithDuration:.6 animations:^{
-        [self.toDosTableView beginUpdates];
-        
-        [self.toDosDataSource removeObjectAtIndex:indexPath.row];
-        [self.toDosDataSource insertObject:toDo atIndex:newIndexPath.row];
-        
-        [self.toDosTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationMiddle];
-        [self.toDosTableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-        [self.toDosTableView endUpdates];
-    }];
-}
-
 - (void)swipeRight:(UISwipeGestureRecognizer *)gesture
 {
     NSLog(@"Swiped right");
@@ -297,11 +281,23 @@ CGPoint originalCenter;
     [toDo toggleActive];
     
     if (toDo.active) {
-        [self sendToDoToTopOfNonPriorityList:toDo CurrentlyAtIndex:indexPath];
+//        [self sendToDoToTopOfNonPriorityList:toDo CurrentlyAtIndex:indexPath];
+        NSIndexPath *newIndexPath = [self getFirstNonPriorityIndex];
+        
+        [UIView animateWithDuration:.6 animations:^{
+            [self.toDosTableView beginUpdates];
+            
+            [self.toDosDataSource removeObjectAtIndex:indexPath.row];
+            [self.toDosDataSource insertObject:toDo atIndex:newIndexPath.row];
+            
+            [self.toDosTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
+            [self.toDosTableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
+            [self.toDosTableView endUpdates];
+        }];
     } else {
     
-        [UIView animateWithDuration:.8 animations:^{
-            [self.toDosTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [UIView animateWithDuration:.6 animations:^{
+//            [self.toDosTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
             
             [self.toDosTableView beginUpdates];
             
@@ -310,8 +306,8 @@ CGPoint originalCenter;
             [self.toDosDataSource removeObjectAtIndex:indexPath.row];
             [self.toDosDataSource insertObject:toDo atIndex:newIndex];
             
-            [self.toDosTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
-            [self.toDosTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:newIndex inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
+            [self.toDosTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
+            [self.toDosTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:newIndex inSection:0]] withRowAnimation:UITableViewRowAnimationRight];
             [self.toDosTableView endUpdates];
 
         }];
@@ -381,23 +377,37 @@ CGPoint originalCenter;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     TDToDo *toDo = [self.toDosDataSource objectAtIndex:indexPath.row];
-    [toDo togglePriority];
     
-    if (toDo.priority) {
-    
-        [UIView animateWithDuration:.6 animations:^{
-            [self.toDosTableView beginUpdates];
-            
-            [self.toDosDataSource removeObjectAtIndex:indexPath.row];
-            [self.toDosDataSource insertObject:toDo atIndex:0];
-            
-            [self.toDosTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
-            [self.toDosTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
-            [self.toDosTableView endUpdates];
-        }];
-    } else {
+    if (toDo.active) {
+        [toDo togglePriority];
         
-        [self sendToDoToTopOfNonPriorityList:toDo CurrentlyAtIndex:indexPath];
+        if (toDo.priority) {
+        
+            [UIView animateWithDuration:.6 animations:^{
+                [self.toDosTableView beginUpdates];
+                
+                [self.toDosDataSource removeObjectAtIndex:indexPath.row];
+                [self.toDosDataSource insertObject:toDo atIndex:0];
+                
+                [self.toDosTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                [self.toDosTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
+                [self.toDosTableView endUpdates];
+            }];
+        } else {
+            
+            NSIndexPath *newIndexPath = [self getFirstNonPriorityIndex];
+            
+            [UIView animateWithDuration:.6 animations:^{
+                [self.toDosTableView beginUpdates];
+                
+                [self.toDosDataSource removeObjectAtIndex:indexPath.row];
+                [self.toDosDataSource insertObject:toDo atIndex:newIndexPath.row];
+                
+                [self.toDosTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                [self.toDosTableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationTop];
+                [self.toDosTableView endUpdates];
+            }];
+        }
     }
 }
 
