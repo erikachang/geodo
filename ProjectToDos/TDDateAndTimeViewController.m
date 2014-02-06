@@ -55,6 +55,7 @@
     hours = NO;
     weekDays = YES;
     
+    self.hourDetail.hidden = YES;
     self.tableView.alwaysBounceVertical = NO;
 }
 
@@ -169,6 +170,20 @@
             return 0;
         } else if (indexPath.section == 0 && indexPath.row == 6) {
             return 0;
+        } else if (indexPath.section == 0 && indexPath.row == 7) {
+            return 0;
+        } else if (indexPath.section == 0 && indexPath.row == 8) {
+            return 0;
+        } else if (indexPath.section == 0 && indexPath.row == 9) {
+            return 0;
+        } else if (indexPath.section == 0 && indexPath.row == 10) {
+            return 0;
+        } else if (indexPath.section == 0 && indexPath.row == 11) {
+            return 0;
+        } else if (indexPath.section == 0 && indexPath.row == 12) {
+            return 0;
+        } else if (indexPath.section == 0 && indexPath.row == 13) {
+            return 0;
         }
     } else {
         if (indexPath.section == 0 && indexPath.row == 5) {
@@ -177,7 +192,49 @@
             if (weekDays == YES) {
                 return 0;
             } else {
-                return 180;
+                return 44;
+            }
+        } else if (indexPath.section == 0 && indexPath.row == 7) {
+            if (weekDays == YES) {
+                return 0;
+            } else {
+                return 44;
+            }
+        } else if (indexPath.section == 0 && indexPath.row == 8) {
+            if (weekDays == YES) {
+                return 0;
+            } else {
+                return 44;
+            }
+        } else if (indexPath.section == 0 && indexPath.row == 9) {
+            if (weekDays == YES) {
+                return 0;
+            } else {
+                return 44;
+            }
+        } else if (indexPath.section == 0 && indexPath.row == 10) {
+            if (weekDays == YES) {
+                return 0;
+            } else {
+                return 44;
+            }
+        } else if (indexPath.section == 0 && indexPath.row == 11) {
+            if (weekDays == YES) {
+                return 0;
+            } else {
+                return 44;
+            }
+        } else if (indexPath.section == 0 && indexPath.row == 12) {
+            if (weekDays == YES) {
+                return 0;
+            } else {
+                return 44;
+            }
+        } else if (indexPath.section == 0 && indexPath.row == 13) {
+            if (weekDays == YES) {
+                return 0;
+            } else {
+                return 44;
             }
         }
         if (indexPath.section == 0 && indexPath.row == 3) {
@@ -191,6 +248,8 @@
 }
 
 - (IBAction)switched:(UISwitch *)sender {
+    data = YES;
+    weekDays = YES;
     [self.tableView beginUpdates];
     [self.tableView endUpdates];
 }
