@@ -52,8 +52,7 @@
     for (TDToDo *todo in self.toDosDataSource) {
         if (sender.text.length <= todo.description.length){
             NSString *initials = [todo.description substringToIndex:sender.text.length];
-            if ([initials isEqualToString:sender.text])
-            {
+            if ([initials isEqualToString:sender.text]) {
                 [self.filteredToDosDataSource addObject:todo];
                 [self.toDosTableView reloadData];
             }
@@ -159,16 +158,6 @@ CGPoint originalCenter;
     [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Virar mestre do mundo"]];
     [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Pesquisa de preço - Monitor IPS 27\""]];
     
-    UISwipeGestureRecognizer *swipeRec = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRight:)];
-    [swipeRec setDirection:UISwipeGestureRecognizerDirectionRight];
-    [self.toDosTableView addGestureRecognizer:swipeRec];
-    
-    // Adding swipe gesture: left direction
-    /*
-    swipeRec = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeLeft:)];
-    [swipeRec setDirection:UISwipeGestureRecognizerDirectionLeft];
-    [self.toDosTableView addGestureRecognizer:swipeRec];*/
-    
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panLeft:)];
     panRecognizer.delegate = self;
     [self.toDosTableView addGestureRecognizer:panRecognizer];
@@ -176,7 +165,6 @@ CGPoint originalCenter;
     UILongPressGestureRecognizer *longPressRec = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
     [longPressRec setNumberOfTouchesRequired:1];
     [self.toDosTableView addGestureRecognizer:longPressRec];
-
     
     [self.toDosTableView setBackgroundColor:[UIColor clearColor]];
 }
@@ -191,54 +179,93 @@ CGPoint originalCenter;
     return NO;
 }
 
-CGPoint _originalCenter;
-BOOL _deleteOnDragRelease;
-
+CGPoint _originalCenter, _cellLocation;
+BOOL _markComplete, _detailToDo;
+UITableViewCell *_firstCell;
 -(void)panLeft:(UIPanGestureRecognizer *)recognizer {
-    CGPoint location = [recognizer locationInView:self.toDosTableView];
-    NSIndexPath *indexPath = [self.toDosTableView indexPathForRowAtPoint:location];
-    UITableViewCell *cell = [self.toDosTableView cellForRowAtIndexPath:indexPath];
     // 1
     if (recognizer.state == UIGestureRecognizerStateBegan) {
         // if the gesture has just started, record the current centre location
-        _originalCenter = cell.center;
+        _cellLocation = [recognizer locationInView:self.toDosTableView];
+        NSIndexPath *indexPath = [self.toDosTableView indexPathForRowAtPoint:_cellLocation];
+        _firstCell = [self.toDosTableView cellForRowAtIndexPath:indexPath];
+        _originalCenter = _firstCell.center;
+
     }
-    
+
     // 2
     if (recognizer.state == UIGestureRecognizerStateChanged) {
         // translate the center
-        CGPoint translation = [recognizer translationInView:cell];
-        cell.center = CGPointMake(_originalCenter.x + translation.x, _originalCenter.y);
+        CGPoint translation = [recognizer translationInView:_firstCell];
+        _firstCell.center = CGPointMake(_originalCenter.x + translation.x, _originalCenter.y);
         // determine whether the item has been dragged far enough to initiate a delete / complete
-        _deleteOnDragRelease = cell.frame.origin.x < -cell.frame.size.width / 2;
-        
+        _detailToDo = _firstCell.frame.origin.x < -_firstCell.frame.size.width / 3;
+        _markComplete = _firstCell.frame.origin.x > _firstCell.frame.size.width/ 3;
     }
     
     // 3
     if (recognizer.state == UIGestureRecognizerStateEnded) {
         // the frame this cell would have had before being dragged
-        CGRect originalFrame = CGRectMake(0, cell.frame.origin.y,
-                                          cell.bounds.size.width, cell.bounds.size.height);
-        if (!_deleteOnDragRelease) {
+        CGRect originalFrame = CGRectMake(0, _firstCell.frame.origin.y,
+                                          _firstCell.bounds.size.width, _firstCell.bounds.size.height);
+        if (!_detailToDo && !_markComplete) {
             // if the item is not being deleted, snap back to the original location
             [UIView animateWithDuration:0.2
                              animations:^{
-                                 cell.frame = originalFrame;
+                                 _firstCell.frame = originalFrame;
                              }
              ];
-        } else {
+        } else  if (_detailToDo) {
             NSLog(@"Swiped left");
-            CGPoint location = [recognizer locationInView:self.toDosTableView];
+
             
-            NSIndexPath *indexPath = [self.toDosTableView indexPathForRowAtPoint:location];
+            NSIndexPath *indexPath = [self.toDosTableView indexPathForRowAtPoint:_cellLocation];
             
             if (indexPath) {
                 [self performSegueWithIdentifier:@"DetailToDo" sender:recognizer];
             }
+        } else if (_markComplete) {
+            NSLog(@"Swiped right");
+
+            NSIndexPath *indexPath = [self.toDosTableView indexPathForRowAtPoint:_cellLocation];
+            TDToDo *toDo = [self.toDosDataSource objectAtIndex:indexPath.row];
+            [toDo toggleActive];
+            
+            if (toDo.active) {
+
+                NSIndexPath *newIndexPath = [self getFirstNonPriorityIndex];
+                
+                [UIView animateWithDuration:.6 animations:^{
+                    [self.toDosTableView beginUpdates];
+                    
+                    [self.toDosDataSource removeObjectAtIndex:indexPath.row];
+                    [self.toDosDataSource insertObject:toDo atIndex:newIndexPath.row];
+                    
+                    [self.toDosTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
+                    [self.toDosTableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
+                    [self.toDosTableView endUpdates];
+                }];
+            } else {
+                
+                [UIView animateWithDuration:.6 animations:^{
+                    
+                    [self.toDosTableView beginUpdates];
+                    
+                    int newIndex = self.toDosDataSource.count-1;
+                    
+                    [self.toDosDataSource removeObjectAtIndex:indexPath.row];
+                    [self.toDosDataSource insertObject:toDo atIndex:newIndex];
+                    
+                    [self.toDosTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
+                    [self.toDosTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:newIndex inSection:0]] withRowAnimation:UITableViewRowAnimationRight];
+                    [self.toDosTableView endUpdates];
+                    
+                }];
+            }
+
         }
     }
 }
-
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -257,10 +284,8 @@ BOOL _deleteOnDragRelease;
     TDEditToDoViewController *editView = [segue destinationViewController];
 
     NSLog(@"Swiped left");
-    CGPoint location = [sender locationInView:self.toDosTableView];
     
-    NSIndexPath *indexPath = [self.toDosTableView indexPathForRowAtPoint:location];
-
+    NSIndexPath *indexPath = [self.toDosTableView indexPathForRowAtPoint:_cellLocation];
 
     if (self.isFiltering) {
         editView.toDo = [self.filteredToDosDataSource objectAtIndex:indexPath.row];
@@ -333,60 +358,6 @@ BOOL _deleteOnDragRelease;
     
     NSAttributedString* attrText = [[NSAttributedString alloc] initWithString:text attributes:attributes];
     return attrText;
-}
-
-- (void)swipeRight:(UISwipeGestureRecognizer *)gesture
-{
-    NSLog(@"Swiped right");
-    CGPoint location = [gesture locationInView:self.toDosTableView];
-    NSIndexPath *indexPath = [self.toDosTableView indexPathForRowAtPoint:location];
-    TDToDo *toDo = [self.toDosDataSource objectAtIndex:indexPath.row];
-    [toDo toggleActive];
-    
-    if (toDo.active) {
-//        [self sendToDoToTopOfNonPriorityList:toDo CurrentlyAtIndex:indexPath];
-        NSIndexPath *newIndexPath = [self getFirstNonPriorityIndex];
-        
-        [UIView animateWithDuration:.6 animations:^{
-            [self.toDosTableView beginUpdates];
-            
-            [self.toDosDataSource removeObjectAtIndex:indexPath.row];
-            [self.toDosDataSource insertObject:toDo atIndex:newIndexPath.row];
-            
-            [self.toDosTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
-            [self.toDosTableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
-            [self.toDosTableView endUpdates];
-        }];
-    } else {
-    
-        [UIView animateWithDuration:.6 animations:^{
-//            [self.toDosTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            
-            [self.toDosTableView beginUpdates];
-            
-            int newIndex = self.toDosDataSource.count-1;
-            
-            [self.toDosDataSource removeObjectAtIndex:indexPath.row];
-            [self.toDosDataSource insertObject:toDo atIndex:newIndex];
-            
-            [self.toDosTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
-            [self.toDosTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:newIndex inSection:0]] withRowAnimation:UITableViewRowAnimationRight];
-            [self.toDosTableView endUpdates];
-
-        }];
-    }
-}
-
-- (void)swipeLeft:(UISwipeGestureRecognizer *)gesture
-{
-    NSLog(@"Swiped left");
-    CGPoint location = [gesture locationInView:self.toDosTableView];
-    
-    NSIndexPath *indexPath = [self.toDosTableView indexPathForRowAtPoint:location];
-
-    if (indexPath) {
-        [self performSegueWithIdentifier:@"DetailToDo" sender:gesture];
-    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
