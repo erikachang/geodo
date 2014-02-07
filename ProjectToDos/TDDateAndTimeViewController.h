@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TDToDo.h"
 
 @interface TDDateAndTimeViewController : UITableViewController
 @property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
-@property (weak, nonatomic) IBOutlet UILabel *label1;
-@property (weak, nonatomic) IBOutlet UILabel *diasSemana;
+@property (weak, nonatomic) IBOutlet UIDatePicker *hourPicker;
+@property (weak, nonatomic) IBOutlet UILabel *date;
+@property (weak, nonatomic) IBOutlet UILabel *dateDetails;
 @property (weak, nonatomic) IBOutlet UISwitch *switcher;
 @property (weak, nonatomic) IBOutlet UILabel *label2;
 
