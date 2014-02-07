@@ -15,7 +15,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *date;
 @property (weak, nonatomic) IBOutlet UILabel *dateDetails;
 @property (weak, nonatomic) IBOutlet UISwitch *switcher;
-@property (weak, nonatomic) IBOutlet UILabel *label2;
-
-- (void) returnWeekDays:(NSMutableArray *)wd;
+@property (weak, nonatomic) IBOutlet UILabel *recurrent;
+@property (strong, nonatomic) TDToDo *todo;
+@property (weak, nonatomic) IBOutlet UILabel *hour;
+@property (weak, nonatomic) IBOutlet UILabel *hourDetail;
+@property (weak, nonatomic) IBOutlet UILabel *occurrence;
+@property (weak, nonatomic) IBOutlet UILabel *occurrenceDetails;
 @end

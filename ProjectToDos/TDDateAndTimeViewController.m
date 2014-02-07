@@ -7,7 +7,6 @@
 //
 
 #import "TDDateAndTimeViewController.h"
-#import "TDTesteViewController.h"
 
 @interface TDDateAndTimeViewController ()
 
@@ -15,7 +14,10 @@
 
 @implementation TDDateAndTimeViewController
 {
-    NSMutableArray *weekDays;
+    NSMutableArray *days;
+    BOOL data;
+    BOOL hours;
+    BOOL weekDays;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -44,21 +46,9 @@
 
     days = [[NSMutableArray alloc] init];
     
-    if ([weekDays isEqual:Nil]) {
-        [self.diasSemana setText:@"Nenhum"];
-    } else if ([weekDays containsObject:@"Domingo"] && [weekDays containsObject:@"Sábado"] && !([weekDays containsObject:@"Segunda"] && [weekDays containsObject:@"Terça"] && [weekDays containsObject:@"Quarta"] && [weekDays containsObject:@"Quinta"] && [weekDays containsObject:@"Sexta"]))
-    {
-        [self.diasSemana setText:@"Fins de semana"];
-    } else if (!([weekDays containsObject:@"Domingo"] && [weekDays containsObject:@"Sábado"]) && [weekDays containsObject:@"Segunda"] && [weekDays containsObject:@"Terça"] && [weekDays containsObject:@"Quarta"] && [weekDays containsObject:@"Quinta"] && [weekDays containsObject:@"Sexta"]) {
-        [self.diasSemana setText:@"Dias úteis"];
-    } else {
-        
-    }
-    
-    // Adding Swip Gesture Recognizers
-    UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRight:)];
-    [swipeRecognizer setDirection:UISwipeGestureRecognizerDirectionRight];
-    [self.view addGestureRecognizer:swipeRecognizer];
+    data = YES;
+    hours = NO;
+    weekDays = YES;
     
     self.hourDetail.alpha = 0;
     self.dateDetails.alpha = 0;
@@ -369,20 +359,6 @@
     [UIView setAnimationDuration:duration];
     viewToFadeIn.alpha = 1;
     [UIView commitAnimations];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if([[segue identifier] isEqualToString:@"AddWeeklyInfo"])
-    {
-        TDTesteViewController *child = (TDTesteViewController *)segue.destinationViewController;
-        [child setSuperController:self];
-    }
-}
-
-- (void) returnWeekDays:(NSMutableArray *)wd
-{
-    weekDays = wd;
 }
 
 @end
