@@ -157,7 +157,6 @@ CGPoint originalCenter;
     [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Comprar livros novos"]];
     [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Agendar revisão do carro"]];
     [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Virar mestre do mundo"]];
-    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Terminar de ler artigos de IA"]];
     [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Pesquisa de preço - Monitor IPS 27\""]];
     
     UISwipeGestureRecognizer *swipeRec = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRight:)];
@@ -165,9 +164,14 @@ CGPoint originalCenter;
     [self.toDosTableView addGestureRecognizer:swipeRec];
     
     // Adding swipe gesture: left direction
+    /*
     swipeRec = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeLeft:)];
     [swipeRec setDirection:UISwipeGestureRecognizerDirectionLeft];
-    [self.toDosTableView addGestureRecognizer:swipeRec];
+    [self.toDosTableView addGestureRecognizer:swipeRec];*/
+    
+    UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panLeft:)];
+    panRecognizer.delegate = self;
+    [self.toDosTableView addGestureRecognizer:panRecognizer];
     
     UILongPressGestureRecognizer *longPressRec = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
     [longPressRec setNumberOfTouchesRequired:1];
@@ -176,6 +180,65 @@ CGPoint originalCenter;
     
     [self.toDosTableView setBackgroundColor:[UIColor clearColor]];
 }
+
+#warning move "handle pan"
+-(BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer {
+    CGPoint translation = [gestureRecognizer translationInView:[self.view superview]];
+    // Check for horizontal gesture
+    if (fabsf(translation.x) > fabsf(translation.y)) {
+        return YES;
+    }
+    return NO;
+}
+
+CGPoint _originalCenter;
+BOOL _deleteOnDragRelease;
+
+-(void)panLeft:(UIPanGestureRecognizer *)recognizer {
+    CGPoint location = [recognizer locationInView:self.toDosTableView];
+    NSIndexPath *indexPath = [self.toDosTableView indexPathForRowAtPoint:location];
+    UITableViewCell *cell = [self.toDosTableView cellForRowAtIndexPath:indexPath];
+    // 1
+    if (recognizer.state == UIGestureRecognizerStateBegan) {
+        // if the gesture has just started, record the current centre location
+        _originalCenter = cell.center;
+    }
+    
+    // 2
+    if (recognizer.state == UIGestureRecognizerStateChanged) {
+        // translate the center
+        CGPoint translation = [recognizer translationInView:cell];
+        cell.center = CGPointMake(_originalCenter.x + translation.x, _originalCenter.y);
+        // determine whether the item has been dragged far enough to initiate a delete / complete
+        _deleteOnDragRelease = cell.frame.origin.x < -cell.frame.size.width / 2;
+        
+    }
+    
+    // 3
+    if (recognizer.state == UIGestureRecognizerStateEnded) {
+        // the frame this cell would have had before being dragged
+        CGRect originalFrame = CGRectMake(0, cell.frame.origin.y,
+                                          cell.bounds.size.width, cell.bounds.size.height);
+        if (!_deleteOnDragRelease) {
+            // if the item is not being deleted, snap back to the original location
+            [UIView animateWithDuration:0.2
+                             animations:^{
+                                 cell.frame = originalFrame;
+                             }
+             ];
+        } else {
+            NSLog(@"Swiped left");
+            CGPoint location = [recognizer locationInView:self.toDosTableView];
+            
+            NSIndexPath *indexPath = [self.toDosTableView indexPathForRowAtPoint:location];
+            
+            if (indexPath) {
+                [self performSegueWithIdentifier:@"DetailToDo" sender:recognizer];
+            }
+        }
+    }
+}
+
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -328,7 +391,7 @@ CGPoint originalCenter;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 40;
+    return 45;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
