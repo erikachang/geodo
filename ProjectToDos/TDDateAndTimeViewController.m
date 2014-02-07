@@ -30,10 +30,10 @@
     return self;
 }
 
-- (void)swipeRight:(UISwipeGestureRecognizer *)gesture
-{
+- (IBAction)apply:(UIBarButtonItem *)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 
 - (void)viewDidLoad
 {
@@ -44,12 +44,7 @@
     NSDate *date = [NSDate date];
     self.datePicker.minimumDate = date;
     self.hourPicker.minimumDate = date;
-    
-    // Adding Swip Gesture Recognizers
-    UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRight:)];
-    [swipeRecognizer setDirection:UISwipeGestureRecognizerDirectionRight];
-    [self.view addGestureRecognizer:swipeRecognizer];
-    
+
     days = [[NSMutableArray alloc] init];
     
     data = YES;
@@ -58,28 +53,40 @@
     
     self.hourDetail.alpha = 0;
     self.dateDetails.alpha = 0;
+    self.occurrenceDetails.alpha = 0;
     self.tableView.alwaysBounceVertical = NO;
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 
 - (void) returnWeekDays
 {
     if ([days count] == 0) {
+        self.occurrenceDetails.alpha = 0;
+        [self fadeOut:self.dateDetails withDuration:.5 andWait:.1];
+        [self fadeIn:self.occurrenceDetails withDuration:0.5 andWait:0.2];
         [self.occurrenceDetails setText:@"Nenhuma"];
     } else if ([days containsObject:[NSNumber numberWithInt:0]] && [days containsObject:[NSNumber numberWithInt:6]] && !([days containsObject:[NSNumber numberWithInt:1]] || [days containsObject:[NSNumber numberWithInt:2]] || [days containsObject:[NSNumber numberWithInt:3]] || [days containsObject:[NSNumber numberWithInt:4]] || [days containsObject:[NSNumber numberWithInt:5]]))
     {
+        self.occurrenceDetails.alpha = 0;
+        [self fadeOut:self.dateDetails withDuration:.5 andWait:.1];
+        [self fadeIn:self.occurrenceDetails withDuration:0.5 andWait:0.2];
         [self.occurrenceDetails setText:@"Fins de semana"];
     } else if (!([days containsObject:[NSNumber numberWithInt:0]] || [days containsObject:[NSNumber numberWithInt:6]]) && [days containsObject:[NSNumber numberWithInt:1]] && [days containsObject:[NSNumber numberWithInt:2]] && [days containsObject:[NSNumber numberWithInt:3]] && [days containsObject:[NSNumber numberWithInt:4]] && [days containsObject:[NSNumber numberWithInt:5]])
     {
+        self.occurrenceDetails.alpha = 0;
+        [self fadeOut:self.dateDetails withDuration:.5 andWait:.1];
+        [self fadeIn:self.occurrenceDetails withDuration:0.5 andWait:0.2];
         [self.occurrenceDetails setText:@"Dias úteis"];
     } else if ([days containsObject:[NSNumber numberWithInt:0]] && [days containsObject:[NSNumber numberWithInt:6]] && [days containsObject:[NSNumber numberWithInt:1]] && [days containsObject:[NSNumber numberWithInt:2]] && [days containsObject:[NSNumber numberWithInt:3]] && [days containsObject:[NSNumber numberWithInt:4]] && [days containsObject:[NSNumber numberWithInt:5]])
     {
+        self.occurrenceDetails.alpha = 0;
+        [self fadeOut:self.dateDetails withDuration:.5 andWait:.1];
+        [self fadeIn:self.occurrenceDetails withDuration:0.5 andWait:0.2];
         [self.occurrenceDetails setText:@"Todos os dias"];
     } else {
         NSMutableString *temp = [[NSMutableString alloc] init];
@@ -104,7 +111,10 @@
         if ([days containsObject:[NSNumber numberWithInt:6]]) {
             [temp appendString:@"Sab "];
         }
-
+        
+        self.occurrenceDetails.alpha = 0;
+        [self fadeOut:self.dateDetails withDuration:.5 andWait:.1];
+        [self fadeIn:self.occurrenceDetails withDuration:0.5 andWait:0.2];
         [self.occurrenceDetails setText:temp];
     }
 }
@@ -208,24 +218,19 @@
     [self.tableView beginUpdates];
     [self.tableView endUpdates];
     
-    if (weekDays == YES && self.switcher.on == YES) {
-        [self returnWeekDays];
-    }
-    
-    else if (hours == YES) {
+    if (hours == YES && indexPath.row == 0) {
         NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
         [outputFormatter setDateFormat:@"HH:mm"]; //24hr time format
         NSString *dateString = [outputFormatter stringFromDate:self.hourPicker.date];
         
         [self fadeOut:self.hourDetail withDuration:.5 andWait:.1];
         [self fadeIn:self.hourDetail withDuration:.5 andWait:.1];
-        self.hourDetail.text = dateString;
-    }
-    
-    else if (data == YES) {
+        [self.hourDetail setText:dateString];
+    } else if (data == YES && indexPath.row == 3) {
         NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
         [outputFormatter setDateFormat:@"dd/MM/yyyy"];
         NSString *dateString = [outputFormatter stringFromDate:self.hourPicker.date];
+        
         [self fadeOut:self.dateDetails withDuration:.5 andWait:.1];
         [self fadeIn:self.dateDetails withDuration:.5 andWait:.1];
         [self.dateDetails setText:dateString];
