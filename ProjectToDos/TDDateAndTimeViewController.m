@@ -7,7 +7,6 @@
 //
 
 #import "TDDateAndTimeViewController.h"
-#import "TDTesteViewController.h"
 
 @interface TDDateAndTimeViewController ()
 
@@ -30,10 +29,10 @@
     return self;
 }
 
-- (void)swipeRight:(UISwipeGestureRecognizer *)gesture
-{
+- (IBAction)apply:(UIBarButtonItem *)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 
 - (void)viewDidLoad
 {
@@ -44,79 +43,80 @@
     NSDate *date = [NSDate date];
     self.datePicker.minimumDate = date;
     self.hourPicker.minimumDate = date;
-    
-    // Adding Swip Gesture Recognizers
-    UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRight:)];
-    [swipeRecognizer setDirection:UISwipeGestureRecognizerDirectionRight];
-    [self.view addGestureRecognizer:swipeRecognizer];
-    
+
+    days = [[NSMutableArray alloc] init];
     
     data = YES;
     hours = NO;
     weekDays = YES;
     
-    self.hourDetail.hidden = YES;
+    self.hourDetail.alpha = 0;
+    self.dateDetails.alpha = 0;
+    self.occurrenceDetails.alpha = 0;
     self.tableView.alwaysBounceVertical = NO;
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if (self.switcher.on == YES) {
-        if([[segue identifier] isEqualToString:@"selectWeekDays"])
-        {
 
+- (void) returnWeekDays
+{
+    if ([days count] == 0) {
+        self.occurrenceDetails.alpha = 0;
+        [self fadeOut:self.dateDetails withDuration:.5 andWait:.1];
+        [self fadeIn:self.occurrenceDetails withDuration:0.5 andWait:0.2];
+        [self.occurrenceDetails setText:@"Nenhuma"];
+    } else if ([days containsObject:[NSNumber numberWithInt:0]] && [days containsObject:[NSNumber numberWithInt:6]] && !([days containsObject:[NSNumber numberWithInt:1]] || [days containsObject:[NSNumber numberWithInt:2]] || [days containsObject:[NSNumber numberWithInt:3]] || [days containsObject:[NSNumber numberWithInt:4]] || [days containsObject:[NSNumber numberWithInt:5]]))
+    {
+        self.occurrenceDetails.alpha = 0;
+        [self fadeOut:self.dateDetails withDuration:.5 andWait:.1];
+        [self fadeIn:self.occurrenceDetails withDuration:0.5 andWait:0.2];
+        [self.occurrenceDetails setText:@"Fins de semana"];
+    } else if (!([days containsObject:[NSNumber numberWithInt:0]] || [days containsObject:[NSNumber numberWithInt:6]]) && [days containsObject:[NSNumber numberWithInt:1]] && [days containsObject:[NSNumber numberWithInt:2]] && [days containsObject:[NSNumber numberWithInt:3]] && [days containsObject:[NSNumber numberWithInt:4]] && [days containsObject:[NSNumber numberWithInt:5]])
+    {
+        self.occurrenceDetails.alpha = 0;
+        [self fadeOut:self.dateDetails withDuration:.5 andWait:.1];
+        [self fadeIn:self.occurrenceDetails withDuration:0.5 andWait:0.2];
+        [self.occurrenceDetails setText:@"Dias úteis"];
+    } else if ([days containsObject:[NSNumber numberWithInt:0]] && [days containsObject:[NSNumber numberWithInt:6]] && [days containsObject:[NSNumber numberWithInt:1]] && [days containsObject:[NSNumber numberWithInt:2]] && [days containsObject:[NSNumber numberWithInt:3]] && [days containsObject:[NSNumber numberWithInt:4]] && [days containsObject:[NSNumber numberWithInt:5]])
+    {
+        self.occurrenceDetails.alpha = 0;
+        [self fadeOut:self.dateDetails withDuration:.5 andWait:.1];
+        [self fadeIn:self.occurrenceDetails withDuration:0.5 andWait:0.2];
+        [self.occurrenceDetails setText:@"Todos os dias"];
+    } else {
+        NSMutableString *temp = [[NSMutableString alloc] init];
+        if ([days containsObject:[NSNumber numberWithInt:0]]) {
+            [temp appendString:@"Dom "];
         }
+        if ([days containsObject:[NSNumber numberWithInt:1]]) {
+            [temp appendString:@"Seg "];
+        }
+        if ([days containsObject:[NSNumber numberWithInt:2]]) {
+            [temp appendString:@"Ter "];
+        }
+        if ([days containsObject:[NSNumber numberWithInt:3]]) {
+            [temp appendString:@"Qua "];
+        }
+        if ([days containsObject:[NSNumber numberWithInt:4]]) {
+            [temp appendString:@"Qui "];
+        }
+        if ([days containsObject:[NSNumber numberWithInt:5]]) {
+            [temp appendString:@"Sex"];
+        }
+        if ([days containsObject:[NSNumber numberWithInt:6]]) {
+            [temp appendString:@"Sab "];
+        }
+        
+        self.occurrenceDetails.alpha = 0;
+        [self fadeOut:self.dateDetails withDuration:.5 andWait:.1];
+        [self fadeIn:self.occurrenceDetails withDuration:0.5 andWait:0.2];
+        [self.occurrenceDetails setText:temp];
     }
 }
-
-//- (void) returnWeekDays:(NSMutableArray *)weekDays
-//{
-//    days = weekDays;
-//
-//    if ([weekDays isEqual:Nil]) {
-//        [self.diasSemana setText:@"Nenhum"];
-//    } else if ([weekDays containsObject:[NSNumber numberWithInt:0]] && [weekDays containsObject:[NSNumber numberWithInt:6]] && !([weekDays containsObject:[NSNumber numberWithInt:1]] || [weekDays containsObject:[NSNumber numberWithInt:2]] || [weekDays containsObject:[NSNumber numberWithInt:3]] || [weekDays containsObject:[NSNumber numberWithInt:4]] || [weekDays containsObject:[NSNumber numberWithInt:5]]))
-//    {
-//        [self.diasSemana setText:@"Fins de semana"];
-//    } else if (!([weekDays containsObject:[NSNumber numberWithInt:0]] || [weekDays containsObject:[NSNumber numberWithInt:6]]) && [weekDays containsObject:[NSNumber numberWithInt:1]] && [weekDays containsObject:[NSNumber numberWithInt:2]] && [weekDays containsObject:[NSNumber numberWithInt:3]] && [weekDays containsObject:[NSNumber numberWithInt:4]] && [weekDays containsObject:[NSNumber numberWithInt:5]])
-//    {
-//        [self.diasSemana setText:@"Dias úteis"];
-//    } else if ([weekDays containsObject:[NSNumber numberWithInt:0]] && [weekDays containsObject:[NSNumber numberWithInt:6]] && [weekDays containsObject:[NSNumber numberWithInt:1]] && [weekDays containsObject:[NSNumber numberWithInt:2]] && [weekDays containsObject:[NSNumber numberWithInt:3]] && [weekDays containsObject:[NSNumber numberWithInt:4]] && [weekDays containsObject:[NSNumber numberWithInt:5]])
-//    {
-//        [self.diasSemana setText:@"Todos os dias"];
-//    } else {
-//        NSMutableString *temp = [[NSMutableString alloc] init];
-//        if ([weekDays containsObject:[NSNumber numberWithInt:0]]) {
-//            [temp appendString:@"Dom "];
-//        }
-//        if ([weekDays containsObject:[NSNumber numberWithInt:1]]) {
-//            [temp appendString:@"Seg "];
-//        }
-//        if ([weekDays containsObject:[NSNumber numberWithInt:2]]) {
-//            [temp appendString:@"Ter "];
-//        }
-//        if ([weekDays containsObject:[NSNumber numberWithInt:3]]) {
-//            [temp appendString:@"Qua "];
-//        }
-//        if ([weekDays containsObject:[NSNumber numberWithInt:4]]) {
-//            [temp appendString:@"Qui "];
-//        }
-//        if ([weekDays containsObject:[NSNumber numberWithInt:5]]) {
-//            [temp appendString:@"Sex"];
-//        }
-//        if ([weekDays containsObject:[NSNumber numberWithInt:6]]) {
-//            [temp appendString:@"Sab "];
-//        }
-//
-//        [self.diasSemana setText:temp];
-//    }
-//}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -124,21 +124,116 @@
     if (indexPath.row == 0 && hours == NO) {
         hours = YES;
     } else if (indexPath.row == 0 && hours == YES) {
+        [self fadeOut:self.hourDetail withDuration:.5 andWait:.1];
         hours = NO;
-    }
-    if (indexPath.row == 3 && data == NO) {
+    } else if (indexPath.row == 3 && data == NO) {
         data = YES;
     } else if (indexPath.row == 3 && data == YES) {
+        [self fadeOut:self.dateDetails withDuration:.5 andWait:.1];
         data = NO;
-    }
-    if (indexPath.row == 5 && weekDays == NO) {
+    } else if (indexPath.row == 5 && weekDays == NO) {
         weekDays = YES;
     } else if (indexPath.row == 5 && data == YES) {
         weekDays = NO;
+    } else if (indexPath.row == 6) {
+        if (!([days containsObject:[NSNumber numberWithInt:0]])) {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            [days addObject:[NSNumber numberWithInt:0]];
+            [self returnWeekDays];
+        }
+        else {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            [days removeObject:[NSNumber numberWithInt:0]];
+            [self returnWeekDays];
+        }
+    } else if (indexPath.row == 7) {
+        if (!([days containsObject:[NSNumber numberWithInt:1]])) {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            [days addObject:[NSNumber numberWithInt:1]];
+            [self returnWeekDays];
+        }
+        else {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            [days removeObject:[NSNumber numberWithInt:1]];
+            [self returnWeekDays];
+        }
+    } else if (indexPath.row == 8) {
+        if (!([days containsObject:[NSNumber numberWithInt:2]])) {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            [days addObject:[NSNumber numberWithInt:2]];
+            [self returnWeekDays];
+        }
+        else {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            [days removeObject:[NSNumber numberWithInt:2]];
+            [self returnWeekDays];
+        }
+    } else if (indexPath.row == 9) {
+        if (!([days containsObject:[NSNumber numberWithInt:3]])) {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            [days addObject:[NSNumber numberWithInt:3]];
+            [self returnWeekDays];
+        }
+        else {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            [days removeObject:[NSNumber numberWithInt:3]];
+            [self returnWeekDays];
+        }
+    } else if (indexPath.row == 10) {
+        if (!([days containsObject:[NSNumber numberWithInt:4]])) {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            [days addObject:[NSNumber numberWithInt:4]];
+            [self returnWeekDays];
+        }
+        else {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            [days removeObject:[NSNumber numberWithInt:4]];
+            [self returnWeekDays];
+        }
+    } else if (indexPath.row == 11) {
+        if (!([days containsObject:[NSNumber numberWithInt:5]])) {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            [days addObject:[NSNumber numberWithInt:5]];
+            [self returnWeekDays];
+        }
+        else {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            [days removeObject:[NSNumber numberWithInt:5]];
+            [self returnWeekDays];
+        }
+    } else if (indexPath.row == 12) {
+        if (!([days containsObject:[NSNumber numberWithInt:6]])) {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            [days addObject:[NSNumber numberWithInt:6]];
+            [self returnWeekDays];
+        }
+        else {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            [days removeObject:[NSNumber numberWithInt:6]];
+            [self returnWeekDays];
+        }
     }
     
     [self.tableView beginUpdates];
     [self.tableView endUpdates];
+    
+    if (hours == YES && indexPath.row == 0) {
+        NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
+        [outputFormatter setDateFormat:@"HH:mm"]; //24hr time format
+        NSString *dateString = [outputFormatter stringFromDate:self.hourPicker.date];
+        
+        [self fadeOut:self.hourDetail withDuration:.5 andWait:.1];
+        [self fadeIn:self.hourDetail withDuration:.5 andWait:.1];
+        [self.hourDetail setText:dateString];
+    } else if (data == YES && indexPath.row == 3) {
+        NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
+        [outputFormatter setDateFormat:@"dd/MM/yyyy"];
+        NSString *dateString = [outputFormatter stringFromDate:self.hourPicker.date];
+        
+        [self fadeOut:self.dateDetails withDuration:.5 andWait:.1];
+        [self fadeIn:self.dateDetails withDuration:.5 andWait:.1];
+        [self.dateDetails setText:dateString];
+    }
     
     cell.selected = NO;
 }
@@ -181,8 +276,6 @@
         } else if (indexPath.section == 0 && indexPath.row == 11) {
             return 0;
         } else if (indexPath.section == 0 && indexPath.row == 12) {
-            return 0;
-        } else if (indexPath.section == 0 && indexPath.row == 13) {
             return 0;
         }
     } else {
@@ -230,14 +323,7 @@
             } else {
                 return 44;
             }
-        } else if (indexPath.section == 0 && indexPath.row == 13) {
-            if (weekDays == YES) {
-                return 0;
-            } else {
-                return 44;
-            }
-        }
-        if (indexPath.section == 0 && indexPath.row == 3) {
+        } else if (indexPath.section == 0 && indexPath.row == 3) {
             return 0;
         } else if (indexPath.section == 0 && indexPath.row == 4) {
             return 0;
@@ -252,6 +338,27 @@
     weekDays = YES;
     [self.tableView beginUpdates];
     [self.tableView endUpdates];
+}
+
+-(void)fadeOut:(UIView*)viewToDissolve withDuration:(NSTimeInterval)duration   andWait:(NSTimeInterval)wait
+{
+    [UIView beginAnimations: @"Fade Out" context:nil];
+    // wait for time before begin
+    [UIView setAnimationDelay:wait];
+    // druation of animation
+    [UIView setAnimationDuration:duration];
+    viewToDissolve.alpha = 0.0;
+    [UIView commitAnimations];
+}
+-(void)fadeIn:(UIView*)viewToFadeIn withDuration:(NSTimeInterval)duration         andWait:(NSTimeInterval)wait
+{
+    [UIView beginAnimations: @"Fade In" context:nil];
+    // wait for time before begin
+    [UIView setAnimationDelay:wait];
+    // druation of animation
+    [UIView setAnimationDuration:duration];
+    viewToFadeIn.alpha = 1;
+    [UIView commitAnimations];
 }
 
 @end
