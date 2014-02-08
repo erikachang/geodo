@@ -387,6 +387,7 @@
 				F4A7C412189C52AC00CB8B0C /* TDToDosCell.m in Sources */,
 				38D4A4F4189FE1170020723A /* DDAnnotation.m in Sources */,
 				F406A4E91897DD1E0004F19E /* TDToDo.m in Sources */,
+				F4DAB4CA18A0FD3600C0516B /* TDToDosTextField.m in Sources */,
 				38E17DAC18A0FB2E0051A27A /* TDLocalExistenteViewController.m in Sources */,
 				38D4A4F5189FE1170020723A /* DDAnnotationView.m in Sources */,
 				F4A7C3F11899707F00CB8B0C /* TDNotificationConfiguration.m in Sources */,
