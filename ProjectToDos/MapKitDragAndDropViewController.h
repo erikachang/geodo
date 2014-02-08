@@ -23,6 +23,7 @@
     TDEditToDoViewController *superController;
 }
 
+@property (weak, nonatomic) IBOutlet UITextField *txtEndereco;
 @property (retain, nonatomic) IBOutlet UITextField *txtRaio;
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
 

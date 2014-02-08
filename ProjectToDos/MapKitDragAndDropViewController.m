@@ -31,18 +31,24 @@
     [super viewDidLoad];
 	
 	CLLocationCoordinate2D theCoordinate;
-	theCoordinate.latitude = 37.810000;
-    theCoordinate.longitude = -122.477989;
+	theCoordinate.latitude = -30.060351;
+    theCoordinate.longitude = -51.171228;
     currLatitude = theCoordinate.latitude;
     currLongitude = theCoordinate.longitude;
     [self drawCircle];
+    
+    MKCoordinateSpan span = {.latitudeDelta =  1, .longitudeDelta =  1};
+    MKCoordinateRegion region = {theCoordinate, span};
+    [self.mapView setRegion:region];
+    
 	
 	DDAnnotation *annotation = [[DDAnnotation alloc] initWithCoordinate:theCoordinate addressDictionary:nil] ;
 	annotation.title = @"Drag to Move Pin";
-	annotation.subtitle = [NSString	stringWithFormat:@"%f %f", annotation.coordinate.latitude, annotation.coordinate.longitude];
 	
 	[self.mapView addAnnotation:annotation];
     
+    //CLLocation* locationEndereco = [[CLLocation alloc]initWithLatitude:theCoordinate.latitude longitude:theCoordinate.longitude];
+    //[self geoCodeUsingCoordinateToTextField:locationEndereco]; //já bota no text field pois foi o jeito encontrado.
     
     _locationManager = [[CLLocationManager alloc] init];
     _locationManager.distanceFilter = kCLDistanceFilterNone; // whenever we move
@@ -98,16 +104,6 @@
 
 
 #pragma mark -
-#pragma mark DDAnnotationCoordinateDidChangeNotification
-
-// NOTE: DDAnnotationCoordinateDidChangeNotification won't fire in iOS 4, use -mapView:annotationView:didChangeDragState:fromOldState: instead.
-- (void)coordinateChanged_:(NSNotification *)notification {
-	
-	DDAnnotation *annotation = notification.object;
-	annotation.subtitle = [NSString	stringWithFormat:@"%f %f", annotation.coordinate.latitude, annotation.coordinate.longitude];
-}
-
-#pragma mark -
 #pragma mark MKMapViewDelegate
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)annotationView didChangeDragState:(MKAnnotationViewDragState)newState fromOldState:(MKAnnotationViewDragState)oldState {
@@ -161,12 +157,28 @@
 
 #pragma mark -
 #pragma mark actions
+- (IBAction)btEndereco_click:(id)sender {
+    CLLocationCoordinate2D cl = [self geoCodeUsingAddress:_txtEndereco.text];
+    
+    currLatitude = cl.latitude;
+    currLongitude = cl.longitude;
+    
+    MKCoordinateSpan span = {.latitudeDelta =  1, .longitudeDelta =  1};
+    MKCoordinateRegion region = {cl, span};
+    [self.mapView setRegion:region];
+    
+    [[self.mapView annotations][0] setCoordinate:cl];
+    [self drawCircle];
+    [self.txtEndereco resignFirstResponder];
+    [self.txtRaio resignFirstResponder];
+}
 
 - (IBAction)btOk_Click:(id)sender {
     if(_txtRaio.text != nil){
         [self drawCircle];
     }
     [self.txtRaio resignFirstResponder];
+    [self.txtEndereco resignFirstResponder];
 }
 
 - (IBAction)btAdicionar_Click:(id)sender {
@@ -191,7 +203,7 @@
             [[[SL_armazenaDados sharedArmazenaDados] listLocalidades] addObject:sl];
             
             CLLocation *centro = [[CLLocation alloc] initWithLatitude:sl.latitude longitude:sl.longitude];
-
+            
             NSLog(@"%f",[_locationManager.location distanceFromLocation:centro]);
             if([_locationManager.location distanceFromLocation:centro] < [_txtRaio.text floatValue]){
                 [self.superController freshLatitudeLongitude: sl with: YES];
@@ -214,23 +226,20 @@
     [self.txtRaio resignFirstResponder];
 }
 
-#pragma mark -
-#pragma mark functions
 
-- (void) drawCircle {
-    [self.mapView removeOverlay:currCircle];
-    CLLocationCoordinate2D center = {currLatitude, currLongitude};
-    MKCircle *circle = [MKCircle circleWithCenterCoordinate:center radius:[_txtRaio.text intValue]];
-    [self.mapView addOverlay:circle];
-    currCircle = circle;
-}
-
-
-#pragma mark -
-#pragma mark actions
 -(IBAction)findMyLocation:(id)sender{
     [mapView setDelegate:self];
     [mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
+    
+	CLLocationCoordinate2D actual;
+	actual.latitude = _locationManager.location.coordinate.latitude;
+    actual.longitude = _locationManager.location.coordinate.longitude;
+    
+    currLatitude = actual.latitude;
+    currLongitude = actual.longitude;
+    
+    [[self.mapView annotations][0] setCoordinate:actual];
+    [self drawCircle];
 }
 
 
@@ -245,7 +254,7 @@
         case 2:
             mapView.mapType = MKMapTypeHybrid;
             break;
-
+            
         default:
             break;
     }
@@ -260,6 +269,62 @@
     
 }
 
+#pragma mark -
+#pragma mark functions
+
+- (void) drawCircle {
+    [self.mapView removeOverlay:currCircle];
+    CLLocationCoordinate2D center = {currLatitude, currLongitude};
+    MKCircle *circle = [MKCircle circleWithCenterCoordinate:center radius:[_txtRaio.text intValue]];
+    [self.mapView addOverlay:circle];
+    currCircle = circle;
+}
+
+
+- (CLLocationCoordinate2D) geoCodeUsingAddress:(NSString *)address
+{
+    double latitude = 0, longitude = 0;
+    NSString *esc_addr =  [address stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *req = [NSString stringWithFormat:@"http://maps.google.com/maps/api/geocode/json?sensor=false&address=%@", esc_addr];
+    NSString *result = [NSString stringWithContentsOfURL:[NSURL URLWithString:req] encoding:NSUTF8StringEncoding error:NULL];
+    if (result) {
+        NSScanner *scanner = [NSScanner scannerWithString:result];
+        if ([scanner scanUpToString:@"\"lat\" :" intoString:nil] && [scanner scanString:@"\"lat\" :" intoString:nil]) {
+            [scanner scanDouble:&latitude];
+            if ([scanner scanUpToString:@"\"lng\" :" intoString:nil] && [scanner scanString:@"\"lng\" :" intoString:nil]) {
+                [scanner scanDouble:&longitude];
+            }
+        }
+    }
+    CLLocationCoordinate2D center;
+    center.latitude = latitude;
+    center.longitude = longitude;
+    return center;
+}
+/*
+- (void)geoCodeUsingCoordinateToTextField:(CLLocation*)location
+{
+    CLGeocoder* geocoder;
+    if (!geocoder)
+        geocoder = [[CLGeocoder alloc] init];
+    
+    [geocoder reverseGeocodeLocation:location completionHandler:
+     ^(NSArray* placemarks, NSError* error){
+         if ([placemarks count] > 0)
+         {
+             CLPlacemark *placemark = [placemarks objectAtIndex:0];
+             NSString *strCountry = [placemark country];
+             NSString *strState = [placemark administrativeArea];
+             NSString *strCity = [placemark locality];
+             NSString *strAv = [placemark thoroughfare];
+             NSString *strBairro = [placemark subLocality];
+             
+             NSString *endereco = [[NSString alloc]initWithFormat:@"%@,%@. %@-%@, %@",strAv, strBairro,strCity,strState, strCountry];
+             _txtEndereco.text = endereco;
+         }
+     }];
+}
+*/
 
 #pragma mark - animations -
 -(void)showMenu{
@@ -293,3 +358,5 @@
         [self showMenu];
 }
 @end
+
+
