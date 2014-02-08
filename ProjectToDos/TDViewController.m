@@ -21,16 +21,10 @@
 @end
 
 @implementation TDViewController
-- (IBAction)editToDoDescription:(UITextField *)sender {
-    [self resignFirstResponder];
-    
-    if (![sender.text isEqualToString:@""]) {
-        TDToDo *toDo = [self.toDosDataSource objectAtIndex:sender.tag];
-        
-        toDo.description = sender.text;
-    }
-}
 
+short characterLimit = 40;
+
+#pragma mark Properties
 - (NSMutableArray *)toDosDataSource {
     if (_toDosDataSource == nil)
         _toDosDataSource = [[NSMutableArray alloc] init];
@@ -43,14 +37,42 @@
     return _filteredToDosDataSource;
 }
 
+#pragma mark Custom methods
+- (NSIndexPath *)getFirstNonPriorityIndex
+{
+    int row = 0;
+    for (TDToDo *toDo in self.toDosDataSource) {
+        if (toDo.priority) {
+            row++;
+        }
+    }
+    return [NSIndexPath indexPathForRow:row inSection:0];
+}
+
+- (NSAttributedString *)strikeThroughText:(NSString *)text
+{
+    NSDictionary* attributes = @{
+                                 NSStrikethroughStyleAttributeName: [NSNumber numberWithInt:NSUnderlineStyleSingle]
+                                 };
+    
+    NSAttributedString* attrText = [[NSAttributedString alloc] initWithString:text attributes:attributes];
+    return attrText;
+}
+
+#pragma mark Actions
 - (IBAction)onTheFlySearch:(UITextField *)sender {
-    NSLog(@"Search attempt for string: %@", sender.text);
+
+    if (self.searchAndAddTextField.text.length >= characterLimit) {
+        self.searchAndAddTextField.text = [self.searchAndAddTextField.text substringToIndex:characterLimit];
+    }
+    
     self.isFiltering = YES;
     [self.filteredToDosDataSource removeAllObjects];
     [self.toDosTableView reloadData];
     
     for (TDToDo *todo in self.toDosDataSource) {
-        if (sender.text.length <= todo.description.length){
+        if (sender.text.length <= todo.description.length) {
+
             NSString *initials = [todo.description substringToIndex:sender.text.length];
             if ([initials isEqualToString:sender.text]) {
                 [self.filteredToDosDataSource addObject:todo];
@@ -65,149 +87,171 @@
         return;
     
     self.isFiltering = NO;
-    
     [self.toDosTableView reloadData];
-    
     [self.toDosTableView beginUpdates];
+    {
     
-    NSMutableArray *newList = [[NSMutableArray alloc] init];
-    TDToDo *newTodo = [[TDToDo alloc] initWithDescription:sender.text];
+        NSMutableArray *newList = [[NSMutableArray alloc] init];
+        TDToDo *newTodo = [[TDToDo alloc] initWithDescription:sender.text];
 
-    [newList addObject:newTodo];
-    
-    for (TDToDo *todo in self.toDosDataSource) {
-        [newList addObject:todo];
+        [newList addObject:newTodo];
+        
+        for (TDToDo *todo in self.toDosDataSource) {
+            [newList addObject:todo];
+        }
+        
+        self.toDosDataSource = newList;
+        
+        NSArray *paths = @[[NSIndexPath indexPathForRow:0 inSection:0]];
+        [self.toDosTableView insertRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationTop];
     }
-    
-    self.toDosDataSource = newList;
-    
-    NSArray *paths = @[[NSIndexPath indexPathForRow:0 inSection:0]];
-    [self.toDosTableView insertRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationTop];
-    
     [self.toDosTableView endUpdates];
 
-    NSLog(@"Added New ToDo Entry: %@", [self.toDosDataSource firstObject]);
     [sender setText:@""];
 }
 
-UITableViewCell *longPressSelectedCell;
-TDToDo *longPressSelectedToDo;
-NSIndexPath *longPressSelectedIndexPath;
-CGPoint originalCenter;
-- (void)longPress:(UIGestureRecognizer *)gesture
+#pragma mark Gestures
+
+TDToDo *_longPressSelectedToDo;
+NSIndexPath *_longPressSelectedIndexPath, *_originalIndexPath;
+CGPoint _previousCenter, _originalLocation;
+UITableViewCell *_movingCell;
+- (void)longPress:(UILongPressGestureRecognizer *)gesture
 {
+    CGPoint cellLocation = [gesture locationInView:self.toDosTableView];
+    
     if (gesture.state == UIGestureRecognizerStateBegan) {
         
-        NSLog(@"Long press began at: %@.", NSStringFromCGPoint([gesture locationInView:self.toDosTableView]));
-        [self resignFirstResponder];
-        CGPoint cellLocation = [gesture locationInView:self.toDosTableView];
-        longPressSelectedIndexPath =  [self.toDosTableView indexPathForRowAtPoint:cellLocation];
-        longPressSelectedToDo = [self.toDosDataSource objectAtIndex:longPressSelectedIndexPath.row];
-        originalCenter = [self.toDosTableView cellForRowAtIndexPath:longPressSelectedIndexPath].center;
+        if ([self.searchAndAddTextField isFirstResponder]) {
+            [self.searchAndAddTextField resignFirstResponder];
+        }
+        
+        _longPressSelectedIndexPath =  [self.toDosTableView indexPathForRowAtPoint:cellLocation];
+        _originalIndexPath = _longPressSelectedIndexPath;
+        _longPressSelectedToDo = [self.toDosDataSource objectAtIndex:_longPressSelectedIndexPath.row];
+        _previousCenter = [self.toDosTableView cellForRowAtIndexPath:_longPressSelectedIndexPath].center;
+        _originalLocation = _previousCenter;
+        _movingCell = [self.toDosTableView cellForRowAtIndexPath:_longPressSelectedIndexPath];
     } else if (gesture.state == UIGestureRecognizerStateChanged) {
         
-        CGPoint cellLocation = [gesture locationInView:self.toDosTableView];
+        NSIndexPath *newIndexPath =  [self.toDosTableView indexPathForRowAtPoint:cellLocation];
+//        UITableViewCell *cell = [self.toDosTableView cellForRowAtIndexPath:_longPressSelectedIndexPath];
+        if (_longPressSelectedIndexPath.row != newIndexPath.row) {
+            if (newIndexPath.row > _longPressSelectedIndexPath.row) {
+                [UIView animateWithDuration:.3 animations:^{
+                    for (int k = _longPressSelectedIndexPath.row; k < newIndexPath.row; k++) {
+                        
+                        if (_originalIndexPath.row != k) {
+                        NSLog(@"Empurrando. k: %d; Original: %d", k, _originalIndexPath.row);
+                            
+                        NSIndexPath *cellIndex = [NSIndexPath indexPathForRow:k inSection:0];
+                        UITableViewCell *cell = [self.toDosTableView cellForRowAtIndexPath:cellIndex];
+                        CGPoint cellCenter = cell.center;
+                        
+                        cellCenter.y = cell.bounds.size.height/2 + (cell.bounds.size.height * (k-1));
+                        cellCenter.x = _originalLocation.x;
+                        cell.center = cellCenter;
+                        }
+                    }
+                }];
+
+            } else {
+                [UIView animateWithDuration:.3 animations:^{
+                    for (int k = self.toDosDataSource.count-1; k > newIndexPath.row; k--) {
+                        
+                            NSIndexPath *cellIndex = [NSIndexPath indexPathForRow:k inSection:0];
+                            UITableViewCell *cell = [self.toDosTableView cellForRowAtIndexPath:cellIndex];
+                            CGPoint cellCenter = cell.center;
+                            
+                            cellCenter.y = cell.bounds.size.height/2 + (cell.bounds.size.height * k);
+                            cellCenter.x = _originalLocation.x;
+                            cell.center = cellCenter;
+                    }
+                }];
+
+            }
+        }
+        NSLog(@"Row: %d; Previous: %d; Original: %d", newIndexPath.row, _longPressSelectedIndexPath.row, _originalIndexPath.row);
+        _longPressSelectedIndexPath =  [self.toDosTableView indexPathForRowAtPoint:cellLocation];
+        CGPoint center = _movingCell.center;
         
-        if (cellLocation.y > (longPressSelectedCell.frame.size.height))
-        {
-            NSIndexPath *newIndexPath =  [self.toDosTableView indexPathForRowAtPoint:cellLocation];
+//        center.x += cellLocation.x - _previousCenter.x;
+        center.y += cellLocation.y - _previousCenter.y;
+        
+        _movingCell.center = center;
+        _previousCenter = cellLocation;
+    } else if (gesture.state == UIGestureRecognizerStateEnded) {
+        
+        NSIndexPath *newIndexPath =  [self.toDosTableView indexPathForRowAtPoint:cellLocation];
+        
+        if (newIndexPath) {
             
-            if (newIndexPath && newIndexPath.row != longPressSelectedIndexPath.row) {
-            
-                [self.toDosTableView beginUpdates];
-                [self.toDosTableView deleteRowsAtIndexPaths:@[longPressSelectedIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
+//            [self.toDosTableView beginUpdates];
+            {
+//                [self.toDosTableView deleteRowsAtIndexPaths:@[_longPressSelectedIndexPath] withRowAnimation:UITableViewRowAnimationNone];
                 
-                if (newIndexPath.row > longPressSelectedIndexPath.row) {
-
-                    [self.toDosDataSource insertObject:longPressSelectedToDo atIndex:newIndexPath.row+1];
-                    [self.toDosDataSource removeObjectAtIndex:longPressSelectedIndexPath.row];
+                // Depending on the relative position of the cell, its re-insertion in the table must consider its new position after its removal.
+                if (newIndexPath.row >= _longPressSelectedIndexPath.row) {
+                    
+                    [self.toDosDataSource insertObject:_longPressSelectedToDo atIndex:newIndexPath.row+1];
+                    [self.toDosDataSource removeObjectAtIndex:_longPressSelectedIndexPath.row];
                 } else {
-
-                    [self.toDosDataSource removeObjectAtIndex:longPressSelectedIndexPath.row];
-                    [self.toDosDataSource insertObject:longPressSelectedToDo atIndex:newIndexPath.row];
+                    
+                    [self.toDosDataSource removeObjectAtIndex:_longPressSelectedIndexPath.row];
+                    [self.toDosDataSource insertObject:_longPressSelectedToDo atIndex:newIndexPath.row];
                 }
                 
-                [self.toDosTableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
-
-                
-                [self.toDosTableView endUpdates];
-                
-                longPressSelectedIndexPath =  [self.toDosTableView indexPathForRowAtPoint:cellLocation];
-            }
+//                [self.toDosTableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationNone];
+            };
+//            [self.toDosTableView endUpdates];
+            [self.toDosTableView reloadData];
+            //_longPressSelectedIndexPath =  [self.toDosTableView indexPathForRowAtPoint:cellLocation];
+        } else {
+            UITableViewCell *cell = [self.toDosTableView cellForRowAtIndexPath:_longPressSelectedIndexPath];
+            [UIView animateWithDuration:.3 animations:^{
+                cell.center = _originalLocation;
+            }];
         }
     }
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-    
-    // Adding swipe gesture: right direction
-    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Comprar pao"]];
-    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Arrumar malas"]];
-    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Levar TV no conserto"]];
-    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Aprender guitarra"]];
-    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Terminar Bioshock pela 2a vez"]];
-    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Deixar esse App do caralho"]];
-    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Terminar de ler artigos de IA"]];
-    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Terminar de ler capítulo do livro de IA"]];
-    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Comprar CDs novos"]];
-    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Comprar livros novos"]];
-    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Agendar revisão do carro"]];
-    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Virar mestre do mundo"]];
-    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Pesquisa de preço - Monitor IPS 27\""]];
-    
-    UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panLeft:)];
-    panRecognizer.delegate = self;
-    [self.toDosTableView addGestureRecognizer:panRecognizer];
-    
-    UILongPressGestureRecognizer *longPressRec = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
-    [longPressRec setNumberOfTouchesRequired:1];
-    [self.toDosTableView addGestureRecognizer:longPressRec];
-    
-    [self.toDosTableView setBackgroundColor:[UIColor clearColor]];
-}
-
-#warning move "handle pan"
--(BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer {
-    CGPoint translation = [gestureRecognizer translationInView:[self.view superview]];
-    // Check for horizontal gesture
-    if (fabsf(translation.x) > fabsf(translation.y)) {
-        return YES;
-    }
-    return NO;
+- (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer {
+    CGPoint translation = [gestureRecognizer translationInView:[self.toDosTableView superview]];
+    // Handle horizontal pan only
+    return fabsf(translation.x) > fabsf(translation.y);
 }
 
 CGPoint _originalCenter, _cellLocation;
 BOOL _markComplete, _detailToDo;
 UITableViewCell *_firstCell;
--(void)panLeft:(UIPanGestureRecognizer *)recognizer {
-    // 1
+- (void)panLeft:(UIPanGestureRecognizer *)recognizer {
+    // When the pan begins, take note of what cell the gesture started at and its location.
     if (recognizer.state == UIGestureRecognizerStateBegan) {
-        // if the gesture has just started, record the current centre location
+        
         _cellLocation = [recognizer locationInView:self.toDosTableView];
         NSIndexPath *indexPath = [self.toDosTableView indexPathForRowAtPoint:_cellLocation];
         _firstCell = [self.toDosTableView cellForRowAtIndexPath:indexPath];
         _originalCenter = _firstCell.center;
-
-    }
-
-    // 2
-    if (recognizer.state == UIGestureRecognizerStateChanged) {
-        // translate the center
-        CGPoint translation = [recognizer translationInView:_firstCell];
-        _firstCell.center = CGPointMake(_originalCenter.x + translation.x, _originalCenter.y);
-        // determine whether the item has been dragged far enough to initiate a delete / complete
-        _detailToDo = _firstCell.frame.origin.x < -_firstCell.frame.size.width / 3;
-        _markComplete = _firstCell.frame.origin.x > _firstCell.frame.size.width/ 3;
     }
     
-    // 3
+    // Translates the cell, following the user's gesture.
+    if (recognizer.state == UIGestureRecognizerStateChanged) {
+        
+        CGPoint translation = [recognizer translationInView:_firstCell];
+        _firstCell.center = CGPointMake(_originalCenter.x + translation.x, _originalCenter.y);
+        
+        // Checks whether the cell has been moved to the far left or the far right
+        // and flags an action as a consequence.
+        _detailToDo = _firstCell.frame.origin.x < -_firstCell.frame.size.width / 3; // Panning to the left brings up the detailed ToDo View.
+        _markComplete = _firstCell.frame.origin.x > _firstCell.frame.size.width/ 3; // Panning to the right marks the task as complete.
+    }
+    
+    // When the user let go of the touch screen, decides whether an action needs to be taken and performs it.
     if (recognizer.state == UIGestureRecognizerStateEnded) {
-        // the frame this cell would have had before being dragged
+        
         CGRect originalFrame = CGRectMake(0, _firstCell.frame.origin.y,
                                           _firstCell.bounds.size.width, _firstCell.bounds.size.height);
+        
         if (!_detailToDo && !_markComplete) {
             // if the item is not being deleted, snap back to the original location
             [UIView animateWithDuration:0.2
@@ -215,9 +259,7 @@ UITableViewCell *_firstCell;
                                  _firstCell.frame = originalFrame;
                              }
              ];
-        } else  if (_detailToDo) {
-            NSLog(@"Swiped left");
-
+        } else if (_detailToDo) {
             
             NSIndexPath *indexPath = [self.toDosTableView indexPathForRowAtPoint:_cellLocation];
             
@@ -225,14 +267,13 @@ UITableViewCell *_firstCell;
                 [self performSegueWithIdentifier:@"DetailToDo" sender:recognizer];
             }
         } else if (_markComplete) {
-            NSLog(@"Swiped right");
-
+            
             NSIndexPath *indexPath = [self.toDosTableView indexPathForRowAtPoint:_cellLocation];
             TDToDo *toDo = [self.toDosDataSource objectAtIndex:indexPath.row];
             [toDo toggleActive];
             
             if (toDo.active) {
-
+                
                 NSIndexPath *newIndexPath = [self getFirstNonPriorityIndex];
                 
                 [UIView animateWithDuration:.6 animations:^{
@@ -242,7 +283,7 @@ UITableViewCell *_firstCell;
                     [self.toDosDataSource insertObject:toDo atIndex:newIndexPath.row];
                     
                     [self.toDosTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
-                    [self.toDosTableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
+                    [self.toDosTableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationRight];
                     [self.toDosTableView endUpdates];
                 }];
             } else {
@@ -262,37 +303,9 @@ UITableViewCell *_firstCell;
                     
                 }];
             }
-
+            
         }
     }
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [[self navigationController] setNavigationBarHidden:YES];
-    [self.toDosTableView reloadData];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    TDEditToDoViewController *editView = [segue destinationViewController];
-
-    NSLog(@"Swiped left");
-    
-    NSIndexPath *indexPath = [self.toDosTableView indexPathForRowAtPoint:_cellLocation];
-
-    if (self.isFiltering) {
-        editView.toDo = [self.filteredToDosDataSource objectAtIndex:indexPath.row];
-    } else {
-        editView.toDo = [self.toDosDataSource objectAtIndex:indexPath.row];
-    }
-    
 }
 
 #pragma mark - Shake Motion Detection
@@ -307,29 +320,26 @@ UITableViewCell *_firstCell;
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
 {
-    if (motion == UIEventSubtypeMotionShake)
-    {
-        // User was shaking the device. Post a notification named "shake."
-        NSLog(@"Shake detected. Disposing of completed tasks.");
+    if (motion == UIEventSubtypeMotionShake) {
+        
         NSMutableArray *toDosToBeDeleted = [[NSMutableArray alloc] init];
         NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
-        int pos = 0;
+        int row = 0;
         
         for (TDToDo *todo in self.toDosDataSource) {
             if (!todo.active) {
                 [toDosToBeDeleted addObject:todo];
-                [indexPaths addObject:[NSIndexPath indexPathForRow:pos inSection:0]];
+                [indexPaths addObject:[NSIndexPath indexPathForRow:row inSection:0]];
                 
             }
-            pos++;
+            row++;
         }
         
         [self.toDosDataSource removeObjectsInArray:toDosToBeDeleted];
-        //[self.toDosTableView reloadData];
         
         [self.toDosTableView beginUpdates];
         [self.toDosTableView deleteRowsAtIndexPaths:indexPaths
-                                       withRowAnimation:UITableViewRowAnimationAutomatic];
+                                   withRowAnimation:UITableViewRowAnimationAutomatic];
         [self.toDosTableView endUpdates];
     }
 }
@@ -348,16 +358,6 @@ UITableViewCell *_firstCell;
     } else {
         return self.toDosDataSource.count;
     }
-}
-
-- (NSAttributedString *)strikeThroughText:(NSString *)text
-{
-    NSDictionary* attributes = @{
-                                 NSStrikethroughStyleAttributeName: [NSNumber numberWithInt:NSUnderlineStyleSingle]
-                                 };
-    
-    NSAttributedString* attrText = [[NSAttributedString alloc] initWithString:text attributes:attributes];
-    return attrText;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -388,24 +388,13 @@ UITableViewCell *_firstCell;
         }
         [cell.textLabel setText:todo.description];
     } else {
-
+        
         cell.textLabel.attributedText = [self strikeThroughText:todo.description];
     }
     
     cell.textLabel.tag = indexPath.row;
     
     return cell;
-}
-
-- (NSIndexPath *)getFirstNonPriorityIndex
-{
-    int index = 0;
-    for (TDToDo *toDo in self.toDosDataSource) {
-        if (toDo.priority) {
-            index++;
-        }
-    }
-    return [NSIndexPath indexPathForRow:index inSection:0];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -416,7 +405,7 @@ UITableViewCell *_firstCell;
         [toDo togglePriority];
         
         if (toDo.priority) {
-        
+            
             [UIView animateWithDuration:.6 animations:^{
                 [self.toDosTableView beginUpdates];
                 
@@ -424,7 +413,7 @@ UITableViewCell *_firstCell;
                 [self.toDosDataSource insertObject:toDo atIndex:0];
                 
                 [self.toDosTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-                [self.toDosTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
+                [self.toDosTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
                 [self.toDosTableView endUpdates];
             }];
         } else {
@@ -438,11 +427,75 @@ UITableViewCell *_firstCell;
                 [self.toDosDataSource insertObject:toDo atIndex:newIndexPath.row];
                 
                 [self.toDosTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-                [self.toDosTableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationTop];
+                [self.toDosTableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
                 [self.toDosTableView endUpdates];
             }];
         }
     }
+}
+
+#pragma mark View delegates
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+	// Do any additional setup after loading the view, typically from a nib.
+    
+    // Adding swipe gesture: right direction
+    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Arrumar malas"]];
+    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Levar TV no conserto"]];
+    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Levar carro na revisão"]];
+    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Aprender guitarra"]];
+    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Terminar Bioshock pela 2a vez"]];
+    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Deixar esse App do caralho"]];
+    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Terminar de ler artigos de IA"]];
+    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Terminar de ler capítulo do livro de IA"]];
+    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Comprar CDs novos"]];
+    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Comprar livros novos"]];
+    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Comprar filmes novos"]];
+    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Terminar \"NHK ni Youkoso!\""]];
+    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Virar mestre do mundo"]];
+    
+    for (int i = 0; i < 1000; i++) {
+        [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Virar mestre do mundo"]];
+    }
+    
+    UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panLeft:)];
+    panRecognizer.delegate = self;
+    [self.toDosTableView addGestureRecognizer:panRecognizer];
+    
+    UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
+    [longPressRecognizer setNumberOfTouchesRequired:1];
+    [self.toDosTableView addGestureRecognizer:longPressRecognizer];
+    
+    [self.toDosTableView setBackgroundColor:[UIColor clearColor]];
+    [self.searchAndAddTextField setFont:[UIFont fontWithName:@"Papyrus" size:17.0]];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [[self navigationController] setNavigationBarHidden:YES];
+    [self.toDosTableView reloadData];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    TDEditToDoViewController *editView = [segue destinationViewController];
+    
+    NSIndexPath *indexPath = [self.toDosTableView indexPathForRowAtPoint:_cellLocation];
+
+    if (self.isFiltering) {
+        editView.toDo = [self.filteredToDosDataSource objectAtIndex:indexPath.row];
+    } else {
+        editView.toDo = [self.toDosDataSource objectAtIndex:indexPath.row];
+    }
+    
 }
 
 @end
