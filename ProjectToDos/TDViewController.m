@@ -125,9 +125,7 @@ short characterLimit = 40;
 #pragma mark Gestures
 
 TDToDo *_selectedToDo;
-NSIndexPath *_previousIndexPath, *_originalIndexPath;
-CGPoint _previousCenter, _originalCenter;
-UITableViewCell *_selectedCell;
+NSIndexPath *_previousIndexPath;
 - (void)longPress:(UILongPressGestureRecognizer *)gestureRecognizer
 {
     CGPoint touchLocation = [gestureRecognizer locationInView:self.toDosTableView];
@@ -138,83 +136,32 @@ UITableViewCell *_selectedCell;
             [self.searchAndAddTextField resignFirstResponder];
         }
         
-        _originalIndexPath = [self.toDosTableView indexPathForRowAtPoint:touchLocation];
-        _previousIndexPath = _originalIndexPath;
+        _previousIndexPath = [self.toDosTableView indexPathForRowAtPoint:touchLocation];
         _selectedToDo = [self.toDosDataSource objectAtIndex:_previousIndexPath.row];
-        _originalCenter = [self.toDosTableView cellForRowAtIndexPath:_previousIndexPath].center;
-        _previousCenter = _originalCenter;
-        _selectedCell = [self.toDosTableView cellForRowAtIndexPath:_previousIndexPath];
     } else if (gestureRecognizer.state == UIGestureRecognizerStateChanged) {
-        
         NSIndexPath *indexPathAtTouchLocation =  [self.toDosTableView indexPathForRowAtPoint:touchLocation];
         
-        // Renders the selected cell at touch location
-        CGPoint center = _selectedCell.center;
-        center.y += touchLocation.y - _previousCenter.y;
-        _selectedCell.center = center;
-        
-        if (indexPathAtTouchLocation) {
+        if (indexPathAtTouchLocation && indexPathAtTouchLocation.row != _previousIndexPath.row) {
             
-            NSInteger direction = indexPathAtTouchLocation.row - _previousIndexPath.row;
-            
-            if (direction) {
-            
-//                NSLog(@"Moving to: %d. Was at: %d. Original: %d;", indexPathAtTouchLocation.row, _previousIndexPath.row, _originalIndexPath.row);
-                [UIView animateWithDuration:.3 animations:^{
-                    
-                    UITableViewCell *cell;
-                    
-                    if (indexPathAtTouchLocation.row == _originalIndexPath.row) {
-                        NSLog(@"Touching original location. Moving row %d.", indexPathAtTouchLocation.row-direction);
-                        cell = [self.toDosTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPathAtTouchLocation.row-direction inSection:0]];
-                    } else {
-                        NSLog(@"Touching index %d. Moving row %d.", indexPathAtTouchLocation.row, _previousIndexPath.row);
-                        cell = [self.toDosTableView cellForRowAtIndexPath:indexPathAtTouchLocation];
-                    }
-                    
-                    
-                    CGPoint cellCenter = cell.center;
-                    cellCenter.y = (cell.bounds.size.height/2 + (cell.bounds.size.height * (indexPathAtTouchLocation.row))) ;
-                    cell.center = cellCenter;
-                    
-                    _previousIndexPath = indexPathAtTouchLocation;
-                }];
-            }
-        }
-        
-        _previousIndexPath = indexPathAtTouchLocation;
-        _previousCenter = touchLocation;
-    } else if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        
-        NSIndexPath *indexPathAtTouchLocation =  [self.toDosTableView indexPathForRowAtPoint:touchLocation];
-        
-        if (indexPathAtTouchLocation) {
-//            NSIndexPath *newPath = [NSIndexPath indexPathForRow:newIndexPath.row-1 inSection:0]; // Calibragem
-//            [self.toDosTableView beginUpdates];
+            [self.toDosTableView beginUpdates];
             {
-//                [self.toDosTableView deleteRowsAtIndexPaths:@[_longPressSelectedIndexPath] withRowAnimation:UITableViewRowAnimationNone];
+                [self.toDosTableView deleteRowsAtIndexPaths:@[_previousIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
                 
                 // Depending on the relative position of the cell, its re-insertion in the table must consider its new position after its removal.
                 if (indexPathAtTouchLocation.row > _previousIndexPath.row) {
                     
                     [self.toDosDataSource insertObject:_selectedToDo atIndex:indexPathAtTouchLocation.row+1];
-                    [self.toDosDataSource removeObjectAtIndex:_originalIndexPath.row];
+                    [self.toDosDataSource removeObjectAtIndex:_previousIndexPath.row];
                 } else {
                     
-                    [self.toDosDataSource removeObjectAtIndex:_originalIndexPath.row];
+                    [self.toDosDataSource removeObjectAtIndex:_previousIndexPath.row];
                     [self.toDosDataSource insertObject:_selectedToDo atIndex:indexPathAtTouchLocation.row];
                 }
                 
-//                [self.toDosTableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationNone];
+                [self.toDosTableView insertRowsAtIndexPaths:@[indexPathAtTouchLocation] withRowAnimation:UITableViewRowAnimationLeft];
             };
-//            [self.toDosTableView endUpdates];
-            [self.toDosTableView reloadData];
-            //_longPressSelectedIndexPath =  [self.toDosTableView indexPathForRowAtPoint:cellLocation];
-        } else {
-            UITableViewCell *cell = [self.toDosTableView cellForRowAtIndexPath:_previousIndexPath];
-            [UIView animateWithDuration:.3 animations:^{
-                cell.center = _originalCenter;
-            }];
+            [self.toDosTableView endUpdates];
+            _previousIndexPath =  [self.toDosTableView indexPathForRowAtPoint:touchLocation];
         }
     }
 }
