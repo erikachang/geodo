@@ -21,6 +21,14 @@
 
 @implementation TDEditToDoViewController
 
+short _editToDoViewControllerCharacterLimit = 40;
+
+- (IBAction)limitCharacterInput:(UITextField *)sender {
+    if (sender.text.length >= _editToDoViewControllerCharacterLimit) {
+        sender.text = [sender.text substringToIndex:_editToDoViewControllerCharacterLimit];
+    }
+}
+
 - (IBAction)changeToDoNameAndViewTitle:(UITextField *)sender {
     [self resignFirstResponder];
     
