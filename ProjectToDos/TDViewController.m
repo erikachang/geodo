@@ -420,7 +420,7 @@ UITableViewCell *_firstCell;
     [self.toDosTableView addGestureRecognizer:longPressRecognizer];
     
     [self.toDosTableView setBackgroundColor:[UIColor clearColor]];
-    [self.searchAndAddTextField setFont:[UIFont fontWithName:@"Papyrus" size:17.0]];
+    [self.searchAndAddTextField setFont:[UIFont fontWithName:@"Didot" size:17.0]];
 }
 
 - (void)viewWillAppear:(BOOL)animated

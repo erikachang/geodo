@@ -87,7 +87,7 @@ short _editToDoViewControllerCharacterLimit = 40;
         _playButton.enabled = NO;
     }
     _stopButton.enabled = NO;
-    
+
     if([_toDo audioRecorder]==nil){
         NSArray *dirPaths;
         NSString *docsDir;
@@ -206,7 +206,7 @@ short _editToDoViewControllerCharacterLimit = 40;
     
     cell.btRemove.tag = indexPath.row;
     [cell.btRemove addTarget:self action:@selector(btRemove_Click:) forControlEvents:UIControlEventTouchUpInside];
-    
+    cell.accessoryType = UITableViewCellAccessoryNone;
     return cell;
 }
 
