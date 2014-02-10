@@ -30,7 +30,14 @@
 }
 
 - (IBAction)apply:(UIBarButtonItem *)sender {
+    if (self.switcher.on == NO) {
+        [self.superController addDate:self.datePicker.date andTime:self.hourPicker.date orWeekDays:Nil];
+    } else {
+        [self.superController addDate:Nil andTime:self.hourPicker.date orWeekDays:days];
+    }
+    
     [self.navigationController popViewControllerAnimated:YES];
+
 }
 
 
@@ -54,6 +61,10 @@
     self.dateDetails.alpha = 0;
     self.occurrenceDetails.alpha = 0;
     self.tableView.alwaysBounceVertical = NO;
+    
+    self.todo = self.superController.toDo;
+    
+    NSLog(@"%@", self.todo.reminders.lastObject);
 }
 
 - (void)didReceiveMemoryWarning

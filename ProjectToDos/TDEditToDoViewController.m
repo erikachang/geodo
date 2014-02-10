@@ -8,6 +8,7 @@
 
 #import "TDEditToDoViewController.h"
 #import "MapKitDragAndDropViewController.h"
+#import "TDDateAndTimeViewController.h"
 
 @interface TDEditToDoViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *addDateTimeNotificationButton;
@@ -181,12 +182,23 @@ short _editToDoViewControllerCharacterLimit = 40;
     }
 }
 
+- (void)addDate:(NSDate *)date andTime:(NSDate *)time orWeekDays:(NSMutableArray *)weekDays
+{
+    [self.toDo addNotificationConfigurationWithDateTime:date with:time with:weekDays];
+}
+
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if([[segue identifier] isEqualToString:@"AddLocationNotification"])
     {
         MapKitDragAndDropViewController *child = (MapKitDragAndDropViewController *)segue.destinationViewController;
         [child setSuperController:self];
+    }
+    
+    if ([[segue identifier] isEqualToString:@"AddDateTimeNotification"])
+    {
+        TDDateAndTimeViewController *dtvc = (TDDateAndTimeViewController *)segue.destinationViewController;
+        [dtvc setSuperController:self];
     }
 }
 

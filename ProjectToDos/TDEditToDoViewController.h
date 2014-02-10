@@ -22,4 +22,5 @@
 @property (strong, nonatomic) CLLocation *location;
 
 -(void) freshLatitudeLongitude : (SL_Localidades*)local with: (BOOL)estaNaRegiao;
+- (void)addDate:(NSDate *)date andTime:(NSDate *)time orWeekDays:(NSMutableArray *)weekDays;
 @end

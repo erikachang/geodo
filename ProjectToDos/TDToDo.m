@@ -27,9 +27,9 @@
     [self.reminders addObject:notification];
 }
 
-- (void)addNotificationConfigurationWithDateTime:(NSDate *)aDateTime
+- (void)addNotificationConfigurationWithDateTime:(NSDate *)aDate with:(NSDate *)aTime with:(NSMutableArray *)aWeekDays
 {
-    TDNotificationConfiguration *notification = [[TDNotificationConfiguration alloc] initWithDateAndTime:aDateTime];
+    TDNotificationConfiguration *notification = [[TDNotificationConfiguration alloc] initWithDate:aDate andTime:aTime orWeekDays:aWeekDays];
     [self.reminders addObject:notification];
 }
 

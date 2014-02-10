@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "TDToDo.h"
+#import "TDEditToDoViewController.h"
 
 @interface TDDateAndTimeViewController : UITableViewController
 @property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
@@ -16,9 +17,12 @@
 @property (weak, nonatomic) IBOutlet UILabel *dateDetails;
 @property (weak, nonatomic) IBOutlet UISwitch *switcher;
 @property (weak, nonatomic) IBOutlet UILabel *recurrent;
-@property (strong, nonatomic) TDToDo *todo;
 @property (weak, nonatomic) IBOutlet UILabel *hour;
 @property (weak, nonatomic) IBOutlet UILabel *hourDetail;
 @property (weak, nonatomic) IBOutlet UILabel *occurrence;
 @property (weak, nonatomic) IBOutlet UILabel *occurrenceDetails;
+
+@property (strong, nonatomic) TDToDo *todo;
+@property (nonatomic, retain) TDEditToDoViewController *superController;
+
 @end
