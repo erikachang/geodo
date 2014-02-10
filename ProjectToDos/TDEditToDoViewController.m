@@ -206,6 +206,7 @@ short _editToDoViewControllerCharacterLimit = 40;
     
     cell.btRemove.tag = indexPath.row;
     [cell.btRemove addTarget:self action:@selector(btRemove_Click:) forControlEvents:UIControlEventTouchUpInside];
+    cell.accessoryType = UITableViewCellAccessoryNone;
     
     return cell;
 }
