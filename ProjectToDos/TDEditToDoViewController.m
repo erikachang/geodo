@@ -228,7 +228,9 @@ short _editToDoViewControllerCharacterLimit = 40;
             }
             if(reminder.type == DateTime){
                 [_toDo removeNotificationConfigurationBasedOnLocation: i];
-                [[UIApplication sharedApplication] cancelLocalNotification: reminder.arrayLocalNotifications[0]];
+                for(int i=0; i<reminder.arrayLocalNotifications.count;i++){
+                    [[UIApplication sharedApplication] cancelLocalNotification: reminder.arrayLocalNotifications[i]];
+                }
                 break;
             }
         }
@@ -464,18 +466,60 @@ short _editToDoViewControllerCharacterLimit = 40;
 - (void)addDate:(NSDate *)date andTime:(NSDate *)time orWeekDays:(NSMutableArray *)weekDays
 {
     if(date==nil){
+        [self.toDo addNotificationConfigurationWithDateTime:date with:time with:weekDays];
+        TDNotificationConfiguration *reminder = [self.toDo reminders][[self.toDo reminders].count-1];
+        [_tabView reloadData];
+        
         NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
         NSDateComponents *comps = [gregorian components:NSWeekdayCalendarUnit fromDate:[NSDate date]];
         //aqui retorna de 1 a 7 e o vetor vem de 0 a 6
         int todaysWeekDay = [comps weekday]-1;
-        
-        for(int i=0; i<7;i++,todaysWeekDay++){
-            if ([weekDays containsObject:[NSNumber numberWithInt:todaysWeekDay]]){
+        int todasWeekDayIncremento = todaysWeekDay;
+        for(int i=0; i<7;i++,todasWeekDayIncremento++){
+            if ([weekDays containsObject:[NSNumber numberWithInt:todasWeekDayIncremento]]){
                 //aqui vai as notificacoes certinhas com o fire date e repeat interval
-                NSLog(@"ahaaaaaaaam %i",todaysWeekDay);
+                
+                NSDateComponents *timeComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitHour | NSCalendarUnitMinute fromDate:time];
+                
+                NSDateComponents *componentsDate = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:[NSDate date]];
+                
+                
+                [componentsDate setHour: timeComponents.hour];
+                [componentsDate setMinute: timeComponents.minute];
+                
+                
+                NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+                NSDate *fireDate = [gregorian dateFromComponents:componentsDate];
+                
+                NSDateComponents *adicionaDia = [[NSDateComponents alloc] init];
+                
+                if((todasWeekDayIncremento - todaysWeekDay)<0){
+                    [adicionaDia setDay: 7+(todasWeekDayIncremento - todaysWeekDay)];
+                }
+                else{
+                    [adicionaDia setDay: todasWeekDayIncremento - todaysWeekDay];
+                }
+                
+                fireDate = [[NSCalendar currentCalendar] dateByAddingComponents:adicionaDia
+                                                                         toDate:fireDate
+                                                                        options:0];
+                
+                UILocalNotification *notification = [[UILocalNotification alloc] init];
+                notification.fireDate = fireDate;
+                
+                notification.repeatInterval = NSWeekCalendarUnit;
+                NSTimeZone* timezone = [NSTimeZone defaultTimeZone];
+                notification.timeZone = timezone;
+                notification.alertBody = [_toDo description];
+                notification.alertAction = @"Analisar notificação";
+                notification.soundName = @"alarm.wav";
+                [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+                
+                [reminder addLocalnotifications:notification];
+
             }
-            if(todaysWeekDay==6){
-                todaysWeekDay=-1;
+            if(todasWeekDayIncremento==6){
+                todasWeekDayIncremento=-1;
             }
         }
         
