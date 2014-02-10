@@ -226,6 +226,11 @@ short _editToDoViewControllerCharacterLimit = 40;
                 [self verificarPossivelParadaDeMonitoramento : reminder.location.regiao];
                 break;
             }
+            if(reminder.type == DateTime){
+                [_toDo removeNotificationConfigurationBasedOnLocation: i];
+                [[UIApplication sharedApplication] cancelLocalNotification: reminder.arrayLocalNotifications[0]];
+                break;
+            }
         }
     }
     [_tabView reloadData];
@@ -458,8 +463,38 @@ short _editToDoViewControllerCharacterLimit = 40;
 
 - (void)addDate:(NSDate *)date andTime:(NSDate *)time orWeekDays:(NSMutableArray *)weekDays
 {
-    [self.toDo addNotificationConfigurationWithDateTime:date with:time with:weekDays];
-    [_tabView reloadData];
+    if(date==nil){
+        NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+        NSDateComponents *comps = [gregorian components:NSWeekdayCalendarUnit fromDate:[NSDate date]];
+        int todaysWeekDay = [comps weekday];
+        NSLog(@"%i",todaysWeekDay);
+    }else{
+        //por enquanto só com data e hora.
+        [self.toDo addNotificationConfigurationWithDateTime:date with:time with:weekDays];
+        TDNotificationConfiguration *reminder = [self.toDo reminders][[self.toDo reminders].count-1];
+        [_tabView reloadData];
+        
+        NSDateComponents *timeComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitHour | NSCalendarUnitMinute fromDate:time];
+        
+        NSDateComponents *componentsDate = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:date];
+        
+        [componentsDate setHour: timeComponents.hour];
+        [componentsDate setMinute: timeComponents.minute];
+        
+        NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+        NSDate *fireDate = [gregorian dateFromComponents:componentsDate];
+        
+        UILocalNotification *notification = [[UILocalNotification alloc] init];
+        notification.fireDate = fireDate;
+        NSTimeZone* timezone = [NSTimeZone defaultTimeZone];
+        notification.timeZone = timezone;
+        notification.alertBody = [_toDo description];
+        notification.alertAction = @"Analisar notificação";
+        notification.soundName = @"alarm.wav";
+        [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+        
+        [reminder addLocalnotifications:notification];
+        }
 }
 
 @end
