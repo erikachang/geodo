@@ -26,7 +26,18 @@
             self.weekDays = aWeekDays;
         }
         self.type = DateTime;
-        self.notificationDescription = [NSString stringWithFormat:@"No dia: %@.", [aDate description]];
+        NSDateComponents *componentsDate = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:aDate];
+        NSInteger day = [componentsDate day];
+        NSInteger month = [componentsDate month];
+        NSInteger year = [componentsDate year];
+        
+        NSDateComponents *componentsHour = [[NSCalendar currentCalendar] components:NSCalendarUnitHour | NSCalendarUnitMinute fromDate:aTime];
+        NSInteger hour = [componentsHour hour];
+        NSInteger minute = [componentsHour minute];
+    
+        NSString* descricaoData = [[NSString alloc]initWithFormat: @"%i/%i/%i",day,month,year];
+        NSString* descricaoHora = [[NSString alloc]initWithFormat: @"%i:%i",hour,minute];
+        self.notificationDescription = [NSString stringWithFormat:@"No dia: %@ às %@", descricaoData,descricaoHora];
     }
     return self;
 }
