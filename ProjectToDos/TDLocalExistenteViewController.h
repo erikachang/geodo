@@ -10,9 +10,14 @@
 #import "SL_armazenaDados.h"
 #import "SL_Localidades.h"
 #import "TDLocaisCell.h"
+#import "TDEditToDoViewController.h"
+#import "TDMapaLocaisViewController.h"
 
 @interface TDLocalExistenteViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UITableView *tableViewLocais;
 @property (strong, nonatomic) IBOutlet UILabel *lblIdentificador;
 
+@property(nonatomic, retain)TDEditToDoViewController *superController;
+
+@property (nonatomic , strong) CLLocationManager* locationManager;
 @end

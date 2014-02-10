@@ -13,6 +13,7 @@
 @synthesize listNotificacoes;
 @synthesize listLocalidades;
 @synthesize dicNotsRegs;
+@synthesize listToDosRegs;
 
 static SL_armazenaDados *sharedArmazenaDados = nil;
 
@@ -30,6 +31,8 @@ static SL_armazenaDados *sharedArmazenaDados = nil;
         listNotificacoes = [[NSMutableArray alloc]init];
         listLocalidades = [[NSMutableArray alloc]init];
         dicNotsRegs = [[NSMutableDictionary alloc]init];
+        listToDosRegs = [[NSMutableArray alloc]init];
+        
     }
     return self;
 }

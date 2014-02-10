@@ -31,15 +31,16 @@
     return self;
 }
 
--(instancetype)initWithLocation:(NSString *)aLocation
+-(instancetype)initWithLocation:(SL_Localidades *)aLocation
 {
     if (self = [super init])
     {
         self.location = aLocation;
         self.type = Location;
-        self.notificationDescription = [NSString stringWithFormat:@"Quando eu chegar em %@", aLocation];
+        self.notificationDescription = [NSString stringWithFormat:@"Quando eu chegar em %@", aLocation.identificador];
     }
     return self;
 }
+
 
 @end

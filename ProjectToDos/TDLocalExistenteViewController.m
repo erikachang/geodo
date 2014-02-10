@@ -16,13 +16,27 @@
 {
     NSMutableArray *arrayItems;
 }
+
+@synthesize superController;
+
+-(void)viewWillAppear:(BOOL)animated{
+    [self.navigationController setNavigationBarHidden:NO];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.title = @"Escolher local";
+    
     arrayItems = [[NSMutableArray alloc]init];
     for(int i=0; i<[[SL_armazenaDados sharedArmazenaDados]listLocalidades].count; i++){
         [arrayItems addObject:[[[SL_armazenaDados sharedArmazenaDados] listLocalidades][i] identificador]];
     }
+    
+    _locationManager = [[CLLocationManager alloc] init];
+    _locationManager.distanceFilter = kCLDistanceFilterNone; // whenever we move
+    _locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters; // 100 m
+    [_locationManager startUpdatingLocation];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -52,17 +66,37 @@
 
 -(void)btConfirma_Click :(id)sender
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Custom Button Pressed"
-                                                        message:[NSString stringWithFormat: @"You pressed the custom button on cell"]
-                                                       delegate:self cancelButtonTitle:@"Great"
-                                              otherButtonTitles:nil];
-    [alertView show];
+    SL_Localidades *local = [[SL_Localidades alloc]init];
     NSInteger tag = [sender tag];
     NSString* identificador = arrayItems[tag];
-    NSLog(@"%@",identificador);
+    
+    
+    for(int i=0;i<[[[SL_armazenaDados sharedArmazenaDados] listLocalidades] count];i++){
+        local = [[SL_armazenaDados sharedArmazenaDados] listLocalidades][i];
+        if([identificador isEqualToString: local.identificador]){
+            [self.superController freshLatitudeLongitude: local];
+            [self.navigationController popViewControllerAnimated:YES];
+            break;
+        }
+    }
 }
 
-
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if([[segue identifier] isEqualToString:@"segueMapaLocalidades"])
+    {
+        TDMapaLocaisViewController *child = (TDMapaLocaisViewController *)segue.destinationViewController;
+        NSIndexPath *idxPath = [self.tableViewLocais indexPathForCell:sender];
+        
+        SL_Localidades *local = [[SL_Localidades alloc]init];
+        for(int i=0;i<[[[SL_armazenaDados sharedArmazenaDados] listLocalidades] count];i++){
+            local = [[SL_armazenaDados sharedArmazenaDados] listLocalidades][i];
+            if([[arrayItems objectAtIndex:idxPath.row] isEqualToString: local.identificador]){
+                child.local = local;
+            }
+        }
+    }
+}
 
 - (void)didReceiveMemoryWarning
 {

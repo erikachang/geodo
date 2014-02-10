@@ -9,6 +9,7 @@
 #import "TDEditToDoViewController.h"
 #import "MapKitDragAndDropViewController.h"
 #import "TDDateAndTimeViewController.h"
+#import "TDLocalExistenteViewController.h"
 
 @interface TDEditToDoViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *addDateTimeNotificationButton;
@@ -81,6 +82,59 @@ short _editToDoViewControllerCharacterLimit = 40;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //parte do recorder
+    if(![_toDo recorded]){
+        _playButton.enabled = NO;
+    }
+    _stopButton.enabled = NO;
+    
+    if([_toDo audioRecorder]==nil){
+        NSArray *dirPaths;
+        NSString *docsDir;
+        
+        
+        dirPaths = NSSearchPathForDirectoriesInDomains(
+                                                       NSDocumentDirectory, NSUserDomainMask, YES);
+        docsDir = [dirPaths objectAtIndex:0];
+        NSString *pathComponent = [[NSString alloc]initWithFormat:@"%@.caf", [_toDo description]];
+        NSString *soundFilePath = [docsDir
+                                   stringByAppendingPathComponent:pathComponent];
+        
+        NSURL *soundFileURL = [NSURL fileURLWithPath:soundFilePath];
+        
+        NSDictionary *recordSettings = [NSDictionary
+                                        dictionaryWithObjectsAndKeys:
+                                        [NSNumber numberWithInt:AVAudioQualityMin],
+                                        AVEncoderAudioQualityKey,
+                                        [NSNumber numberWithInt:16],
+                                        AVEncoderBitRateKey,
+                                        [NSNumber numberWithInt: 2],
+                                        AVNumberOfChannelsKey,
+                                        [NSNumber numberWithFloat:44100.0],
+                                        AVSampleRateKey,
+                                        nil];
+        
+        NSError *error = nil;
+        
+        AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+        [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord
+                            error:nil];
+        
+        _toDo.audioRecorder = [[AVAudioRecorder alloc]
+                               initWithURL:soundFileURL
+                               settings:recordSettings
+                               error:&error];
+        
+        if (error)
+        {
+            NSLog(@"error: %@", [error localizedDescription]);
+        }   else {
+            [[_toDo audioRecorder] prepareToRecord];
+        }
+    }
+    //fim do recorder
+    
+
 	// Do any additional setup after loading the view.
     [self.titleTextField setBorderStyle:UITextBorderStyleNone];
     [self.titleTextField setText:self.toDo.description];
@@ -117,6 +171,7 @@ short _editToDoViewControllerCharacterLimit = 40;
     // Dispose of any resources that can be recreated.
 }
 
+
 #pragma mark - Table View delegates
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -126,7 +181,7 @@ short _editToDoViewControllerCharacterLimit = 40;
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-
+    
     return [self.sectionsDic.allKeys objectAtIndex:section];
 }
 
@@ -137,15 +192,124 @@ short _editToDoViewControllerCharacterLimit = 40;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    
+    static NSString *CellIdentifier = @"cellReminders";
+    TDRemindersCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    
+    // Configure the cell...
     
     NSArray *reminders = self.toDo.reminders;
     
-    cell.textLabel.text = [[reminders objectAtIndex:indexPath.row] notificationDescription];
+    
+    cell.lblText.text =[[reminders objectAtIndex:indexPath.row] notificationDescription];
+    cell.lblText.numberOfLines = 0;
+    
+    cell.btRemove.tag = indexPath.row;
+    [cell.btRemove addTarget:self action:@selector(btRemove_Click:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
 }
+
+-(void)btRemove_Click :(id)sender
+{
+    TDNotificationConfiguration *reminder = [[TDNotificationConfiguration alloc]init];
+    NSInteger tag = [sender tag];
+    NSString* identificador = [self.toDo.reminders[tag] notificationDescription];
+    
+    
+    for(int i=0;i<[_toDo reminders].count;i++){
+        reminder = [_toDo reminders][i];
+        if([identificador isEqualToString: reminder.notificationDescription]){
+            if(reminder.type == Location){
+                [_toDo removeNotificationConfigurationBasedOnLocation: i];
+                [self verificarPossivelParadaDeMonitoramento : reminder.location.regiao];
+                break;
+            }
+        }
+    }
+    [_tabView reloadData];
+}
+
+-(void) verificarPossivelParadaDeMonitoramento : (CLRegion*) regiao{
+    
+}
+
+
+#pragma mark - Parte do audio record
+
+- (IBAction)recordAudio:(id)sender {
+    if (![_toDo audioRecorder].recording)
+    {
+        _playButton.enabled = NO;
+        _stopButton.enabled = YES;
+        [[_toDo audioRecorder ] record];
+        [_toDo setRecorded:YES];
+    }
+}
+
+- (IBAction)playAudio:(id)sender {
+    if (![_toDo audioRecorder ].recording)
+    {
+        _stopButton.enabled = YES;
+        _recordButton.enabled = NO;
+        
+        NSError *error;
+        
+        _toDo.audioPlayer = [[AVAudioPlayer alloc]
+                             initWithContentsOfURL:[_toDo audioRecorder].url
+                             error:&error];
+        
+        _toDo.audioPlayer.delegate = self;
+        
+        if (error)
+            NSLog(@"Error: %@",
+                  [error localizedDescription]);
+        else
+            [[_toDo audioPlayer] play];
+    }
+}
+
+- (IBAction)stopAudio:(id)sender {
+    _stopButton.enabled = NO;
+    _playButton.enabled = YES;
+    _recordButton.enabled = YES;
+    
+    if ([_toDo audioRecorder].recording)
+    {
+        [[_toDo audioRecorder] stop];
+    } else if ([_toDo audioPlayer].playing) {
+        [[_toDo audioPlayer] stop];
+    }
+}
+
+
+-(void)audioPlayerDidFinishPlaying:
+(AVAudioPlayer *)player successfully:(BOOL)flag
+{
+    _recordButton.enabled = YES;
+    _stopButton.enabled = NO;
+}
+
+-(void)audioPlayerDecodeErrorDidOccur:
+(AVAudioPlayer *)player
+                                error:(NSError *)error
+{
+    NSLog(@"Decode Error occurred");
+}
+
+-(void)audioRecorderDidFinishRecording:
+(AVAudioRecorder *)recorder
+                          successfully:(BOOL)flag
+{
+}
+
+-(void)audioRecorderEncodeErrorDidOccur:
+(AVAudioRecorder *)recorder
+                                  error:(NSError *)error
+{
+    NSLog(@"Encode Error occurred");
+}
+
 
 
 #pragma mark - Parte da notificacao por local
@@ -167,24 +331,32 @@ short _editToDoViewControllerCharacterLimit = 40;
     }
 }
 
-- (void) freshLatitudeLongitude :(SL_Localidades*)local with: (BOOL)estaNaRegiao {
-    
+- (void) freshLatitudeLongitude :(SL_Localidades*)local{
     self.location = self.locationManager.location;
-    CLRegion* regAux;
-    for(int i=0; i<[[[SL_armazenaDados sharedArmazenaDados] listLocalidades]count];i++){
-        regAux = [[[SL_armazenaDados sharedArmazenaDados]listLocalidades][i] regiao];
-        [self.locationManager startMonitoringForRegion: regAux];
+    
+    //CLRegion* regAux;
+    //for(int i=0; i<[[[SL_armazenaDados sharedArmazenaDados] listLocalidades]count];i++){
+    //    regAux = [[[SL_armazenaDados sharedArmazenaDados]listLocalidades][i] regiao];
+    //    [self.locationManager startMonitoringForRegion: regAux];
+    //}
+    
+    [self.locationManager startMonitoringForRegion:local.regiao];
+    
+    [_toDo addNotificationConfigurationWithLocation:local];
+    int flagRegionNotInitialized=1;
+    for(int i=0; i< [[SL_armazenaDados sharedArmazenaDados]listToDosRegs].count;i++){
+        if([[[[SL_armazenaDados sharedArmazenaDados]listToDosRegs][i] regionIdentifier] isEqualToString:local.regiao.identifier]){
+            [[[SL_armazenaDados sharedArmazenaDados]listToDosRegs][i] addToDo:_toDo];
+            flagRegionNotInitialized=0;
+            break;
+        }
+    }
+    if(flagRegionNotInitialized){
+        TD_RegiaoToDo *regionToDo = [[TD_RegiaoToDo alloc]initAll:local.regiao.identifier with:_toDo];
+        [[[SL_armazenaDados sharedArmazenaDados] listToDosRegs] addObject:regionToDo];
     }
     
-    //caso já esteja na região tem que adicionar o localnotification e isso por enquanto é igual ao didEnterRegion
-    if(estaNaRegiao){
-        [self criarLocalNotification: local.regiao];
-    }
-}
-
-- (void)addDate:(NSDate *)date andTime:(NSDate *)time orWeekDays:(NSMutableArray *)weekDays
-{
-    [self.toDo addNotificationConfigurationWithDateTime:date with:time with:weekDays];
+    [_tabView reloadData];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -194,52 +366,72 @@ short _editToDoViewControllerCharacterLimit = 40;
         MapKitDragAndDropViewController *child = (MapKitDragAndDropViewController *)segue.destinationViewController;
         [child setSuperController:self];
     }
-    
-    if ([[segue identifier] isEqualToString:@"AddDateTimeNotification"])
+    else if([[segue identifier] isEqualToString:@"getExistentLocal"])
     {
-        TDDateAndTimeViewController *dtvc = (TDDateAndTimeViewController *)segue.destinationViewController;
-        [dtvc setSuperController:self];
+        TDLocalExistenteViewController *child = (TDLocalExistenteViewController*)segue.destinationViewController;
+        [child setSuperController:self];
     }
 }
 
 
 -(void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region {
-    [self criarLocalNotification:region];
-}
-
--(void) criarLocalNotification: (CLRegion*)region{
     //terá que ser visto qual é a data para saber colocar no fireDate e também ver se já passou a data
     //para cancelar o region monitoring
     
-    NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
-    NSDate *currentDate = [NSDate date];
-    NSDate *fireDate = nil;
+    NSMutableArray *arrayToDos = [[SL_armazenaDados sharedArmazenaDados]listToDosRegs];
     
-    [dateComponents setSecond: 1];
-    
-    fireDate = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents
-                                                             toDate:currentDate
-                                                            options:0];
-    
-    UILocalNotification *notification = [[UILocalNotification alloc] init];
-    notification.fireDate = fireDate;
-    NSTimeZone* timezone = [NSTimeZone defaultTimeZone];
-    notification.timeZone = timezone;
-    notification.alertBody = @"Aqui vai a mensagem do corpo da notificação";
-    notification.alertAction = @"Analisar notificação";
-    notification.soundName = @"alarm.wav";
-    [[UIApplication sharedApplication] scheduleLocalNotification:notification];
-    
-    [[[SL_armazenaDados sharedArmazenaDados]dicNotsRegs] setObject:notification forKey:region.identifier];
-
+    for (TD_RegiaoToDo *RegiaoToDo in arrayToDos) {
+        if([[RegiaoToDo regionIdentifier]isEqualToString:region.identifier]){
+            for(TDToDo* toDo in [RegiaoToDo listToDos] ){
+                for(TDNotificationConfiguration* reminder in [toDo reminders]){
+                    //essa parte é sem cláusula de horário
+                    NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
+                    NSDate *currentDate = [NSDate date];
+                    NSDate *fireDate = nil;
+                    
+                    [dateComponents setSecond: 1];
+                    
+                    fireDate = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents
+                                                                             toDate:currentDate
+                                                                            options:0];
+                    
+                    UILocalNotification *notification = [[UILocalNotification alloc] init];
+                    notification.fireDate = [NSDate date];
+                    NSTimeZone* timezone = [NSTimeZone defaultTimeZone];
+                    notification.timeZone = timezone;
+                    notification.alertBody = [toDo description];
+                    notification.alertAction = @"Analisar notificação";
+                    notification.soundName = @"alarm.wav";
+                    [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+                    
+                    //aqui vai precisar para quando tiver cláusula de horário
+                    //[[[SL_armazenaDados sharedArmazenaDados]dicNotsRegs] setObject:notification forKey:region.identifier];
+                    
+                    [RegiaoToDo removeToDo:toDo];
+                    
+                    //ainda não foi testado potencialmente deve ser utilizado o verificarpossivelparadademonitoramento
+                    if(![RegiaoToDo hasToDo]){
+                        [self.locationManager stopMonitoringForRegion:region];
+                    }
+                    
+                }
+            }
+        }
+    }
 }
 
 -(void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region {
-    //cancelar a partir da region
+    //cancelar a partir da region, ver se funciona quando o didEnterRegion não foi feito antes
     for(int i=0;i<[[[SL_armazenaDados sharedArmazenaDados] listLocalidades]count];i++){
         SL_Localidades* locAux = [[SL_armazenaDados sharedArmazenaDados]listLocalidades][i];
         if([locAux.regiao.identifier isEqualToString : region.identifier]){
-            [[UIApplication sharedApplication] cancelLocalNotification: [[[SL_armazenaDados sharedArmazenaDados]dicNotsRegs] objectForKey:region.identifier]];
+            id object = [[[SL_armazenaDados sharedArmazenaDados]dicNotsRegs] objectForKey:region.identifier];
+            if(object){
+                int index = [[UIApplication sharedApplication]indexOfAccessibilityElement:object];
+                if(index>=0){
+                    [[UIApplication sharedApplication] cancelLocalNotification: [[[SL_armazenaDados sharedArmazenaDados]dicNotsRegs] objectForKey:region.identifier]];
+                }
+            }
         }
     }
 }
@@ -249,5 +441,10 @@ short _editToDoViewControllerCharacterLimit = 40;
 }
 
 
+
+- (void)addDate:(NSDate *)date andTime:(NSDate *)time orWeekDays:(NSMutableArray *)weekDays
+{
+    [self.toDo addNotificationConfigurationWithDateTime:date with:time with:weekDays];
+}
 
 @end

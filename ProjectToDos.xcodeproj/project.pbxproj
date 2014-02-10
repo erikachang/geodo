@@ -9,6 +9,15 @@
 /* Begin PBXBuildFile section */
 		380ECE53189FCD5600FEE7F1 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 380ECE52189FCD5600FEE7F1 /* CoreLocation.framework */; };
 		381D150A18A04B2A00A8CD86 /* mapIco.png in Resources */ = {isa = PBXBuildFile; fileRef = 381D150918A04B2A00A8CD86 /* mapIco.png */; };
+		38A4F2A718A8F59C0018FD93 /* TDRemindersCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A4F2A618A8F59C0018FD93 /* TDRemindersCell.m */; };
+		38A4F2AA18A8F5A60018FD93 /* TDMapaLocaisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A4F2A918A8F5A60018FD93 /* TDMapaLocaisViewController.m */; };
+		38A4F2AD18A8F5F80018FD93 /* TD_RegiaoToDo.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A4F2AC18A8F5F80018FD93 /* TD_RegiaoToDo.m */; };
+		38A4F2C018A8F6C80018FD93 /* CheckedGreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 38A4F2BA18A8F6C80018FD93 /* CheckedGreen.png */; };
+		38A4F2C118A8F6C80018FD93 /* menuIco.png in Resources */ = {isa = PBXBuildFile; fileRef = 38A4F2BB18A8F6C80018FD93 /* menuIco.png */; };
+		38A4F2C218A8F6C80018FD93 /* Pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 38A4F2BC18A8F6C80018FD93 /* Pause.png */; };
+		38A4F2C318A8F6C80018FD93 /* Play.png in Resources */ = {isa = PBXBuildFile; fileRef = 38A4F2BD18A8F6C80018FD93 /* Play.png */; };
+		38A4F2C418A8F6C80018FD93 /* Record.png in Resources */ = {isa = PBXBuildFile; fileRef = 38A4F2BE18A8F6C80018FD93 /* Record.png */; };
+		38A4F2C518A8F6C80018FD93 /* remove.png in Resources */ = {isa = PBXBuildFile; fileRef = 38A4F2BF18A8F6C80018FD93 /* remove.png */; };
 		38BCD5C418A11C6900F5789A /* Checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 38BCD5C318A11C6900F5789A /* Checked.png */; };
 		38D4A4E6189FDFAE0020723A /* alarm.wav in Resources */ = {isa = PBXBuildFile; fileRef = 38D4A4DF189FDFAE0020723A /* alarm.wav */; };
 		38D4A4E7189FDFAE0020723A /* Pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 38D4A4E0189FDFAE0020723A /* Pin.png */; };
@@ -58,6 +67,18 @@
 /* Begin PBXFileReference section */
 		380ECE52189FCD5600FEE7F1 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		381D150918A04B2A00A8CD86 /* mapIco.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mapIco.png; sourceTree = SOURCE_ROOT; };
+		38A4F2A518A8F59C0018FD93 /* TDRemindersCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDRemindersCell.h; sourceTree = "<group>"; };
+		38A4F2A618A8F59C0018FD93 /* TDRemindersCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDRemindersCell.m; sourceTree = "<group>"; };
+		38A4F2A818A8F5A60018FD93 /* TDMapaLocaisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDMapaLocaisViewController.h; sourceTree = "<group>"; };
+		38A4F2A918A8F5A60018FD93 /* TDMapaLocaisViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDMapaLocaisViewController.m; sourceTree = "<group>"; };
+		38A4F2AB18A8F5F80018FD93 /* TD_RegiaoToDo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TD_RegiaoToDo.h; sourceTree = "<group>"; };
+		38A4F2AC18A8F5F80018FD93 /* TD_RegiaoToDo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TD_RegiaoToDo.m; sourceTree = "<group>"; };
+		38A4F2BA18A8F6C80018FD93 /* CheckedGreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CheckedGreen.png; sourceTree = SOURCE_ROOT; };
+		38A4F2BB18A8F6C80018FD93 /* menuIco.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menuIco.png; sourceTree = SOURCE_ROOT; };
+		38A4F2BC18A8F6C80018FD93 /* Pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pause.png; sourceTree = SOURCE_ROOT; };
+		38A4F2BD18A8F6C80018FD93 /* Play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Play.png; sourceTree = SOURCE_ROOT; };
+		38A4F2BE18A8F6C80018FD93 /* Record.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Record.png; sourceTree = SOURCE_ROOT; };
+		38A4F2BF18A8F6C80018FD93 /* remove.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = remove.png; sourceTree = SOURCE_ROOT; };
 		38BCD5C318A11C6900F5789A /* Checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Checked.png; sourceTree = SOURCE_ROOT; };
 		38D4A4DF189FDFAE0020723A /* alarm.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = alarm.wav; sourceTree = SOURCE_ROOT; };
 		38D4A4E0189FDFAE0020723A /* Pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pin.png; sourceTree = SOURCE_ROOT; };
@@ -139,6 +160,8 @@
 		38D4A4ED189FE1000020723A /* DDManagemViews */ = {
 			isa = PBXGroup;
 			children = (
+				38A4F2A818A8F5A60018FD93 /* TDMapaLocaisViewController.h */,
+				38A4F2A918A8F5A60018FD93 /* TDMapaLocaisViewController.m */,
 				38D4A4EE189FE1170020723A /* DDAnnotation.h */,
 				38D4A4EF189FE1170020723A /* DDAnnotation.m */,
 				38D4A4F0189FE1170020723A /* DDAnnotationView.h */,
@@ -154,6 +177,8 @@
 		F406A4E61897DD0A0004F19E /* Objects */ = {
 			isa = PBXGroup;
 			children = (
+				38A4F2AB18A8F5F80018FD93 /* TD_RegiaoToDo.h */,
+				38A4F2AC18A8F5F80018FD93 /* TD_RegiaoToDo.m */,
 				38D4A4F7189FE1240020723A /* SL_armazenaDados.h */,
 				38D4A4F8189FE1240020723A /* SL_armazenaDados.m */,
 				38D4A4F9189FE1240020723A /* SL_Localidades.h */,
@@ -218,6 +243,12 @@
 		F46BED0418969D07009B5251 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				38A4F2BA18A8F6C80018FD93 /* CheckedGreen.png */,
+				38A4F2BB18A8F6C80018FD93 /* menuIco.png */,
+				38A4F2BC18A8F6C80018FD93 /* Pause.png */,
+				38A4F2BD18A8F6C80018FD93 /* Play.png */,
+				38A4F2BE18A8F6C80018FD93 /* Record.png */,
+				38A4F2BF18A8F6C80018FD93 /* remove.png */,
 				38BCD5C318A11C6900F5789A /* Checked.png */,
 				381D150918A04B2A00A8CD86 /* mapIco.png */,
 				F46BED0518969D07009B5251 /* ProjectToDos-Info.plist */,
@@ -267,6 +298,8 @@
 		F4A7C40F189C528C00CB8B0C /* Custom Controls */ = {
 			isa = PBXGroup;
 			children = (
+				38A4F2A518A8F59C0018FD93 /* TDRemindersCell.h */,
+				38A4F2A618A8F59C0018FD93 /* TDRemindersCell.m */,
 				F4A7C410189C52AC00CB8B0C /* TDToDosCell.h */,
 				F4A7C411189C52AC00CB8B0C /* TDToDosCell.m */,
 				38E17DAD18A103960051A27A /* TDLocaisCell.h */,
@@ -352,11 +385,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38A4F2C318A8F6C80018FD93 /* Play.png in Resources */,
 				38BCD5C418A11C6900F5789A /* Checked.png in Resources */,
 				F46BED1618969D07009B5251 /* Images.xcassets in Resources */,
+				38A4F2C218A8F6C80018FD93 /* Pause.png in Resources */,
 				F46BED0818969D07009B5251 /* InfoPlist.strings in Resources */,
 				381D150A18A04B2A00A8CD86 /* mapIco.png in Resources */,
 				F46BED1118969D07009B5251 /* Main.storyboard in Resources */,
+				38A4F2C518A8F6C80018FD93 /* remove.png in Resources */,
+				38A4F2C118A8F6C80018FD93 /* menuIco.png in Resources */,
+				38A4F2C418A8F6C80018FD93 /* Record.png in Resources */,
+				38A4F2C018A8F6C80018FD93 /* CheckedGreen.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -387,15 +426,17 @@
 				F4A7C412189C52AC00CB8B0C /* TDToDosCell.m in Sources */,
 				38D4A4F4189FE1170020723A /* DDAnnotation.m in Sources */,
 				F406A4E91897DD1E0004F19E /* TDToDo.m in Sources */,
-				F4DAB4CA18A0FD3600C0516B /* TDToDosTextField.m in Sources */,
 				38E17DAC18A0FB2E0051A27A /* TDLocalExistenteViewController.m in Sources */,
 				38D4A4F5189FE1170020723A /* DDAnnotationView.m in Sources */,
 				F4A7C3F11899707F00CB8B0C /* TDNotificationConfiguration.m in Sources */,
 				38D4A4FC189FE1240020723A /* SL_Localidades.m in Sources */,
+				38A4F2AA18A8F5A60018FD93 /* TDMapaLocaisViewController.m in Sources */,
+				38A4F2AD18A8F5F80018FD93 /* TD_RegiaoToDo.m in Sources */,
 				F4941B631897D16200894C8B /* TDEditToDoViewController.m in Sources */,
 				F46BED0E18969D07009B5251 /* TDAppDelegate.m in Sources */,
 				38E17DAF18A103960051A27A /* TDLocaisCell.m in Sources */,
 				38D4A4FB189FE1240020723A /* SL_armazenaDados.m in Sources */,
+				38A4F2A718A8F59C0018FD93 /* TDRemindersCell.m in Sources */,
 				F46BED0A18969D07009B5251 /* main.m in Sources */,
 				A0C3F39F189F22C100F97340 /* TDDateAndTimeViewController.m in Sources */,
 			);

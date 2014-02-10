@@ -11,16 +11,25 @@
 
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import <AVFoundation/AVFoundation.h>
+#import "TD_RegiaoToDo.h"
 #import "SL_armazenaDados.h"
 #import "SL_Localidades.h"
+#import "TDRemindersCell.h"
 
 
-@interface TDEditToDoViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate>
+@interface TDEditToDoViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, AVAudioRecorderDelegate, AVAudioPlayerDelegate>
+
 @property (strong, nonatomic) TDToDo *toDo;
 
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) CLLocation *location;
 
--(void) freshLatitudeLongitude : (SL_Localidades*)local with: (BOOL)estaNaRegiao;
+@property (weak, nonatomic) IBOutlet UITableView *tabView;
+@property (weak, nonatomic) IBOutlet UIButton *recordButton;
+@property (weak, nonatomic) IBOutlet UIButton *playButton;
+@property (weak, nonatomic) IBOutlet UIButton *stopButton;
+
+-(void) freshLatitudeLongitude : (SL_Localidades*)local;
 - (void)addDate:(NSDate *)date andTime:(NSDate *)time orWeekDays:(NSMutableArray *)weekDays;
 @end

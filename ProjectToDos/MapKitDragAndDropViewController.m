@@ -26,10 +26,12 @@
 @synthesize mapView;
 @synthesize superController;
 
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-	
+    self.title = @"Onde?";
+    
 	CLLocationCoordinate2D theCoordinate;
 	theCoordinate.latitude = -30.060351;
     theCoordinate.longitude = -51.171228;
@@ -37,7 +39,7 @@
     currLongitude = theCoordinate.longitude;
     [self drawCircle];
     
-    MKCoordinateSpan span = {.latitudeDelta =  1, .longitudeDelta =  1};
+    MKCoordinateSpan span = {.latitudeDelta =  0.05, .longitudeDelta =  0.05};
     MKCoordinateRegion region = {theCoordinate, span};
     [self.mapView setRegion:region];
     
@@ -63,13 +65,14 @@
     [swipeRight setDirection:UISwipeGestureRecognizerDirectionRight];
     [self.view addGestureRecognizer:swipeRight];
     
-    initialY=60;
+    initialY=55;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
 	
 	[super viewWillAppear:animated];
 	
+    [self.navigationController setNavigationBarHidden:NO];
 	// NOTE: This is optional, DDAnnotationCoordinateDidChangeNotification only fired in iPhone OS 3, not in iOS 4.
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(coordinateChanged_:) name:@"DDAnnotationCoordinateDidChangeNotification" object:nil];
 }
@@ -121,6 +124,7 @@
 	}
 }
 
+
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
 	
     if ([annotation isKindOfClass:[MKUserLocation class]]) {
@@ -146,6 +150,10 @@
 	return draggablePinView;
 }
 
+-(void)coordinateChanged_:(NSNotification *)notification{
+    
+}
+
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id<MKOverlay>)overlay
 {
     MKCircleView *circleView = [[MKCircleView alloc] initWithOverlay:overlay];
@@ -163,7 +171,7 @@
     currLatitude = cl.latitude;
     currLongitude = cl.longitude;
     
-    MKCoordinateSpan span = {.latitudeDelta =  1, .longitudeDelta =  1};
+    MKCoordinateSpan span = {.latitudeDelta =  0.05, .longitudeDelta =  0.05};
     MKCoordinateRegion region = {cl, span};
     [self.mapView setRegion:region];
     
@@ -200,16 +208,10 @@
             
             //acho que o texto fica melhor com o nome da notificacao para poder ter mais de um por regiao.
             SL_Localidades *sl = [[SL_Localidades alloc]initAll:texto with:currLatitude with:currLongitude with:[_txtRaio.text floatValue]];
+            
             [[[SL_armazenaDados sharedArmazenaDados] listLocalidades] addObject:sl];
+            [self.superController freshLatitudeLongitude: sl];
             
-            CLLocation *centro = [[CLLocation alloc] initWithLatitude:sl.latitude longitude:sl.longitude];
-            
-            NSLog(@"%f",[_locationManager.location distanceFromLocation:centro]);
-            if([_locationManager.location distanceFromLocation:centro] < [_txtRaio.text floatValue]){
-                [self.superController freshLatitudeLongitude: sl with: YES];
-            }else{
-                [self.superController freshLatitudeLongitude: sl with: NO];
-            }
             [self.navigationController popViewControllerAnimated:YES];
         }
     }
@@ -228,18 +230,7 @@
 
 
 -(IBAction)findMyLocation:(id)sender{
-    [mapView setDelegate:self];
     [mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
-    
-	CLLocationCoordinate2D actual;
-	actual.latitude = _locationManager.location.coordinate.latitude;
-    actual.longitude = _locationManager.location.coordinate.longitude;
-    
-    currLatitude = actual.latitude;
-    currLongitude = actual.longitude;
-    
-    [[self.mapView annotations][0] setCoordinate:actual];
-    [self drawCircle];
 }
 
 
@@ -302,29 +293,29 @@
     return center;
 }
 /*
-- (void)geoCodeUsingCoordinateToTextField:(CLLocation*)location
-{
-    CLGeocoder* geocoder;
-    if (!geocoder)
-        geocoder = [[CLGeocoder alloc] init];
-    
-    [geocoder reverseGeocodeLocation:location completionHandler:
-     ^(NSArray* placemarks, NSError* error){
-         if ([placemarks count] > 0)
-         {
-             CLPlacemark *placemark = [placemarks objectAtIndex:0];
-             NSString *strCountry = [placemark country];
-             NSString *strState = [placemark administrativeArea];
-             NSString *strCity = [placemark locality];
-             NSString *strAv = [placemark thoroughfare];
-             NSString *strBairro = [placemark subLocality];
-             
-             NSString *endereco = [[NSString alloc]initWithFormat:@"%@,%@. %@-%@, %@",strAv, strBairro,strCity,strState, strCountry];
-             _txtEndereco.text = endereco;
-         }
-     }];
-}
-*/
+ - (void)geoCodeUsingCoordinateToTextField:(CLLocation*)location
+ {
+ CLGeocoder* geocoder;
+ if (!geocoder)
+ geocoder = [[CLGeocoder alloc] init];
+ 
+ [geocoder reverseGeocodeLocation:location completionHandler:
+ ^(NSArray* placemarks, NSError* error){
+ if ([placemarks count] > 0)
+ {
+ CLPlacemark *placemark = [placemarks objectAtIndex:0];
+ NSString *strCountry = [placemark country];
+ NSString *strState = [placemark administrativeArea];
+ NSString *strCity = [placemark locality];
+ NSString *strAv = [placemark thoroughfare];
+ NSString *strBairro = [placemark subLocality];
+ 
+ NSString *endereco = [[NSString alloc]initWithFormat:@"%@,%@. %@-%@, %@",strAv, strBairro,strCity,strState, strCountry];
+ _txtEndereco.text = endereco;
+ }
+ }];
+ }
+ */
 
 #pragma mark - animations -
 -(void)showMenu{
@@ -332,7 +323,8 @@
     //slide the content view to the right to reveal the menu
     [UIView animateWithDuration:.25
                      animations:^{
-                         [_content setFrame:CGRectMake(_content.frame.origin.x, _menuView.frame.size.height, _content.frame.size.width, _content.frame.size.height)];
+                         //+70 para deixar alinhado por enquanto.
+                         [_content setFrame:CGRectMake(_content.frame.origin.x, _menuView.frame.size.height+70, _content.frame.size.width, _content.frame.size.height)];
                      }
      ];
     

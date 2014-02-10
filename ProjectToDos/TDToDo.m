@@ -17,14 +17,20 @@
         _description = aDescription;
         _active = YES;
         _priority = NO;
+        _reminders = [[NSMutableArray alloc]init];
     }
     return self;
 }
 
-- (void)addNotificationConfigurationWithLocation:(NSString *)aLocation
+-(void)addNotificationConfigurationWithLocation:(SL_Localidades *)aLocation
 {
     TDNotificationConfiguration *notification = [[TDNotificationConfiguration alloc] initWithLocation:aLocation];
     [self.reminders addObject:notification];
+}
+
+-(void)removeNotificationConfigurationBasedOnLocation:(int)indiceNotificationConfiguration
+{
+    [self.reminders removeObjectAtIndex:indiceNotificationConfiguration];
 }
 
 - (void)addNotificationConfigurationWithDateTime:(NSDate *)aDate with:(NSDate *)aTime with:(NSMutableArray *)aWeekDays
@@ -47,4 +53,15 @@
         _priority = !_priority;
     }
 }
+
+-(BOOL) hasReminderByRegion : (NSString*)regionIdentifier
+{
+    for(TDNotificationConfiguration *notification in _reminders){
+        if([notification.location.regiao.identifier isEqualToString:regionIdentifier]){
+            return true;
+        }
+    }
+    return false;
+}
+
 @end

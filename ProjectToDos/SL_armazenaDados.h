@@ -7,12 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "TD_RegiaoToDo.h"
 
 @interface SL_armazenaDados : NSObject
 
 @property (nonatomic, retain) NSMutableArray* listNotificacoes;
 @property (nonatomic, retain) NSMutableArray* listLocalidades;
 @property (nonatomic, retain) NSMutableDictionary* dicNotsRegs;
+@property (nonatomic, retain) NSMutableArray* listToDosRegs;
 
 + (id)sharedArmazenaDados;
 
