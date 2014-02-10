@@ -17,5 +17,4 @@
 @property (nonatomic, retain) NSMutableArray* listToDosRegs;
 
 + (id)sharedArmazenaDados;
-
 @end

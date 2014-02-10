@@ -11,7 +11,6 @@
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
 
-
 #import "MapKitDragAndDropViewController.h"
 #import "DDAnnotation.h"
 #import "DDAnnotationView.h"
@@ -20,7 +19,6 @@
 
 @interface MapKitDragAndDropViewController : UIViewController{
 	MKMapView *mapView;
-    TDEditToDoViewController *superController;
 }
 
 @property (strong, nonatomic) IBOutlet UIButton *btMenu;
