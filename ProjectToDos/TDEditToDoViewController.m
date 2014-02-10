@@ -466,8 +466,19 @@ short _editToDoViewControllerCharacterLimit = 40;
     if(date==nil){
         NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
         NSDateComponents *comps = [gregorian components:NSWeekdayCalendarUnit fromDate:[NSDate date]];
-        int todaysWeekDay = [comps weekday];
-        NSLog(@"%i",todaysWeekDay);
+        //aqui retorna de 1 a 7 e o vetor vem de 0 a 6
+        int todaysWeekDay = [comps weekday]-1;
+        
+        for(int i=0; i<7;i++,todaysWeekDay++){
+            if ([weekDays containsObject:[NSNumber numberWithInt:todaysWeekDay]]){
+                //aqui vai as notificacoes certinhas com o fire date e repeat interval
+                NSLog(@"ahaaaaaaaam %i",todaysWeekDay);
+            }
+            if(todaysWeekDay==6){
+                todaysWeekDay=-1;
+            }
+        }
+        
     }else{
         //por enquanto só com data e hora.
         [self.toDo addNotificationConfigurationWithDateTime:date with:time with:weekDays];
