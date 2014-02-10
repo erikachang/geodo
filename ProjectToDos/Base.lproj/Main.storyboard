@@ -123,6 +123,7 @@
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <action selector="changeToDoNameAndViewTitle:" destination="wze-bQ-yqq" eventType="editingDidEndOnExit" id="tgm-Fe-Dut"/>
+                                    <action selector="limitCharacterInput:" destination="wze-bQ-yqq" eventType="editingChanged" id="blj-ea-ZZx"/>
                                 </connections>
                             </textField>
                         </subviews>
