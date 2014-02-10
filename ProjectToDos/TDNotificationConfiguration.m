@@ -12,13 +12,21 @@
 
 @implementation TDNotificationConfiguration
 
--(instancetype)initWithDateAndTime:(NSDate *)aDateTime
+-(instancetype)initWithDate:(NSDate *)aDate andTime:(NSDate *)aTime orWeekDays:(NSMutableArray *)aWeekDays
 {
     if (self = [super init])
     {
-        self.dateTime = aDateTime;
+        if (aDate != Nil) {
+            self.date = aDate;
+        }
+        if (aTime != Nil) {
+            self.time = aTime;
+        }
+        if (aWeekDays != Nil) {
+            self.weekDays = aWeekDays;
+        }
         self.type = DateTime;
-        self.notificationDescription = [NSString stringWithFormat:@"No dia: %@.", [aDateTime description]];
+        self.notificationDescription = [NSString stringWithFormat:@"No dia: %@.", [aDate description]];
     }
     return self;
 }

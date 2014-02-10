@@ -15,10 +15,13 @@ enum TDNotificationType {
 
 @interface TDNotificationConfiguration : NSObject
 @property NSString *location;
-@property NSDate *dateTime;
+@property NSDate *date;
+@property NSDate *time;
+@property NSMutableArray *weekDays;
 @property enum TDNotificationType type;
 @property NSString *notificationDescription;
 
 - (instancetype) initWithLocation:(NSString *)aLocation;
-- (instancetype) initWithDateAndTime:(NSDate *)aDateTime;
+-(instancetype)initWithDate:(NSDate *)aDate andTime:(NSDate *)aTime orWeekDays:(NSMutableArray *)aWeekDays;
+
 @end

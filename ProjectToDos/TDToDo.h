@@ -17,7 +17,7 @@
 
 - (instancetype)initWithDescription:(NSString *)aDescription;
 - (void)addNotificationConfigurationWithLocation:(NSString *)aLocation;
-- (void)addNotificationConfigurationWithDateTime:(NSDate *)aDateTime;
+- (void)addNotificationConfigurationWithDateTime:(NSDate *)aDate with:(NSDate *)aTime with:(NSMutableArray *)aWeekDays;
 - (void)toggleActive;
 - (void)togglePriority;
 @end
