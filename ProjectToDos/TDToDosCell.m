@@ -22,7 +22,7 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    [self.textLabel setFont:[UIFont fontWithName:@"Papyrus" size:17.0]];
+    [self.textLabel setFont:[UIFont fontWithName:@"Didot" size:17.0]];
     [self setBackgroundColor:[UIColor clearColor]];
 }
 
