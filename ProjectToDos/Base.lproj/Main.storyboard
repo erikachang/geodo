@@ -173,8 +173,8 @@
                                     <action selector="recordAudio:" destination="wze-bQ-yqq" eventType="touchUpInside" id="06v-13-3ji"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H0r-dN-DH7">
-                                <rect key="frame" x="115" y="74" width="30" height="30"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H0r-dN-DH7">
+                                <rect key="frame" x="68" y="74" width="30" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button" image="Play.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -203,7 +203,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="addDateTimeNotificationButton" destination="Aoo-V3-hap" id="oB0-LJ-Dum"/>
-                        <outlet property="addLocationNotificationButton" destination="1rK-ZJ-xas" id="eUk-XO-gRS"/>
+                        <outlet property="addLocationNotificationButton" destination="1rK-ZJ-xas" id="8Dg-Mr-8VN"/>
                         <outlet property="playButton" destination="H0r-dN-DH7" id="xOf-wk-x0d"/>
                         <outlet property="recordButton" destination="eOc-JA-iOc" id="QuD-c2-yys"/>
                         <outlet property="remindersTableView" destination="ZKf-3y-ph2" id="1d4-pB-vxe"/>
@@ -789,7 +789,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vtT-9j-FjW">
                                         <rect key="frame" x="143" y="6" width="35" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" image="menuIco.png">
+                                        <state key="normal" image="expand_20x20.png">
                                             <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -819,9 +819,15 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="btMenu" destination="vtT-9j-FjW" id="kyf-Sl-zAY"/>
+                        <outlet property="btnMyLocation" destination="eHG-Eq-KYg" id="Vr0-cW-zmn"/>
+                        <outlet property="btnOk" destination="iNT-FU-mIf" id="amR-8a-Oh4"/>
+                        <outlet property="btnSearch" destination="uUc-bU-sdB" id="uGo-kp-1Gw"/>
                         <outlet property="content" destination="bad-0D-VeZ" id="xOM-30-wVk"/>
+                        <outlet property="lblMap" destination="e3H-Sa-Egw" id="wxe-BA-jKg"/>
+                        <outlet property="lblRadius" destination="dW9-M9-g65" id="w8p-PZ-Uj9"/>
                         <outlet property="mapView" destination="CKW-bA-VCO" id="rK3-yt-hDl"/>
                         <outlet property="menuView" destination="hXz-ZP-ED5" id="pP5-DS-tAt"/>
+                        <outlet property="sgmMapStyle" destination="wFu-Xy-Ljp" id="TcW-wR-vr1"/>
                         <outlet property="txtEndereco" destination="1K2-Jd-1rd" id="dZJ-1S-KYf"/>
                         <outlet property="txtRaio" destination="OhA-Od-Xqp" id="UXu-jZ-xck"/>
                     </connections>
@@ -836,7 +842,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <image name="Pause.png" width="128" height="128"/>
         <image name="Play.png" width="128" height="128"/>
         <image name="Record.png" width="128" height="128"/>
-        <image name="menuIco.png" width="128" height="128"/>
+        <image name="expand_20x20.png" width="20" height="20"/>
         <image name="remove.png" width="128" height="128"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

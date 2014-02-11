@@ -164,6 +164,8 @@ short _editToDoViewControllerCharacterLimit = 40;
     {
         _playButton.enabled = NO;
         _stopButton.enabled = YES;
+        _playButton.hidden = YES;
+        _stopButton.hidden = NO;
         [[_toDo audioRecorder ] record];
         [_toDo setRecorded:YES];
     }
@@ -174,6 +176,9 @@ short _editToDoViewControllerCharacterLimit = 40;
     {
         _stopButton.enabled = YES;
         _recordButton.enabled = NO;
+        
+        _stopButton.hidden = NO;
+        _playButton.hidden = YES;
         
         NSError *error;
         
@@ -195,6 +200,9 @@ short _editToDoViewControllerCharacterLimit = 40;
     _stopButton.enabled = NO;
     _playButton.enabled = YES;
     _recordButton.enabled = YES;
+
+    _stopButton.hidden = YES;
+    _playButton.hidden = NO;
     
     if ([_toDo audioRecorder].recording)
     {
@@ -210,6 +218,9 @@ short _editToDoViewControllerCharacterLimit = 40;
 {
     _recordButton.enabled = YES;
     _stopButton.enabled = NO;
+    
+    _stopButton.hidden = YES;
+    _playButton.hidden = NO;
 }
 
 -(void)audioPlayerDecodeErrorDidOccur:
@@ -397,7 +408,6 @@ short _editToDoViewControllerCharacterLimit = 40;
 - (void)viewWillAppear:(BOOL)animated
 {
     [[self navigationController] setNavigationBarHidden:YES];
-    [[self navigationController].view setBackgroundColor:[TDGlobalConfiguration controlBackgroundColor]];
 }
 
 - (void)viewDidLoad
@@ -465,9 +475,6 @@ short _editToDoViewControllerCharacterLimit = 40;
     [self.sectionsDic addEntriesFromDictionary:sections];
     [self.remindersTableView setBackgroundColor:[TDGlobalConfiguration controlBackgroundColor]];
     [self.view setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
-    [self.addDateTimeNotificationButton setTitleColor:[TDGlobalConfiguration buttonColor] forState:UIControlStateNormal];
-    [self.addLocationNotificationButton setTitleColor:[TDGlobalConfiguration buttonColor] forState:UIControlStateNormal];
-
     
     // Adding Swip Gesture Recognizers
     UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRight:)];
@@ -478,12 +485,13 @@ short _editToDoViewControllerCharacterLimit = 40;
     {
         [self.addDateTimeNotificationButton setTitle:@"+ Data/Hora" forState:UIControlStateNormal];
         [self.addDateTimeNotificationButton addTarget:self action:@selector(gotoDateAndTime) forControlEvents:UIControlEventTouchDown];
+        [self.addDateTimeNotificationButton setTitleColor:[TDGlobalConfiguration buttonColor] forState:UIControlStateNormal];
     }
     
     // Location Notification button customization
     {
         [self.addLocationNotificationButton setTitle:@"+ Local" forState:UIControlStateNormal];
-        [self.addLocationNotificationButton addTarget:self action:@selector(gotoLocation) forControlEvents:UIControlEventTouchDown];
+        [self.addLocationNotificationButton setTitleColor:[TDGlobalConfiguration buttonColor] forState:UIControlStateNormal];
     }
     
     self.locationManager = [[CLLocationManager alloc] init];

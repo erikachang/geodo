@@ -41,11 +41,12 @@
 {
     int row = 0;
     for (TDToDo *toDo in self.toDosDataSource) {
-        if (toDo.priority) {
-            row++;
+        if (!toDo.priority) {
+            return [NSIndexPath indexPathForRow:row inSection:0];
         }
+        row++;
     }
-    return [NSIndexPath indexPathForRow:row inSection:0];
+    return nil;
 }
 
 - (NSAttributedString *)strikeThroughText:(NSString *)text
@@ -101,19 +102,14 @@
     [self.toDosTableView reloadData];
     [self.toDosTableView beginUpdates];
     {
-    
-        NSMutableArray *newList = [[NSMutableArray alloc] init];
         TDToDo *newTodo = [[TDToDo alloc] initWithDescription:sender.text];
-
-        [newList addObject:newTodo];
+        NSIndexPath *path = [self getFirstNonPriorityIndex];
         
-        for (TDToDo *todo in self.toDosDataSource) {
-            [newList addObject:todo];
+        if (!path) {
+            path = [NSIndexPath indexPathForItem:0 inSection:0];
         }
         
-        self.toDosDataSource = newList;
-        
-        NSIndexPath *path = [self getFirstNonPriorityIndex];
+        [self.toDosDataSource insertObject:newTodo atIndex:path.row];
         [self.toDosTableView insertRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationTop];
     }
     [self.toDosTableView endUpdates];
@@ -162,6 +158,8 @@ NSIndexPath *_previousIndexPath;
             [self.toDosTableView endUpdates];
             _previousIndexPath =  [self.toDosTableView indexPathForRowAtPoint:touchLocation];
         }
+    } else if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        [self.toDosTableView reloadData];
     }
 }
 

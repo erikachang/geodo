@@ -7,6 +7,7 @@
 //
 
 #import "MapKitDragAndDropViewController.h"
+#import "TDGlobalConfiguration.h"
 
 
 @interface MapKitDragAndDropViewController ()
@@ -66,6 +67,29 @@
     [self.view addGestureRecognizer:swipeRight];
     
     initialY=55;
+    
+    [self.view setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
+    
+    [self.txtEndereco setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
+    [self.txtEndereco setTextColor:[TDGlobalConfiguration fontColor]];
+    [self.txtEndereco setBackgroundColor:[TDGlobalConfiguration controlBackgroundColor]];
+    [self.txtEndereco setPlaceholder:@"Digite um endereço..."];
+    [self.txtRaio setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
+    [self.txtRaio setTextColor:[TDGlobalConfiguration fontColor]];
+    [self.txtRaio setBackgroundColor:[TDGlobalConfiguration controlBackgroundColor]];
+    [self.btnMyLocation setTintColor:[TDGlobalConfiguration buttonColor]];
+    [self.btnOk setTintColor:[TDGlobalConfiguration buttonColor]];
+    [self.btnSearch setTitle:@"Pesquisar" forState:UIControlStateNormal];
+    [self.btnSearch setTintColor:[TDGlobalConfiguration buttonColor]];
+    [self.lblMap setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
+    [self.lblMap setTextColor:[TDGlobalConfiguration fontColor]];
+    [self.lblRadius setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
+    [self.lblRadius setTextColor:[TDGlobalConfiguration fontColor]];
+    
+    [self.sgmMapStyle setTintColor:[TDGlobalConfiguration buttonColor]];
+    [self.sgmMapStyle setBackgroundColor:[TDGlobalConfiguration controlBackgroundColor]];
+    
+    [self.menuView setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

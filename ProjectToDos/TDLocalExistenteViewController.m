@@ -7,6 +7,7 @@
 //
 
 #import "TDLocalExistenteViewController.h"
+#import "TDGlobalConfiguration.h"
 
 @interface TDLocalExistenteViewController ()
 
@@ -27,6 +28,10 @@
 {
     [super viewDidLoad];
     self.title = @"Escolher local";
+    
+    [self.lblIdentificador setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
+    [self.lblIdentificador setTextColor:[TDGlobalConfiguration fontColor]];
+    [self.tableViewLocais setBackgroundColor:[TDGlobalConfiguration controlBackgroundColor]];
     
     arrayItems = [[NSMutableArray alloc]init];
     for(int i=0; i<[[SL_armazenaDados sharedArmazenaDados]listLocalidades].count; i++){
@@ -57,6 +62,8 @@
     // Configure the cell...
     
     [cell.lblIdentificador setText:[arrayItems objectAtIndex:indexPath.row]];
+    
+    [cell setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
     
     cell.btConfirma.tag = indexPath.row;
     [cell.btConfirma addTarget:self action:@selector(btConfirma_Click:) forControlEvents:UIControlEventTouchUpInside];
