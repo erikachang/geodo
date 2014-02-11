@@ -14,8 +14,6 @@
 		38A4F2AD18A8F5F80018FD93 /* TD_RegiaoToDo.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A4F2AC18A8F5F80018FD93 /* TD_RegiaoToDo.m */; };
 		38A4F2C018A8F6C80018FD93 /* CheckedGreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 38A4F2BA18A8F6C80018FD93 /* CheckedGreen.png */; };
 		38A4F2C118A8F6C80018FD93 /* menuIco.png in Resources */ = {isa = PBXBuildFile; fileRef = 38A4F2BB18A8F6C80018FD93 /* menuIco.png */; };
-		38A4F2C218A8F6C80018FD93 /* Pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 38A4F2BC18A8F6C80018FD93 /* Pause.png */; };
-		38A4F2C318A8F6C80018FD93 /* Play.png in Resources */ = {isa = PBXBuildFile; fileRef = 38A4F2BD18A8F6C80018FD93 /* Play.png */; };
 		38A4F2C418A8F6C80018FD93 /* Record.png in Resources */ = {isa = PBXBuildFile; fileRef = 38A4F2BE18A8F6C80018FD93 /* Record.png */; };
 		38A4F2C518A8F6C80018FD93 /* remove.png in Resources */ = {isa = PBXBuildFile; fileRef = 38A4F2BF18A8F6C80018FD93 /* remove.png */; };
 		38BCD5C418A11C6900F5789A /* Checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 38BCD5C318A11C6900F5789A /* Checked.png */; };
@@ -38,6 +36,9 @@
 		F428118318A942A5008C8B51 /* configs.strings in Resources */ = {isa = PBXBuildFile; fileRef = F428118218A942A5008C8B51 /* configs.strings */; };
 		F43D507618AA46A300967C3F /* priority_16x16.png in Resources */ = {isa = PBXBuildFile; fileRef = F43D507518AA46A300967C3F /* priority_16x16.png */; };
 		F43D507918AA48E400967C3F /* TDToDoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F43D507818AA48E400967C3F /* TDToDoCell.m */; };
+		F43D507C18AA511700967C3F /* Pause.png in Resources */ = {isa = PBXBuildFile; fileRef = F43D507A18AA511700967C3F /* Pause.png */; };
+		F43D507D18AA511700967C3F /* Play.png in Resources */ = {isa = PBXBuildFile; fileRef = F43D507B18AA511700967C3F /* Play.png */; };
+		F43D508018AA520800967C3F /* TDGlobalConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = F43D507F18AA520800967C3F /* TDGlobalConfiguration.m */; };
 		F46BECFE18969D07009B5251 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F46BECFD18969D07009B5251 /* Foundation.framework */; };
 		F46BED0018969D07009B5251 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F46BECFF18969D07009B5251 /* CoreGraphics.framework */; };
 		F46BED0218969D07009B5251 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F46BED0118969D07009B5251 /* UIKit.framework */; };
@@ -79,8 +80,6 @@
 		38A4F2AC18A8F5F80018FD93 /* TD_RegiaoToDo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TD_RegiaoToDo.m; sourceTree = "<group>"; };
 		38A4F2BA18A8F6C80018FD93 /* CheckedGreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CheckedGreen.png; sourceTree = SOURCE_ROOT; };
 		38A4F2BB18A8F6C80018FD93 /* menuIco.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menuIco.png; sourceTree = SOURCE_ROOT; };
-		38A4F2BC18A8F6C80018FD93 /* Pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pause.png; sourceTree = SOURCE_ROOT; };
-		38A4F2BD18A8F6C80018FD93 /* Play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Play.png; sourceTree = SOURCE_ROOT; };
 		38A4F2BE18A8F6C80018FD93 /* Record.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Record.png; sourceTree = SOURCE_ROOT; };
 		38A4F2BF18A8F6C80018FD93 /* remove.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = remove.png; sourceTree = SOURCE_ROOT; };
 		38BCD5C318A11C6900F5789A /* Checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Checked.png; sourceTree = SOURCE_ROOT; };
@@ -113,6 +112,10 @@
 		F43D507518AA46A300967C3F /* priority_16x16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = priority_16x16.png; path = ../../../../../Downloads/priority_16x16.png; sourceTree = "<group>"; };
 		F43D507718AA48E400967C3F /* TDToDoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDToDoCell.h; sourceTree = "<group>"; };
 		F43D507818AA48E400967C3F /* TDToDoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDToDoCell.m; sourceTree = "<group>"; };
+		F43D507A18AA511700967C3F /* Pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pause.png; sourceTree = "<group>"; };
+		F43D507B18AA511700967C3F /* Play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Play.png; sourceTree = "<group>"; };
+		F43D507E18AA520800967C3F /* TDGlobalConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDGlobalConfiguration.h; sourceTree = "<group>"; };
+		F43D507F18AA520800967C3F /* TDGlobalConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDGlobalConfiguration.m; sourceTree = "<group>"; };
 		F46BECFA18969D07009B5251 /* ProjectToDos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectToDos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F46BECFD18969D07009B5251 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F46BECFF18969D07009B5251 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -246,6 +249,8 @@
 				F46BED0F18969D07009B5251 /* Main.storyboard */,
 				F46BED1518969D07009B5251 /* Images.xcassets */,
 				F46BED0418969D07009B5251 /* Supporting Files */,
+				F43D507E18AA520800967C3F /* TDGlobalConfiguration.h */,
+				F43D507F18AA520800967C3F /* TDGlobalConfiguration.m */,
 			);
 			path = ProjectToDos;
 			sourceTree = "<group>";
@@ -253,11 +258,11 @@
 		F46BED0418969D07009B5251 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F43D507A18AA511700967C3F /* Pause.png */,
+				F43D507B18AA511700967C3F /* Play.png */,
 				F43D507518AA46A300967C3F /* priority_16x16.png */,
 				38A4F2BA18A8F6C80018FD93 /* CheckedGreen.png */,
 				38A4F2BB18A8F6C80018FD93 /* menuIco.png */,
-				38A4F2BC18A8F6C80018FD93 /* Pause.png */,
-				38A4F2BD18A8F6C80018FD93 /* Play.png */,
 				38A4F2BE18A8F6C80018FD93 /* Record.png */,
 				38A4F2BF18A8F6C80018FD93 /* remove.png */,
 				38BCD5C318A11C6900F5789A /* Checked.png */,
@@ -408,14 +413,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				F482269418A9B20400846900 /* Tutorial.storyboard in Resources */,
-				38A4F2C318A8F6C80018FD93 /* Play.png in Resources */,
 				38BCD5C418A11C6900F5789A /* Checked.png in Resources */,
 				F46BED1618969D07009B5251 /* Images.xcassets in Resources */,
-				38A4F2C218A8F6C80018FD93 /* Pause.png in Resources */,
+				F43D507C18AA511700967C3F /* Pause.png in Resources */,
 				F428118318A942A5008C8B51 /* configs.strings in Resources */,
 				F46BED0818969D07009B5251 /* InfoPlist.strings in Resources */,
 				381D150A18A04B2A00A8CD86 /* mapIco.png in Resources */,
 				F46BED1118969D07009B5251 /* Main.storyboard in Resources */,
+				F43D507D18AA511700967C3F /* Play.png in Resources */,
 				38A4F2C518A8F6C80018FD93 /* remove.png in Resources */,
 				38A4F2C118A8F6C80018FD93 /* menuIco.png in Resources */,
 				38A4F2C418A8F6C80018FD93 /* Record.png in Resources */,
@@ -453,6 +458,7 @@
 				38E17DAC18A0FB2E0051A27A /* TDLocalExistenteViewController.m in Sources */,
 				38D4A4F5189FE1170020723A /* DDAnnotationView.m in Sources */,
 				F482269818A9B62200846900 /* TDTutorialViewController.m in Sources */,
+				F43D508018AA520800967C3F /* TDGlobalConfiguration.m in Sources */,
 				F4A7C3F11899707F00CB8B0C /* TDNotificationConfiguration.m in Sources */,
 				38D4A4FC189FE1240020723A /* SL_Localidades.m in Sources */,
 				38A4F2AA18A8F5A60018FD93 /* TDMapaLocaisViewController.m in Sources */,

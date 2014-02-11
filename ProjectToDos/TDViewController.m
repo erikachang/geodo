@@ -9,6 +9,7 @@
 #import "TDViewController.h"
 #import "TDEditToDoViewController.h"
 #import "TDToDo.h"
+#import "TDGlobalConfiguration.h"
 #import "TDToDoCell.h"
 
 @interface TDViewController ()
@@ -21,13 +22,6 @@
 @end
 
 @implementation TDViewController
-
-UIColor *_fontColor, *_backgroundColor, *_tableViewBackgroundColor, *_cellBackgroundColor;
-
-NSString *_fontName = @"Palatino";
-float _fontSize = 17.0f;
-short _characterLimit = 40;
-
 
 #pragma mark Properties
 - (NSMutableArray *)toDosDataSource {
@@ -67,8 +61,8 @@ short _characterLimit = 40;
 #pragma mark Actions
 - (IBAction)onTheFlySearch:(UITextField *)sender {
     
-    if (sender.text.length >= _characterLimit) {
-        sender.text = [sender.text substringToIndex:_characterLimit];
+    if (sender.text.length >= [TDGlobalConfiguration characterLimit]) {
+        sender.text = [sender.text substringToIndex:[TDGlobalConfiguration characterLimit]];
     }
     
     self.isFiltering = YES;
@@ -336,15 +330,12 @@ UITableViewCell *_firstCell;
     
     [cell.priorityIcon setHidden:YES];
 
-    [cell setBackgroundColor:_cellBackgroundColor];
+    [cell setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
 //    [cell setBackgroundColor:[UIColor clearColor]];
 //    [cell.layer setCornerRadius:9.0f];
-    [cell.toDoLabel setFont:[UIFont fontWithName:_fontName size:_fontSize]];
+    [cell.toDoLabel setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
 
-
-
-
-    [cell.toDoLabel setTextColor:_fontColor];
+    [cell.toDoLabel setTextColor:[TDGlobalConfiguration fontColor]];
 //    [cell.textLabel setTextColor:[UIColor whiteColor]];
     
     if (todo.active) {
@@ -426,11 +417,6 @@ UITableViewCell *_firstCell;
 //        [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:[NSString stringWithFormat:@"Placeholder Todo %d", i]]];
 //    }
     
-    _fontColor = [UIColor colorWithRed:231.0f/255.0f green:238.0f/255.0f blue:255.0f/255.0f alpha:1.0f];
-    _backgroundColor = [UIColor colorWithRed:72.0f/255.0f green:154.0f/255.0f blue:204.0f/255.0f alpha:1.0f];
-    _tableViewBackgroundColor = [UIColor colorWithRed:22.0f/255.0f green:48.0f/255.0f blue:64.0f/255.0f alpha:1.0f];
-    _cellBackgroundColor = [UIColor colorWithRed:72.0f/255.0f green:154.0f/255.0f blue:204.0f/255.0f alpha:1.0f];
-    
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panLeft:)];
     panRecognizer.delegate = self;
     [self.toDosTableView addGestureRecognizer:panRecognizer];
@@ -438,12 +424,18 @@ UITableViewCell *_firstCell;
     UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
     [longPressRecognizer setNumberOfTouchesRequired:1];
     [self.toDosTableView addGestureRecognizer:longPressRecognizer];
-    [self.view setBackgroundColor:_backgroundColor];
-    [self.toDosTableView setBackgroundColor:_tableViewBackgroundColor];
+    [self.view setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
+    [self.toDosTableView setBackgroundColor:[TDGlobalConfiguration controlBackgroundColor]];
 //    [self.toDosTableView setBackgroundColor:[UIColor clearColor]];
     [self.toDosTableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
-    [self.searchAndAddTextField setFont:[UIFont fontWithName:_fontName size:_fontSize]];
-    [self.searchAndAddTextField setTextColor:_fontColor];
+    [self.searchAndAddTextField setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
+    [self.searchAndAddTextField setTextColor:[TDGlobalConfiguration fontColor]];
+    
+    //parte para notificacao
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+    self.locationManager.delegate = self;
+    [self.locationManager startUpdatingLocation];
 }
 
 - (void)viewWillAppear:(BOOL)animated
