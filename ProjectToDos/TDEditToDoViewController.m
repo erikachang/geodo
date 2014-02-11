@@ -10,6 +10,7 @@
 #import "MapKitDragAndDropViewController.h"
 #import "TDDateAndTimeViewController.h"
 #import "TDLocalExistenteViewController.h"
+#import "TDGlobalConfiguration.h"
 
 @interface TDEditToDoViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *addDateTimeNotificationButton;
@@ -74,102 +75,7 @@ short _editToDoViewControllerCharacterLimit = 40;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [[self navigationController] setNavigationBarHidden:YES];
-}
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    //parte do recorder
-    if(![_toDo recorded]){
-        _playButton.enabled = NO;
-    }
-    _stopButton.enabled = NO;
-
-    if([_toDo audioRecorder]==nil){
-        NSArray *dirPaths;
-        NSString *docsDir;
-        
-        
-        dirPaths = NSSearchPathForDirectoriesInDomains(
-                                                       NSDocumentDirectory, NSUserDomainMask, YES);
-        docsDir = [dirPaths objectAtIndex:0];
-        NSString *pathComponent = [[NSString alloc]initWithFormat:@"%@.caf", [_toDo description]];
-        NSString *soundFilePath = [docsDir
-                                   stringByAppendingPathComponent:pathComponent];
-        
-        NSURL *soundFileURL = [NSURL fileURLWithPath:soundFilePath];
-        
-        NSDictionary *recordSettings = [NSDictionary
-                                        dictionaryWithObjectsAndKeys:
-                                        [NSNumber numberWithInt:AVAudioQualityMin],
-                                        AVEncoderAudioQualityKey,
-                                        [NSNumber numberWithInt:16],
-                                        AVEncoderBitRateKey,
-                                        [NSNumber numberWithInt: 2],
-                                        AVNumberOfChannelsKey,
-                                        [NSNumber numberWithFloat:44100.0],
-                                        AVSampleRateKey,
-                                        nil];
-        
-        NSError *error = nil;
-        
-        AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-        [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord
-                            error:nil];
-        
-        _toDo.audioRecorder = [[AVAudioRecorder alloc]
-                               initWithURL:soundFileURL
-                               settings:recordSettings
-                               error:&error];
-        
-        if (error)
-        {
-            NSLog(@"error: %@", [error localizedDescription]);
-        }   else {
-            [[_toDo audioRecorder] prepareToRecord];
-        }
-    }
-    //fim do recorder
-    
-
-	// Do any additional setup after loading the view.
-    [self.titleTextField setBorderStyle:UITextBorderStyleNone];
-    [self.titleTextField setText:self.toDo.description];
-    NSDictionary *sections = @{@"Lembre-me:":@"Lembre-me:"};
-    [self.sectionsDic addEntriesFromDictionary:sections];
-    [self.remindersTableView setBackgroundColor:[UIColor clearColor]];
- 
-    // Adding Swip Gesture Recognizers
-    UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRight:)];
-    [swipeRecognizer setDirection:UISwipeGestureRecognizerDirectionRight];
-    [self.view addGestureRecognizer:swipeRecognizer];
-    
-    // Date and Time Notification button customization
-    {
-        [self.addDateTimeNotificationButton setTitle:@"+ Data/Hora" forState:UIControlStateNormal];
-        [self.addDateTimeNotificationButton addTarget:self action:@selector(gotoDateAndTime) forControlEvents:UIControlEventTouchDown];
-    }
-    
-    // Location Notification button customization
-    {
-        [self.addLocationNotificationButton setTitle:@"+ Local" forState:UIControlStateNormal];
-        [self.addLocationNotificationButton addTarget:self action:@selector(gotoLocation) forControlEvents:UIControlEventTouchDown];
-    }
-    
-    self.locationManager = [[CLLocationManager alloc] init];
-    self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
-    self.locationManager.delegate = self;
-    [self.locationManager startUpdatingLocation];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 
 #pragma mark - Table View delegates
@@ -199,6 +105,9 @@ short _editToDoViewControllerCharacterLimit = 40;
     
     NSArray *reminders = self.toDo.reminders;
     
+    [cell setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
+    [cell.textLabel setTextColor:[TDGlobalConfiguration fontColor]];
+    [cell.textLabel setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
     
     cell.lblText.text =[[reminders objectAtIndex:indexPath.row] notificationDescription];
     cell.lblText.numberOfLines = 0;
@@ -208,6 +117,11 @@ short _editToDoViewControllerCharacterLimit = 40;
     cell.accessoryType = UITableViewCellAccessoryNone;
     
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 72;
 }
 
 -(void)btRemove_Click :(id)sender
@@ -317,8 +231,6 @@ short _editToDoViewControllerCharacterLimit = 40;
 {
     NSLog(@"Encode Error occurred");
 }
-
-
 
 #pragma mark - Parte da notificacao por local
 
@@ -478,6 +390,112 @@ short _editToDoViewControllerCharacterLimit = 40;
         
         [reminder addLocalnotifications:notification];
     }
+}
+
+#pragma mark View Delegates
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [[self navigationController] setNavigationBarHidden:YES];
+    [[self navigationController].view setBackgroundColor:[TDGlobalConfiguration controlBackgroundColor]];
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    //parte do recorder
+    if(![_toDo recorded]){
+        _playButton.enabled = NO;
+    }
+    _stopButton.enabled = NO;
+    
+    if([_toDo audioRecorder]==nil){
+        NSArray *dirPaths;
+        NSString *docsDir;
+        
+        
+        dirPaths = NSSearchPathForDirectoriesInDomains(
+                                                       NSDocumentDirectory, NSUserDomainMask, YES);
+        docsDir = [dirPaths objectAtIndex:0];
+        NSString *pathComponent = [[NSString alloc]initWithFormat:@"%@.caf", [_toDo description]];
+        NSString *soundFilePath = [docsDir
+                                   stringByAppendingPathComponent:pathComponent];
+        
+        NSURL *soundFileURL = [NSURL fileURLWithPath:soundFilePath];
+        
+        NSDictionary *recordSettings = [NSDictionary
+                                        dictionaryWithObjectsAndKeys:
+                                        [NSNumber numberWithInt:AVAudioQualityMin],
+                                        AVEncoderAudioQualityKey,
+                                        [NSNumber numberWithInt:16],
+                                        AVEncoderBitRateKey,
+                                        [NSNumber numberWithInt: 2],
+                                        AVNumberOfChannelsKey,
+                                        [NSNumber numberWithFloat:44100.0],
+                                        AVSampleRateKey,
+                                        nil];
+        
+        NSError *error = nil;
+        
+        AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+        [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord
+                            error:nil];
+        
+        _toDo.audioRecorder = [[AVAudioRecorder alloc]
+                               initWithURL:soundFileURL
+                               settings:recordSettings
+                               error:&error];
+        
+        if (error)
+        {
+            NSLog(@"error: %@", [error localizedDescription]);
+        }   else {
+            [[_toDo audioRecorder] prepareToRecord];
+        }
+    }
+    //fim do recorder
+    
+    
+	// Do any additional setup after loading the view.
+    [self.titleTextField setBorderStyle:UITextBorderStyleNone];
+    [self.titleTextField setText:self.toDo.description];
+    [self.titleTextField setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
+    [self.titleTextField setTextColor:[TDGlobalConfiguration fontColor]];
+    NSDictionary *sections = @{@"Lembre-me:":@"Lembre-me:"};
+    [self.sectionsDic addEntriesFromDictionary:sections];
+    [self.remindersTableView setBackgroundColor:[TDGlobalConfiguration controlBackgroundColor]];
+    [self.view setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
+    [self.addDateTimeNotificationButton setTitleColor:[TDGlobalConfiguration buttonColor] forState:UIControlStateNormal];
+    [self.addLocationNotificationButton setTitleColor:[TDGlobalConfiguration buttonColor] forState:UIControlStateNormal];
+
+    
+    // Adding Swip Gesture Recognizers
+    UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRight:)];
+    [swipeRecognizer setDirection:UISwipeGestureRecognizerDirectionRight];
+    [self.view addGestureRecognizer:swipeRecognizer];
+    
+    // Date and Time Notification button customization
+    {
+        [self.addDateTimeNotificationButton setTitle:@"+ Data/Hora" forState:UIControlStateNormal];
+        [self.addDateTimeNotificationButton addTarget:self action:@selector(gotoDateAndTime) forControlEvents:UIControlEventTouchDown];
+    }
+    
+    // Location Notification button customization
+    {
+        [self.addLocationNotificationButton setTitle:@"+ Local" forState:UIControlStateNormal];
+        [self.addLocationNotificationButton addTarget:self action:@selector(gotoLocation) forControlEvents:UIControlEventTouchDown];
+    }
+    
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+    self.locationManager.delegate = self;
+    [self.locationManager startUpdatingLocation];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 @end

@@ -10,15 +10,10 @@
 
 @interface TDGlobalConfiguration : NSObject
 
-//@property (readonly) UIColor *fontColor, *backgroundColor, *controlBackgroundColor, *cellBackgroundColor;
-//@property (readonly) NSString *fontName;
-//@property (readonly) float fontSize;
-//@property (readonly) short characterLimit;
-
 + (UIColor *)fontColor;
 + (UIColor *)backgroundColor;
 + (UIColor *)controlBackgroundColor;
-+ (UIColor *)cellBackgroundColor;
++ (UIColor *)buttonColor;
 + (NSString *)fontName;
 + (float)fontSize;
 + (short)characterLimit;

@@ -25,19 +25,19 @@
     return [UIColor colorWithRed:22.0f/255.0f green:48.0f/255.0f blue:64.0f/255.0f alpha:1.0f];
 }
 
-+ (UIColor *)cellBackgroundColor
++ (UIColor *)buttonColor
 {
-    return [UIColor colorWithRed:72.0f/255.0f green:154.0f/255.0f blue:204.0f/255.0f alpha:1.0f];
+    return [UIColor colorWithRed:134.0f/255.0f green:254.0f/255.0f blue:231.0f/255.0f alpha:1.0f];
 }
 
 + (NSString *)fontName
 {
-    return @"Palatino";
+    return @"Palatino-Bold";
 }
 
 + (float)fontSize
 {
-    return 17.0f;
+    return 15.0f;
 }
 
 + (short)characterLimit

@@ -329,15 +329,10 @@ UITableViewCell *_firstCell;
     }
     
     [cell.priorityIcon setHidden:YES];
-
     [cell setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
-//    [cell setBackgroundColor:[UIColor clearColor]];
-//    [cell.layer setCornerRadius:9.0f];
     [cell.toDoLabel setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
-
     [cell.toDoLabel setTextColor:[TDGlobalConfiguration fontColor]];
-//    [cell.textLabel setTextColor:[UIColor whiteColor]];
-    
+        
     if (todo.active) {
         if (todo.priority) {
             [cell.priorityIcon setHidden:NO];
@@ -426,7 +421,7 @@ UITableViewCell *_firstCell;
     [self.toDosTableView addGestureRecognizer:longPressRecognizer];
     [self.view setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
     [self.toDosTableView setBackgroundColor:[TDGlobalConfiguration controlBackgroundColor]];
-//    [self.toDosTableView setBackgroundColor:[UIColor clearColor]];
+
     [self.toDosTableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
     [self.searchAndAddTextField setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
     [self.searchAndAddTextField setTextColor:[TDGlobalConfiguration fontColor]];

@@ -34,7 +34,6 @@
 		A0C3F39F189F22C100F97340 /* TDDateAndTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C3F39E189F22C100F97340 /* TDDateAndTimeViewController.m */; };
 		F406A4E91897DD1E0004F19E /* TDToDo.m in Sources */ = {isa = PBXBuildFile; fileRef = F406A4E81897DD1E0004F19E /* TDToDo.m */; };
 		F428118318A942A5008C8B51 /* configs.strings in Resources */ = {isa = PBXBuildFile; fileRef = F428118218A942A5008C8B51 /* configs.strings */; };
-		F43D507618AA46A300967C3F /* priority_16x16.png in Resources */ = {isa = PBXBuildFile; fileRef = F43D507518AA46A300967C3F /* priority_16x16.png */; };
 		F43D507918AA48E400967C3F /* TDToDoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F43D507818AA48E400967C3F /* TDToDoCell.m */; };
 		F43D507C18AA511700967C3F /* Pause.png in Resources */ = {isa = PBXBuildFile; fileRef = F43D507A18AA511700967C3F /* Pause.png */; };
 		F43D507D18AA511700967C3F /* Play.png in Resources */ = {isa = PBXBuildFile; fileRef = F43D507B18AA511700967C3F /* Play.png */; };
@@ -55,6 +54,7 @@
 		F46BED2918969D08009B5251 /* ProjectToDosTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F46BED2818969D08009B5251 /* ProjectToDosTests.m */; };
 		F482269418A9B20400846900 /* Tutorial.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F482269318A9B20400846900 /* Tutorial.storyboard */; };
 		F482269818A9B62200846900 /* TDTutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F482269718A9B62200846900 /* TDTutorialViewController.m */; };
+		F482269A18AA67B600846900 /* priority_16x16.png in Resources */ = {isa = PBXBuildFile; fileRef = F482269918AA67B600846900 /* priority_16x16.png */; };
 		F4941B631897D16200894C8B /* TDEditToDoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4941B621897D16200894C8B /* TDEditToDoViewController.m */; };
 		F4A7C3F11899707F00CB8B0C /* TDNotificationConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A7C3F01899707F00CB8B0C /* TDNotificationConfiguration.m */; };
 /* End PBXBuildFile section */
@@ -109,7 +109,6 @@
 		F406A4E71897DD1E0004F19E /* TDToDo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDToDo.h; sourceTree = "<group>"; };
 		F406A4E81897DD1E0004F19E /* TDToDo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDToDo.m; sourceTree = "<group>"; };
 		F428118218A942A5008C8B51 /* configs.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = configs.strings; sourceTree = "<group>"; };
-		F43D507518AA46A300967C3F /* priority_16x16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = priority_16x16.png; path = ../../../../../Downloads/priority_16x16.png; sourceTree = "<group>"; };
 		F43D507718AA48E400967C3F /* TDToDoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDToDoCell.h; sourceTree = "<group>"; };
 		F43D507818AA48E400967C3F /* TDToDoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDToDoCell.m; sourceTree = "<group>"; };
 		F43D507A18AA511700967C3F /* Pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pause.png; sourceTree = "<group>"; };
@@ -138,6 +137,7 @@
 		F482269318A9B20400846900 /* Tutorial.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Tutorial.storyboard; sourceTree = "<group>"; };
 		F482269618A9B62200846900 /* TDTutorialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDTutorialViewController.h; sourceTree = "<group>"; };
 		F482269718A9B62200846900 /* TDTutorialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDTutorialViewController.m; sourceTree = "<group>"; };
+		F482269918AA67B600846900 /* priority_16x16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = priority_16x16.png; sourceTree = "<group>"; };
 		F4941B611897D16200894C8B /* TDEditToDoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDEditToDoViewController.h; sourceTree = "<group>"; };
 		F4941B621897D16200894C8B /* TDEditToDoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDEditToDoViewController.m; sourceTree = "<group>"; };
 		F4A7C3EF1899707F00CB8B0C /* TDNotificationConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDNotificationConfiguration.h; sourceTree = "<group>"; };
@@ -258,9 +258,9 @@
 		F46BED0418969D07009B5251 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F482269918AA67B600846900 /* priority_16x16.png */,
 				F43D507A18AA511700967C3F /* Pause.png */,
 				F43D507B18AA511700967C3F /* Play.png */,
-				F43D507518AA46A300967C3F /* priority_16x16.png */,
 				38A4F2BA18A8F6C80018FD93 /* CheckedGreen.png */,
 				38A4F2BB18A8F6C80018FD93 /* menuIco.png */,
 				38A4F2BE18A8F6C80018FD93 /* Record.png */,
@@ -422,9 +422,9 @@
 				F46BED1118969D07009B5251 /* Main.storyboard in Resources */,
 				F43D507D18AA511700967C3F /* Play.png in Resources */,
 				38A4F2C518A8F6C80018FD93 /* remove.png in Resources */,
+				F482269A18AA67B600846900 /* priority_16x16.png in Resources */,
 				38A4F2C118A8F6C80018FD93 /* menuIco.png in Resources */,
 				38A4F2C418A8F6C80018FD93 /* Record.png in Resources */,
-				F43D507618AA46A300967C3F /* priority_16x16.png in Resources */,
 				38A4F2C018A8F6C80018FD93 /* CheckedGreen.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

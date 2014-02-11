@@ -7,6 +7,7 @@
 //
 
 #import "TDDateAndTimeViewController.h"
+#import "TDGlobalConfiguration.h"
 
 @interface TDDateAndTimeViewController ()
 
@@ -49,6 +50,9 @@
     [super viewDidLoad];
     
     [[self navigationController] setNavigationBarHidden:NO];
+    
+    [self.view setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
+    [self.switcher setOnTintColor:[TDGlobalConfiguration controlBackgroundColor]];
     
     NSDate *date = [NSDate date];
     self.datePicker.minimumDate = date;
