@@ -9,6 +9,7 @@
 #import "TDViewController.h"
 #import "TDEditToDoViewController.h"
 #import "TDToDo.h"
+#import "TDToDoCell.h"
 
 @interface TDViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *searchAndAddTextField;
@@ -20,6 +21,8 @@
 @end
 
 @implementation TDViewController
+
+UIColor *_fontColor, *_backgroundColor, *_tableViewBackgroundColor, *_cellBackgroundColor;
 
 NSString *_fontName = @"Palatino";
 float _fontSize = 17.0f;
@@ -77,8 +80,8 @@ short _characterLimit = 40;
         for (TDToDo *todo in self.toDosDataSource) {
             if (!todo.active) {
 
-                    [self.filteredToDosDataSource addObject:todo];
-                    [self.toDosTableView reloadData];
+                [self.filteredToDosDataSource addObject:todo];
+                [self.toDosTableView reloadData];
             }
         }
     } else {
@@ -116,8 +119,8 @@ short _characterLimit = 40;
         
         self.toDosDataSource = newList;
         
-        NSArray *paths = @[[NSIndexPath indexPathForRow:0 inSection:0]];
-        [self.toDosTableView insertRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationTop];
+        NSIndexPath *path = [self getFirstNonPriorityIndex];
+        [self.toDosTableView insertRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationTop];
     }
     [self.toDosTableView endUpdates];
 
@@ -256,7 +259,6 @@ UITableViewCell *_firstCell;
                     
                 }];
             }
-            
         }
     }
 }
@@ -321,7 +323,7 @@ UITableViewCell *_firstCell;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    TDToDoCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     // Configure the cell...
     TDToDo *todo;
@@ -331,25 +333,32 @@ UITableViewCell *_firstCell;
     } else {
         todo = [self.toDosDataSource objectAtIndex:indexPath.row];
     }
-
-//    [cell setBackgroundColor:[UIColor colorWithRed:41.0f/255.0f green:102.0f/255.0f blue:167.0f/255.0f alpha:1.0f]];
-//    [cell setBackgroundColor:[UIColor clearColor]];
-    [cell.textLabel setFont:[UIFont fontWithName:_fontName size:_fontSize]];
     
-//    [cell.textLabel setTextColor:[UIColor colorWithRed:40.0f/255.0f green:32.0f/255.0f blue:23.0f/255.0f alpha:1.0f]];
+    [cell.priorityIcon setHidden:YES];
+
+    [cell setBackgroundColor:_cellBackgroundColor];
+//    [cell setBackgroundColor:[UIColor clearColor]];
+//    [cell.layer setCornerRadius:9.0f];
+    [cell.toDoLabel setFont:[UIFont fontWithName:_fontName size:_fontSize]];
+
+
+
+
+    [cell.toDoLabel setTextColor:_fontColor];
 //    [cell.textLabel setTextColor:[UIColor whiteColor]];
     
     if (todo.active) {
         if (todo.priority) {
-            [cell.textLabel setTextColor:[UIColor colorWithRed:217.0f/255.0f green:3.0f/255.0f blue:2.0f/255.0f alpha:1.0f]];
+            [cell.priorityIcon setHidden:NO];
         }
-        [cell.textLabel setText:todo.description];
+        cell.toDoLabel.attributedText = nil;
+        cell.toDoLabel.text = todo.description;
     } else {
-        cell.textLabel.text = nil;
-        cell.textLabel.attributedText = [self strikeThroughText:todo.description];
+        cell.toDoLabel.text = nil;
+        cell.toDoLabel.attributedText = [self strikeThroughText:todo.description];
     }
     
-    cell.textLabel.tag = indexPath.row;
+    cell.toDoLabel.tag = indexPath.row;
     
     return cell;
 }
@@ -417,6 +426,11 @@ UITableViewCell *_firstCell;
 //        [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:[NSString stringWithFormat:@"Placeholder Todo %d", i]]];
 //    }
     
+    _fontColor = [UIColor colorWithRed:231.0f/255.0f green:238.0f/255.0f blue:255.0f/255.0f alpha:1.0f];
+    _backgroundColor = [UIColor colorWithRed:72.0f/255.0f green:154.0f/255.0f blue:204.0f/255.0f alpha:1.0f];
+    _tableViewBackgroundColor = [UIColor colorWithRed:22.0f/255.0f green:48.0f/255.0f blue:64.0f/255.0f alpha:1.0f];
+    _cellBackgroundColor = [UIColor colorWithRed:72.0f/255.0f green:154.0f/255.0f blue:204.0f/255.0f alpha:1.0f];
+    
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panLeft:)];
     panRecognizer.delegate = self;
     [self.toDosTableView addGestureRecognizer:panRecognizer];
@@ -424,10 +438,12 @@ UITableViewCell *_firstCell;
     UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
     [longPressRecognizer setNumberOfTouchesRequired:1];
     [self.toDosTableView addGestureRecognizer:longPressRecognizer];
-//    [self.view setBackgroundColor:[UIColor colorWithRed:41.0f/255.0f green:102.0f/255.0f blue:167.0f/255.0f alpha:1.0f]];
-//    [self.toDosTableView setBackgroundColor:[UIColor colorWithRed:23.0f/255.0f green:56.0f/255.0f blue:91.0f/255.0f alpha:1.0f]];
-    [self.toDosTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    [self.view setBackgroundColor:_backgroundColor];
+    [self.toDosTableView setBackgroundColor:_tableViewBackgroundColor];
+//    [self.toDosTableView setBackgroundColor:[UIColor clearColor]];
+    [self.toDosTableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
     [self.searchAndAddTextField setFont:[UIFont fontWithName:_fontName size:_fontSize]];
+    [self.searchAndAddTextField setTextColor:_fontColor];
 }
 
 - (void)viewWillAppear:(BOOL)animated
