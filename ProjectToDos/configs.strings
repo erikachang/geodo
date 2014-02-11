@@ -1,0 +1,11 @@
+/* 
+  configs.strings
+  ProjectToDos
+
+  Created by Stephan Chang on 2/10/14.
+  Copyright (c) 2014 The ToDo Party. All rights reserved.
+*/
+
+/* Configuration Strings */
+
+"ProjectFontName" = "Didot";

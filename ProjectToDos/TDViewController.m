@@ -9,7 +9,6 @@
 #import "TDViewController.h"
 #import "TDEditToDoViewController.h"
 #import "TDToDo.h"
-#import "TDToDosCell.h"
 
 @interface TDViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *searchAndAddTextField;
@@ -22,7 +21,10 @@
 
 @implementation TDViewController
 
+NSString *_fontName = @"Palatino";
+float _fontSize = 17.0f;
 short _characterLimit = 40;
+
 
 #pragma mark Properties
 - (NSMutableArray *)toDosDataSource {
@@ -319,27 +321,31 @@ UITableViewCell *_firstCell;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    TDToDosCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     // Configure the cell...
     TDToDo *todo;
     
     if (self.isFiltering) {
         todo = [self.filteredToDosDataSource objectAtIndex:indexPath.row];
-    }
-    else {
+    } else {
         todo = [self.toDosDataSource objectAtIndex:indexPath.row];
     }
+
+//    [cell setBackgroundColor:[UIColor colorWithRed:41.0f/255.0f green:102.0f/255.0f blue:167.0f/255.0f alpha:1.0f]];
+//    [cell setBackgroundColor:[UIColor clearColor]];
+    [cell.textLabel setFont:[UIFont fontWithName:_fontName size:_fontSize]];
     
-    cell.textLabel.textColor = [UIColor blackColor];
+//    [cell.textLabel setTextColor:[UIColor colorWithRed:40.0f/255.0f green:32.0f/255.0f blue:23.0f/255.0f alpha:1.0f]];
+//    [cell.textLabel setTextColor:[UIColor whiteColor]];
     
     if (todo.active) {
         if (todo.priority) {
-            cell.textLabel.textColor = [UIColor redColor];
+            [cell.textLabel setTextColor:[UIColor colorWithRed:217.0f/255.0f green:3.0f/255.0f blue:2.0f/255.0f alpha:1.0f]];
         }
         [cell.textLabel setText:todo.description];
     } else {
-        
+        cell.textLabel.text = nil;
         cell.textLabel.attributedText = [self strikeThroughText:todo.description];
     }
     
@@ -393,20 +399,20 @@ UITableViewCell *_firstCell;
 	// Do any additional setup after loading the view, typically from a nib.
     
     // Adding swipe gesture: right direction
-//    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Arrumar malas"]];
-//    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Levar TV no conserto"]];
-//    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Levar carro na revisão"]];
-//    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Aprender guitarra"]];
-//    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Terminar Bioshock pela 2a vez"]];
-//    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Deixar esse App do caralho"]];
-//    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Terminar de ler artigos de IA"]];
-//    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Terminar de ler capítulo do livro de IA"]];
-//    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Comprar CDs novos"]];
-//    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Comprar livros novos"]];
-//    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Comprar filmes novos"]];
-//    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Terminar \"NHK ni Youkoso!\""]];
-//    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Virar mestre do mundo"]];
-//    
+    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Arrumar malas"]];
+    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Levar TV no conserto"]];
+    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Levar carro na revisão"]];
+    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Aprender guitarra"]];
+    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Terminar Bioshock pela 2a vez"]];
+    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Deixar esse App do caralho"]];
+    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Terminar de ler artigos de IA"]];
+    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Terminar de ler capítulo do livro de IA"]];
+    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Comprar CDs novos"]];
+    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Comprar livros novos"]];
+    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Comprar filmes novos"]];
+    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Terminar \"NHK ni Youkoso!\""]];
+    [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:@"Virar mestre do mundo"]];
+//
 //    for (int i = 0; i < 1000; i++) {
 //        [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:[NSString stringWithFormat:@"Placeholder Todo %d", i]]];
 //    }
@@ -418,9 +424,10 @@ UITableViewCell *_firstCell;
     UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
     [longPressRecognizer setNumberOfTouchesRequired:1];
     [self.toDosTableView addGestureRecognizer:longPressRecognizer];
-    
-    [self.toDosTableView setBackgroundColor:[UIColor clearColor]];
-    [self.searchAndAddTextField setFont:[UIFont fontWithName:@"Didot" size:17.0]];
+//    [self.view setBackgroundColor:[UIColor colorWithRed:41.0f/255.0f green:102.0f/255.0f blue:167.0f/255.0f alpha:1.0f]];
+//    [self.toDosTableView setBackgroundColor:[UIColor colorWithRed:23.0f/255.0f green:56.0f/255.0f blue:91.0f/255.0f alpha:1.0f]];
+    [self.toDosTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    [self.searchAndAddTextField setFont:[UIFont fontWithName:_fontName size:_fontSize]];
 }
 
 - (void)viewWillAppear:(BOOL)animated
