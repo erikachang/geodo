@@ -16,6 +16,7 @@
 #import "SL_armazenaDados.h"
 #import "SL_Localidades.h"
 #import "TDRemindersCell.h"
+#import "TDViewController.h"
 
 
 @interface TDEditToDoViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, AVAudioRecorderDelegate, AVAudioPlayerDelegate>
@@ -29,6 +30,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *recordButton;
 @property (weak, nonatomic) IBOutlet UIButton *playButton;
 @property (weak, nonatomic) IBOutlet UIButton *stopButton;
+
+@property(nonatomic, retain)TDViewController *superController;
 
 -(void) freshLatitudeLongitude : (SL_Localidades*)local;
 - (void)addDate:(NSDate *)date andTime:(NSDate *)time orWeekDays:(NSMutableArray *)weekDays;
