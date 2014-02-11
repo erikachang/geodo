@@ -181,7 +181,6 @@ short _editToDoViewControllerCharacterLimit = 40;
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    
     return [self.sectionsDic.allKeys objectAtIndex:section];
 }
 
@@ -207,32 +206,41 @@ short _editToDoViewControllerCharacterLimit = 40;
     cell.btRemove.tag = indexPath.row;
     [cell.btRemove addTarget:self action:@selector(btRemove_Click:) forControlEvents:UIControlEventTouchUpInside];
     cell.accessoryType = UITableViewCellAccessoryNone;
+    
     return cell;
 }
 
 -(void)btRemove_Click :(id)sender
 {
-    TDNotificationConfiguration *reminder = [[TDNotificationConfiguration alloc]init];
-    NSInteger tag = [sender tag];
-    NSString* identificador = [self.toDo.reminders[tag] notificationDescription];
-    
-    
-    for(int i=0;i<[_toDo reminders].count;i++){
-        reminder = [_toDo reminders][i];
-        if([identificador isEqualToString: reminder.notificationDescription]){
-            if(reminder.type == Location){
-                [_toDo removeNotificationConfigurationBasedOnLocation: i];
-                [self verificarPossivelParadaDeMonitoramento : reminder.location.regiao];
-                break;
+    @try{
+        TDNotificationConfiguration *reminder = [[TDNotificationConfiguration alloc]init];
+        NSInteger tag = [sender tag];
+        NSString* identificador = [self.toDo.reminders[tag] notificationDescription];
+        for(int i=0;i<[_toDo reminders].count;i++){
+            reminder = [_toDo reminders][i];
+            if([identificador isEqualToString: reminder.notificationDescription]){
+                if(reminder.type == Location){
+                    [_toDo removeNotificationConfigurationBasedOnLocation: i];
+                    break;
+                }
+                if(reminder.type == DateTime){
+                    [_toDo removeNotificationConfigurationBasedOnLocation: i];
+                    for(int i=0; i<reminder.arrayLocalNotifications.count;i++){
+                        [[UIApplication sharedApplication] cancelLocalNotification: reminder.arrayLocalNotifications[i]];
+                    }
+                    break;
+                }
             }
         }
     }
-    [_tabView reloadData];
+    @catch(NSException* exception){
+        [_tabView reloadData];
+    }
+    @finally {
+        [_tabView reloadData];
+    }
 }
 
--(void) verificarPossivelParadaDeMonitoramento : (CLRegion*) regiao{
-    
-}
 
 
 #pragma mark - Parte do audio record
@@ -329,6 +337,7 @@ short _editToDoViewControllerCharacterLimit = 40;
     }else{
         [self performSegueWithIdentifier:@"AddLocationNotification" sender:self];
     }
+    [_tabView reloadData];
 }
 
 - (void) freshLatitudeLongitude :(SL_Localidades*)local{
@@ -340,9 +349,11 @@ short _editToDoViewControllerCharacterLimit = 40;
     //    [self.locationManager startMonitoringForRegion: regAux];
     //}
     
-    [self.locationManager startMonitoringForRegion:local.regiao];
+    //[self.locationManager startMonitoringForRegion:local.regiao];
     
+    [_superController freshLatitudeLongitude:local];
     [_toDo addNotificationConfigurationWithLocation:local];
+    
     int flagRegionNotInitialized=1;
     for(int i=0; i< [[SL_armazenaDados sharedArmazenaDados]listToDosRegs].count;i++){
         if([[[[SL_armazenaDados sharedArmazenaDados]listToDosRegs][i] regionIdentifier] isEqualToString:local.regiao.identifier]){
@@ -351,6 +362,7 @@ short _editToDoViewControllerCharacterLimit = 40;
             break;
         }
     }
+    
     if(flagRegionNotInitialized){
         TD_RegiaoToDo *regionToDo = [[TD_RegiaoToDo alloc]initAll:local.regiao.identifier with:_toDo];
         [[[SL_armazenaDados sharedArmazenaDados] listToDosRegs] addObject:regionToDo];
@@ -371,80 +383,101 @@ short _editToDoViewControllerCharacterLimit = 40;
         TDLocalExistenteViewController *child = (TDLocalExistenteViewController*)segue.destinationViewController;
         [child setSuperController:self];
     }
-}
-
-
--(void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region {
-    //terá que ser visto qual é a data para saber colocar no fireDate e também ver se já passou a data
-    //para cancelar o region monitoring
-    
-    NSMutableArray *arrayToDos = [[SL_armazenaDados sharedArmazenaDados]listToDosRegs];
-    
-    for (TD_RegiaoToDo *RegiaoToDo in arrayToDos) {
-        if([[RegiaoToDo regionIdentifier]isEqualToString:region.identifier]){
-            for(TDToDo* toDo in [RegiaoToDo listToDos] ){
-                for(TDNotificationConfiguration* reminder in [toDo reminders]){
-                    //essa parte é sem cláusula de horário
-                    NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
-                    NSDate *currentDate = [NSDate date];
-                    NSDate *fireDate = nil;
-                    
-                    [dateComponents setSecond: 1];
-                    
-                    fireDate = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents
-                                                                             toDate:currentDate
-                                                                            options:0];
-                    
-                    UILocalNotification *notification = [[UILocalNotification alloc] init];
-                    notification.fireDate = [NSDate date];
-                    NSTimeZone* timezone = [NSTimeZone defaultTimeZone];
-                    notification.timeZone = timezone;
-                    notification.alertBody = [toDo description];
-                    notification.alertAction = @"Analisar notificação";
-                    notification.soundName = @"alarm.wav";
-                    [[UIApplication sharedApplication] scheduleLocalNotification:notification];
-                    
-                    //aqui vai precisar para quando tiver cláusula de horário
-                    //[[[SL_armazenaDados sharedArmazenaDados]dicNotsRegs] setObject:notification forKey:region.identifier];
-                    
-                    [RegiaoToDo removeToDo:toDo];
-                    
-                    //ainda não foi testado potencialmente deve ser utilizado o verificarpossivelparadademonitoramento
-                    if(![RegiaoToDo hasToDo]){
-                        [self.locationManager stopMonitoringForRegion:region];
-                    }
-                    
-                }
-            }
-        }
+    else if([[segue identifier] isEqualToString:@"AddDateTimeNotification"])
+    {
+        TDDateAndTimeViewController *child = (TDDateAndTimeViewController*)segue.destinationViewController;
+        [child setSuperController:self];
     }
 }
-
--(void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region {
-    //cancelar a partir da region, ver se funciona quando o didEnterRegion não foi feito antes
-    for(int i=0;i<[[[SL_armazenaDados sharedArmazenaDados] listLocalidades]count];i++){
-        SL_Localidades* locAux = [[SL_armazenaDados sharedArmazenaDados]listLocalidades][i];
-        if([locAux.regiao.identifier isEqualToString : region.identifier]){
-            id object = [[[SL_armazenaDados sharedArmazenaDados]dicNotsRegs] objectForKey:region.identifier];
-            if(object){
-                int index = [[UIApplication sharedApplication]indexOfAccessibilityElement:object];
-                if(index>=0){
-                    [[UIApplication sharedApplication] cancelLocalNotification: [[[SL_armazenaDados sharedArmazenaDados]dicNotsRegs] objectForKey:region.identifier]];
-                }
-            }
-        }
-    }
-}
-
--(void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region {
-    NSLog(@"Now monitoring for %@", region.identifier);
-}
-
 
 
 - (void)addDate:(NSDate *)date andTime:(NSDate *)time orWeekDays:(NSMutableArray *)weekDays
 {
-    [self.toDo addNotificationConfigurationWithDateTime:date with:time with:weekDays];
+    if(date==nil){
+        [self.toDo addNotificationConfigurationWithDateTime:date with:time with:weekDays];
+        TDNotificationConfiguration *reminder = [self.toDo reminders][[self.toDo reminders].count-1];
+        [_tabView reloadData];
+        
+        NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+        NSDateComponents *comps = [gregorian components:NSWeekdayCalendarUnit fromDate:[NSDate date]];
+        //aqui retorna de 1 a 7 e o vetor vem de 0 a 6
+        int todaysWeekDay = [comps weekday]-1;
+        int todasWeekDayIncremento = todaysWeekDay;
+        for(int i=0; i<7;i++,todasWeekDayIncremento++){
+            if ([weekDays containsObject:[NSNumber numberWithInt:todasWeekDayIncremento]]){
+                //aqui vai as notificacoes certinhas com o fire date e repeat interval
+                
+                NSDateComponents *timeComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitHour | NSCalendarUnitMinute fromDate:time];
+                
+                NSDateComponents *componentsDate = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:[NSDate date]];
+                
+                
+                [componentsDate setHour: timeComponents.hour];
+                [componentsDate setMinute: timeComponents.minute];
+                
+                
+                NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+                NSDate *fireDate = [gregorian dateFromComponents:componentsDate];
+                
+                NSDateComponents *adicionaDia = [[NSDateComponents alloc] init];
+                
+                if((todasWeekDayIncremento - todaysWeekDay)<0){
+                    [adicionaDia setDay: 7+(todasWeekDayIncremento - todaysWeekDay)];
+                }
+                else{
+                    [adicionaDia setDay: todasWeekDayIncremento - todaysWeekDay];
+                }
+                
+                fireDate = [[NSCalendar currentCalendar] dateByAddingComponents:adicionaDia
+                                                                         toDate:fireDate
+                                                                        options:0];
+                
+                UILocalNotification *notification = [[UILocalNotification alloc] init];
+                notification.fireDate = fireDate;
+                
+                notification.repeatInterval = NSWeekCalendarUnit;
+                NSTimeZone* timezone = [NSTimeZone defaultTimeZone];
+                notification.timeZone = timezone;
+                notification.alertBody = [_toDo description];
+                notification.alertAction = @"Analisar notificação";
+                notification.soundName = @"alarm.wav";
+                [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+                
+                [reminder addLocalnotifications:notification];
+
+            }
+            if(todasWeekDayIncremento==6){
+                todasWeekDayIncremento=-1;
+            }
+        }
+        
+    }else{
+        //por enquanto só com data e hora.
+        [self.toDo addNotificationConfigurationWithDateTime:date with:time with:weekDays];
+        TDNotificationConfiguration *reminder = [self.toDo reminders][[self.toDo reminders].count-1];
+        [_tabView reloadData];
+        
+        NSDateComponents *timeComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitHour | NSCalendarUnitMinute fromDate:time];
+        
+        NSDateComponents *componentsDate = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:date];
+        
+        [componentsDate setHour: timeComponents.hour];
+        [componentsDate setMinute: timeComponents.minute];
+        
+        NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+        NSDate *fireDate = [gregorian dateFromComponents:componentsDate];
+        
+        UILocalNotification *notification = [[UILocalNotification alloc] init];
+        notification.fireDate = fireDate;
+        NSTimeZone* timezone = [NSTimeZone defaultTimeZone];
+        notification.timeZone = timezone;
+        notification.alertBody = [_toDo description];
+        notification.alertAction = @"Analisar notificação";
+        notification.soundName = @"alarm.wav";
+        [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+        
+        [reminder addLocalnotifications:notification];
+    }
 }
 
 @end

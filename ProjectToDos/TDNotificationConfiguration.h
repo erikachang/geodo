@@ -22,8 +22,9 @@ enum TDNotificationType {
 @property NSMutableArray *weekDays;
 @property enum TDNotificationType type;
 @property NSString *notificationDescription;
+@property NSMutableArray *arrayLocalNotifications;
 
-- (instancetype) initWithLocation:(SL_Localidades *)aLocation;
+-(instancetype) initWithLocation:(SL_Localidades *)aLocation;
 -(instancetype)initWithDate:(NSDate *)aDate andTime:(NSDate *)aTime orWeekDays:(NSMutableArray *)aWeekDays;
-
+-(void)addLocalnotifications:(UILocalNotification *)object;
 @end

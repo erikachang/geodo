@@ -469,6 +469,88 @@ UITableViewCell *_firstCell;
     } else {
         editView.toDo = [self.toDosDataSource objectAtIndex:indexPath.row];
     }
+    [editView setSuperController:self];
 }
 
+#pragma mark - Parte da notificacao por local
+
+- (void) freshLatitudeLongitude :(SL_Localidades*)local{
+    self.location = self.locationManager.location;
+    
+    [self.locationManager startMonitoringForRegion:local.regiao];
+}
+
+-(void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region {
+    //terá que ser visto qual é a data para saber colocar no fireDate e também ver se já passou a data
+    //para cancelar o region monitoring
+    
+    NSMutableArray *arrayToDos = [[SL_armazenaDados sharedArmazenaDados]listToDosRegs];
+    NSMutableArray *arrayRemoveToDos = [[NSMutableArray alloc]init];
+    NSMutableArray *arrayRemoveReminders = [[NSMutableArray alloc]init];
+    
+    for (TD_RegiaoToDo *RegiaoToDo in arrayToDos) {
+        if([[RegiaoToDo regionIdentifier]isEqualToString:region.identifier]){
+            for(TDToDo* toDo in [RegiaoToDo listToDos] ){
+                for(TDNotificationConfiguration* reminder in [toDo reminders]){
+                    if([reminder.location.regiao.identifier isEqualToString:region.identifier]){
+                        //essa parte é sem cláusula de horário
+                        NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
+                        NSDate *currentDate = [NSDate date];
+                        NSDate *fireDate = nil;
+                        
+                        [dateComponents setSecond: 1];
+                        
+                        fireDate = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents
+                                                                                 toDate:currentDate
+                                                                                options:0];
+                        
+                        UILocalNotification *notification = [[UILocalNotification alloc] init];
+                        notification.fireDate = [NSDate date];
+                        NSTimeZone* timezone = [NSTimeZone defaultTimeZone];
+                        notification.timeZone = timezone;
+                        notification.alertBody = [toDo description];
+                        notification.alertAction = @"Analisar notificação";
+                        notification.soundName = @"alarm.wav";
+                        [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+                        
+                        //aqui vai precisar para quando tiver cláusula de horário
+                        //[[[SL_armazenaDados sharedArmazenaDados]dicNotsRegs] setObject:notification forKey:region.identifier];
+                        [arrayRemoveReminders addObject:reminder];
+                        [arrayRemoveToDos addObject:toDo];
+                    }
+                }
+                for(TDNotificationConfiguration* reminder in arrayRemoveReminders){
+                    [[toDo reminders] removeObject:reminder];
+                }
+            }
+        }
+        for(TDToDo* toDo in arrayRemoveToDos){
+            [RegiaoToDo removeToDo:toDo];
+        }
+        if(![RegiaoToDo hasToDo]){
+            [self.locationManager stopMonitoringForRegion:region];
+        }
+    }
+}
+
+-(void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region {
+    //cancelar a partir da region, ver se funciona quando o didEnterRegion não foi feito antes
+    for(int i=0;i<[[[SL_armazenaDados sharedArmazenaDados] listLocalidades]count];i++){
+        SL_Localidades* locAux = [[SL_armazenaDados sharedArmazenaDados]listLocalidades][i];
+        if([locAux.regiao.identifier isEqualToString : region.identifier]){
+            id object = [[[SL_armazenaDados sharedArmazenaDados]dicNotsRegs] objectForKey:region.identifier];
+            if(object){
+                int index = [[UIApplication sharedApplication]indexOfAccessibilityElement:object];
+                if(index>=0){
+                    [[UIApplication sharedApplication] cancelLocalNotification: [[[SL_armazenaDados sharedArmazenaDados]dicNotsRegs] objectForKey:region.identifier]];
+                }
+            }
+        }
+    }
+}
+
+
+-(void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region {
+    NSLog(@"Now monitoring for %@", region.identifier);
+}
 @end

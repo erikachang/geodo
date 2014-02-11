@@ -37,5 +37,4 @@ static SL_armazenaDados *sharedArmazenaDados = nil;
     return self;
 }
 
-
 @end

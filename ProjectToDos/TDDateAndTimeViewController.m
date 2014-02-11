@@ -12,6 +12,7 @@
 
 @end
 
+
 @implementation TDDateAndTimeViewController
 {
     NSMutableArray *days;
@@ -19,6 +20,8 @@
     BOOL hours;
     BOOL weekDays;
 }
+
+@synthesize superController;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {

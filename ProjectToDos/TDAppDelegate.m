@@ -48,13 +48,15 @@
 }
 
 -(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Notificação"
-                                                    message:@"Aqui vai a mensagem do corpo da notificação"
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"GeoDO Lembra você de"
+                                                    message:[notification alertBody]
                                                    delegate:self
                                           cancelButtonTitle:@"OK"
                                           otherButtonTitles:nil];
     [alert show];
     
+    
     //pegar a notificação e mostrar que teve uma para pegar no didbecomeactive e saber lá qual foi..
 }
 @end
+
