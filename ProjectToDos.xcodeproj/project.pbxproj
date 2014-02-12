@@ -55,7 +55,9 @@
 		F482269418A9B20400846900 /* Tutorial.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F482269318A9B20400846900 /* Tutorial.storyboard */; };
 		F482269818A9B62200846900 /* TDTutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F482269718A9B62200846900 /* TDTutorialViewController.m */; };
 		F482269A18AA67B600846900 /* priority_16x16.png in Resources */ = {isa = PBXBuildFile; fileRef = F482269918AA67B600846900 /* priority_16x16.png */; };
-		F482269E18AABD5700846900 /* expand_20x20.png in Resources */ = {isa = PBXBuildFile; fileRef = F482269D18AABD5700846900 /* expand_20x20.png */; };
+		F48226A018AAF84A00846900 /* arrowdown_20x20.png in Resources */ = {isa = PBXBuildFile; fileRef = F482269F18AAF84A00846900 /* arrowdown_20x20.png */; };
+		F48226A218AAF91300846900 /* arrowup_20x20.png in Resources */ = {isa = PBXBuildFile; fileRef = F48226A118AAF91300846900 /* arrowup_20x20.png */; };
+		F48226A418AB020000846900 /* bookmark.png in Resources */ = {isa = PBXBuildFile; fileRef = F48226A318AB020000846900 /* bookmark.png */; };
 		F4941B631897D16200894C8B /* TDEditToDoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4941B621897D16200894C8B /* TDEditToDoViewController.m */; };
 		F4A7C3F11899707F00CB8B0C /* TDNotificationConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A7C3F01899707F00CB8B0C /* TDNotificationConfiguration.m */; };
 /* End PBXBuildFile section */
@@ -139,7 +141,9 @@
 		F482269618A9B62200846900 /* TDTutorialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDTutorialViewController.h; sourceTree = "<group>"; };
 		F482269718A9B62200846900 /* TDTutorialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDTutorialViewController.m; sourceTree = "<group>"; };
 		F482269918AA67B600846900 /* priority_16x16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = priority_16x16.png; sourceTree = "<group>"; };
-		F482269D18AABD5700846900 /* expand_20x20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = expand_20x20.png; sourceTree = "<group>"; };
+		F482269F18AAF84A00846900 /* arrowdown_20x20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrowdown_20x20.png; sourceTree = "<group>"; };
+		F48226A118AAF91300846900 /* arrowup_20x20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrowup_20x20.png; sourceTree = "<group>"; };
+		F48226A318AB020000846900 /* bookmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bookmark.png; sourceTree = "<group>"; };
 		F4941B611897D16200894C8B /* TDEditToDoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDEditToDoViewController.h; sourceTree = "<group>"; };
 		F4941B621897D16200894C8B /* TDEditToDoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDEditToDoViewController.m; sourceTree = "<group>"; };
 		F4A7C3EF1899707F00CB8B0C /* TDNotificationConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDNotificationConfiguration.h; sourceTree = "<group>"; };
@@ -260,7 +264,9 @@
 		F46BED0418969D07009B5251 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				F482269D18AABD5700846900 /* expand_20x20.png */,
+				F48226A318AB020000846900 /* bookmark.png */,
+				F48226A118AAF91300846900 /* arrowup_20x20.png */,
+				F482269F18AAF84A00846900 /* arrowdown_20x20.png */,
 				F482269918AA67B600846900 /* priority_16x16.png */,
 				F43D507A18AA511700967C3F /* Pause.png */,
 				F43D507B18AA511700967C3F /* Play.png */,
@@ -426,10 +432,12 @@
 				F43D507D18AA511700967C3F /* Play.png in Resources */,
 				38A4F2C518A8F6C80018FD93 /* remove.png in Resources */,
 				F482269A18AA67B600846900 /* priority_16x16.png in Resources */,
-				F482269E18AABD5700846900 /* expand_20x20.png in Resources */,
+				F48226A018AAF84A00846900 /* arrowdown_20x20.png in Resources */,
 				38A4F2C118A8F6C80018FD93 /* menuIco.png in Resources */,
+				F48226A418AB020000846900 /* bookmark.png in Resources */,
 				38A4F2C418A8F6C80018FD93 /* Record.png in Resources */,
 				38A4F2C018A8F6C80018FD93 /* CheckedGreen.png in Resources */,
+				F48226A218AAF91300846900 /* arrowup_20x20.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

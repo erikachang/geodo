@@ -277,10 +277,11 @@
 
 - (IBAction)showMenuDown:(id)sender {
     
-    if(_content.frame.origin.y == initialY) //only show the menu if it is not already shown
+    if(_content.frame.origin.y == initialY) { //only show the menu if it is not already shown
         [self showMenu];
-    else
+    } else {
         [self hideMenu];
+    }
     
 }
 

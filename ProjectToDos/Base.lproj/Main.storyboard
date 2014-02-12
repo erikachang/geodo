@@ -787,9 +787,9 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                         </connections>
                                     </mapView>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vtT-9j-FjW">
-                                        <rect key="frame" x="143" y="6" width="35" height="30"/>
+                                        <rect key="frame" x="280" y="-6" width="20" height="47"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" image="expand_20x20.png">
+                                        <state key="normal" image="bookmark.png">
                                             <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -842,7 +842,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <image name="Pause.png" width="128" height="128"/>
         <image name="Play.png" width="128" height="128"/>
         <image name="Record.png" width="128" height="128"/>
-        <image name="expand_20x20.png" width="20" height="20"/>
+        <image name="bookmark.png" width="20" height="40"/>
         <image name="remove.png" width="128" height="128"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
