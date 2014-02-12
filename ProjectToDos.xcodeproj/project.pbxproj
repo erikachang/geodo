@@ -38,6 +38,8 @@
 		F43D507C18AA511700967C3F /* Pause.png in Resources */ = {isa = PBXBuildFile; fileRef = F43D507A18AA511700967C3F /* Pause.png */; };
 		F43D507D18AA511700967C3F /* Play.png in Resources */ = {isa = PBXBuildFile; fileRef = F43D507B18AA511700967C3F /* Play.png */; };
 		F43D508018AA520800967C3F /* TDGlobalConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = F43D507F18AA520800967C3F /* TDGlobalConfiguration.m */; };
+		F43D508218AB855000967C3F /* alarm.wav in Resources */ = {isa = PBXBuildFile; fileRef = F43D508118AB855000967C3F /* alarm.wav */; };
+		F43D508418AB89B400967C3F /* myLocation.png in Resources */ = {isa = PBXBuildFile; fileRef = F43D508318AB89B400967C3F /* myLocation.png */; };
 		F46BECFE18969D07009B5251 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F46BECFD18969D07009B5251 /* Foundation.framework */; };
 		F46BED0018969D07009B5251 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F46BECFF18969D07009B5251 /* CoreGraphics.framework */; };
 		F46BED0218969D07009B5251 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F46BED0118969D07009B5251 /* UIKit.framework */; };
@@ -118,6 +120,8 @@
 		F43D507B18AA511700967C3F /* Play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Play.png; sourceTree = "<group>"; };
 		F43D507E18AA520800967C3F /* TDGlobalConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDGlobalConfiguration.h; sourceTree = "<group>"; };
 		F43D507F18AA520800967C3F /* TDGlobalConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDGlobalConfiguration.m; sourceTree = "<group>"; };
+		F43D508118AB855000967C3F /* alarm.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = alarm.wav; sourceTree = "<group>"; };
+		F43D508318AB89B400967C3F /* myLocation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = myLocation.png; sourceTree = "<group>"; };
 		F46BECFA18969D07009B5251 /* ProjectToDos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectToDos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F46BECFD18969D07009B5251 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F46BECFF18969D07009B5251 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -264,6 +268,8 @@
 		F46BED0418969D07009B5251 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F43D508318AB89B400967C3F /* myLocation.png */,
+				F43D508118AB855000967C3F /* alarm.wav */,
 				F48226A318AB020000846900 /* bookmark.png */,
 				F48226A118AAF91300846900 /* arrowup_20x20.png */,
 				F482269F18AAF84A00846900 /* arrowdown_20x20.png */,
@@ -423,6 +429,7 @@
 			files = (
 				F482269418A9B20400846900 /* Tutorial.storyboard in Resources */,
 				38BCD5C418A11C6900F5789A /* Checked.png in Resources */,
+				F43D508218AB855000967C3F /* alarm.wav in Resources */,
 				F46BED1618969D07009B5251 /* Images.xcassets in Resources */,
 				F43D507C18AA511700967C3F /* Pause.png in Resources */,
 				F428118318A942A5008C8B51 /* configs.strings in Resources */,
@@ -438,6 +445,7 @@
 				38A4F2C418A8F6C80018FD93 /* Record.png in Resources */,
 				38A4F2C018A8F6C80018FD93 /* CheckedGreen.png in Resources */,
 				F48226A218AAF91300846900 /* arrowup_20x20.png in Resources */,
+				F43D508418AB89B400967C3F /* myLocation.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

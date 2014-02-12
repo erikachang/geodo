@@ -20,6 +20,7 @@
 @interface MapKitDragAndDropViewController : UIViewController{
 	MKMapView *mapView;
 }
+@property (weak, nonatomic) IBOutlet UILabel *lblOptions;
 @property (weak, nonatomic) IBOutlet UILabel *lblRadius;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *sgmMapStyle;
 @property (weak, nonatomic) IBOutlet UILabel *lblMap;

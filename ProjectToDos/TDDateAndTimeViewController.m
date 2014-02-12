@@ -15,6 +15,8 @@
 
 
 @implementation TDDateAndTimeViewController
+
+
 {
     NSMutableArray *days;
     BOOL data;
@@ -22,6 +24,9 @@
     BOOL weekDays;
 }
 
+- (IBAction)dateChanged:(UIDatePicker *)sender {
+    [self.hourPicker setDate:[self.datePicker date]];
+}
 @synthesize superController;
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -43,15 +48,42 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     [[self navigationController] setNavigationBarHidden:NO];
     
     [self.view setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
-    [self.switcher setOnTintColor:[TDGlobalConfiguration controlBackgroundColor]];
+    [self.switcher setOnTintColor:[TDGlobalConfiguration fontColor]];
+    [self.tblDateTime setBackgroundColor:[TDGlobalConfiguration controlBackgroundColor]];
+    [[self.tblDateTime headerViewForSection:0].textLabel setTextColor:[TDGlobalConfiguration fontColor]];
+    [self.datePicker setBackgroundColor:[UIColor clearColor]];
+    [self.datePicker setTintColor:[TDGlobalConfiguration fontColor]];
+    [self.hourPicker setBackgroundColor:[UIColor clearColor]];
+    [self.hourPicker setTintColor:[TDGlobalConfiguration fontColor]];
+
+    [self.hour setTextColor:[TDGlobalConfiguration fontColor]];
+    [self.hour setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
+    [self.recurrent setTextColor:[TDGlobalConfiguration fontColor]];
+    [self.recurrent setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
+    [self.date setTextColor:[TDGlobalConfiguration fontColor]];
+    [self.date setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
+    [self.occurrence setTextColor:[TDGlobalConfiguration fontColor]];
+    [self.occurrence setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
+    
+    short numberOfCells = [self.tblDateTime numberOfRowsInSection:0];
+    
+    for (short i = 0; i < numberOfCells; i++) {
+        NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
+        
+        UITableViewCell *cell = [self.tblDateTime cellForRowAtIndexPath:path];
+        
+        [cell setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
+        [cell setTintColor:[TDGlobalConfiguration fontColor]];
+        [[cell textLabel] setTextColor:[TDGlobalConfiguration fontColor]];
+        [[cell textLabel] setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
+    }
     
     NSDate *date = [NSDate date];
     self.datePicker.minimumDate = date;
@@ -254,7 +286,6 @@
     
     cell.selected = NO;
 }
-
 
 - (float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0 && indexPath.row == 0) {

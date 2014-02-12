@@ -11,6 +11,8 @@
 #import "TDEditToDoViewController.h"
 
 @interface TDDateAndTimeViewController : UITableViewController
+@property (weak, nonatomic) IBOutlet UITableViewCell *cllHorario;
+@property (strong, nonatomic) IBOutlet UITableView *tblDateTime;
 
 @property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
 @property (weak, nonatomic) IBOutlet UIDatePicker *hourPicker;

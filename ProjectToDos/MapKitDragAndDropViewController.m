@@ -23,6 +23,9 @@
     
     int initialY;
 }
+- (IBAction)txtEnderecoReturnKeyPressed:(UITextField *)sender {
+    [self btEndereco_click:sender];
+}
 
 @synthesize mapView;
 @synthesize superController;
@@ -66,28 +69,31 @@
     [swipeRight setDirection:UISwipeGestureRecognizerDirectionRight];
     [self.view addGestureRecognizer:swipeRight];
     
-    initialY=55;
+    initialY=mapView.bounds.origin.y;
     
     [self.view setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
     
     [self.txtEndereco setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
     [self.txtEndereco setTextColor:[TDGlobalConfiguration fontColor]];
-    [self.txtEndereco setBackgroundColor:[TDGlobalConfiguration controlBackgroundColor]];
+    [self.txtEndereco setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
     [self.txtEndereco setPlaceholder:@"Digite um endereço..."];
+    
     [self.txtRaio setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
     [self.txtRaio setTextColor:[TDGlobalConfiguration fontColor]];
-    [self.txtRaio setBackgroundColor:[TDGlobalConfiguration controlBackgroundColor]];
+    [self.txtRaio setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
+
     [self.btnMyLocation setTintColor:[TDGlobalConfiguration buttonColor]];
     [self.btnOk setTintColor:[TDGlobalConfiguration buttonColor]];
-    [self.btnSearch setTitle:@"Pesquisar" forState:UIControlStateNormal];
     [self.btnSearch setTintColor:[TDGlobalConfiguration buttonColor]];
+    [self.lblOptions setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
+    [self.lblOptions setTextColor:[TDGlobalConfiguration fontColor]];
     [self.lblMap setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
     [self.lblMap setTextColor:[TDGlobalConfiguration fontColor]];
     [self.lblRadius setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
     [self.lblRadius setTextColor:[TDGlobalConfiguration fontColor]];
     
-    [self.sgmMapStyle setTintColor:[TDGlobalConfiguration buttonColor]];
-    [self.sgmMapStyle setBackgroundColor:[TDGlobalConfiguration controlBackgroundColor]];
+    [self.sgmMapStyle setTintColor:[TDGlobalConfiguration fontColor]];
+    [self.sgmMapStyle setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
     
     [self.menuView setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
 }
@@ -349,7 +355,7 @@
     [UIView animateWithDuration:.25
                      animations:^{
                          //+70 para deixar alinhado por enquanto.
-                         [_content setFrame:CGRectMake(_content.frame.origin.x, _menuView.frame.size.height+70, _content.frame.size.width, _content.frame.size.height)];
+                         [_content setFrame:CGRectMake(_content.frame.origin.x, _menuView.frame.size.height+10, _content.frame.size.width, _content.frame.size.height)];
                      }
      ];
     

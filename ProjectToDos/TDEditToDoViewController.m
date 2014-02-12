@@ -418,6 +418,8 @@ short _editToDoViewControllerCharacterLimit = 40;
         _playButton.enabled = NO;
     }
     _stopButton.enabled = NO;
+    _stopButton.hidden = YES;
+    _playButton.hidden = NO;
     
     if([_toDo audioRecorder]==nil){
         NSArray *dirPaths;
