@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F46BECF918969D07009B5251"
                BuildableName = "ProjectToDos.app"
-               BlueprintName = "ProjectToDos"
-               ReferencedContainer = "container:ProjectToDos.xcodeproj">
+               BlueprintName = "GeoDO"
+               ReferencedContainer = "container:GeoDO.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,8 +34,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F46BED1A18969D08009B5251"
                BuildableName = "ProjectToDosTests.xctest"
-               BlueprintName = "ProjectToDosTests"
-               ReferencedContainer = "container:ProjectToDos.xcodeproj">
+               BlueprintName = "GeoDOTests"
+               ReferencedContainer = "container:GeoDO.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -44,8 +44,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F46BECF918969D07009B5251"
             BuildableName = "ProjectToDos.app"
-            BlueprintName = "ProjectToDos"
-            ReferencedContainer = "container:ProjectToDos.xcodeproj">
+            BlueprintName = "GeoDO"
+            ReferencedContainer = "container:GeoDO.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -63,8 +63,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F46BECF918969D07009B5251"
             BuildableName = "ProjectToDos.app"
-            BlueprintName = "ProjectToDos"
-            ReferencedContainer = "container:ProjectToDos.xcodeproj">
+            BlueprintName = "GeoDO"
+            ReferencedContainer = "container:GeoDO.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -81,8 +81,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F46BECF918969D07009B5251"
             BuildableName = "ProjectToDos.app"
-            BlueprintName = "ProjectToDos"
-            ReferencedContainer = "container:ProjectToDos.xcodeproj">
+            BlueprintName = "GeoDO"
+            ReferencedContainer = "container:GeoDO.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

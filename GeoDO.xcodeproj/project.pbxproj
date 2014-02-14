@@ -122,23 +122,23 @@
 		F43D507F18AA520800967C3F /* TDGlobalConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDGlobalConfiguration.m; sourceTree = "<group>"; };
 		F43D508118AB855000967C3F /* alarm.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = alarm.wav; sourceTree = "<group>"; };
 		F43D508318AB89B400967C3F /* myLocation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = myLocation.png; sourceTree = "<group>"; };
-		F46BECFA18969D07009B5251 /* ProjectToDos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectToDos.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F46BECFA18969D07009B5251 /* GeoDO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GeoDO.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F46BECFD18969D07009B5251 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F46BECFF18969D07009B5251 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		F46BED0118969D07009B5251 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		F46BED0518969D07009B5251 /* ProjectToDos-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ProjectToDos-Info.plist"; sourceTree = "<group>"; };
+		F46BED0518969D07009B5251 /* GeoDO-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GeoDO-Info.plist"; sourceTree = "<group>"; };
 		F46BED0718969D07009B5251 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F46BED0918969D07009B5251 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		F46BED0B18969D07009B5251 /* ProjectToDos-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ProjectToDos-Prefix.pch"; sourceTree = "<group>"; };
+		F46BED0B18969D07009B5251 /* GeoDO-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GeoDO-Prefix.pch"; sourceTree = "<group>"; };
 		F46BED0C18969D07009B5251 /* TDAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TDAppDelegate.h; sourceTree = "<group>"; };
 		F46BED0D18969D07009B5251 /* TDAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TDAppDelegate.m; sourceTree = "<group>"; };
 		F46BED1018969D07009B5251 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F46BED1218969D07009B5251 /* TDViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TDViewController.h; sourceTree = "<group>"; };
 		F46BED1318969D07009B5251 /* TDViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TDViewController.m; sourceTree = "<group>"; };
 		F46BED1518969D07009B5251 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		F46BED1B18969D08009B5251 /* ProjectToDosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProjectToDosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F46BED1B18969D08009B5251 /* GeoDOTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GeoDOTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F46BED1C18969D08009B5251 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		F46BED2418969D08009B5251 /* ProjectToDosTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ProjectToDosTests-Info.plist"; sourceTree = "<group>"; };
+		F46BED2418969D08009B5251 /* GeoDOTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GeoDOTests-Info.plist"; sourceTree = "<group>"; };
 		F46BED2618969D08009B5251 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F46BED2818969D08009B5251 /* ProjectToDosTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProjectToDosTests.m; sourceTree = "<group>"; };
 		F482269318A9B20400846900 /* Tutorial.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Tutorial.storyboard; sourceTree = "<group>"; };
@@ -228,8 +228,8 @@
 		F46BECFB18969D07009B5251 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F46BECFA18969D07009B5251 /* ProjectToDos.app */,
-				F46BED1B18969D08009B5251 /* ProjectToDosTests.xctest */,
+				F46BECFA18969D07009B5251 /* GeoDO.app */,
+				F46BED1B18969D08009B5251 /* GeoDOTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -282,10 +282,10 @@
 				38A4F2BF18A8F6C80018FD93 /* remove.png */,
 				38BCD5C318A11C6900F5789A /* Checked.png */,
 				381D150918A04B2A00A8CD86 /* mapIco.png */,
-				F46BED0518969D07009B5251 /* ProjectToDos-Info.plist */,
+				F46BED0518969D07009B5251 /* GeoDO-Info.plist */,
 				F46BED0618969D07009B5251 /* InfoPlist.strings */,
 				F46BED0918969D07009B5251 /* main.m */,
-				F46BED0B18969D07009B5251 /* ProjectToDos-Prefix.pch */,
+				F46BED0B18969D07009B5251 /* GeoDO-Prefix.pch */,
 				F428118218A942A5008C8B51 /* configs.strings */,
 			);
 			name = "Supporting Files";
@@ -310,7 +310,7 @@
 				38D4A4E3189FDFAE0020723A /* PinDown3.png */,
 				38D4A4E4189FDFAE0020723A /* PinFloating.png */,
 				38D4A4E5189FDFAE0020723A /* PinShadow.png */,
-				F46BED2418969D08009B5251 /* ProjectToDosTests-Info.plist */,
+				F46BED2418969D08009B5251 /* GeoDOTests-Info.plist */,
 				F46BED2518969D08009B5251 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -353,9 +353,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		F46BECF918969D07009B5251 /* ProjectToDos */ = {
+		F46BECF918969D07009B5251 /* GeoDO */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F46BED2C18969D08009B5251 /* Build configuration list for PBXNativeTarget "ProjectToDos" */;
+			buildConfigurationList = F46BED2C18969D08009B5251 /* Build configuration list for PBXNativeTarget "GeoDO" */;
 			buildPhases = (
 				F46BECF618969D07009B5251 /* Sources */,
 				F46BECF718969D07009B5251 /* Frameworks */,
@@ -365,14 +365,14 @@
 			);
 			dependencies = (
 			);
-			name = ProjectToDos;
+			name = GeoDO;
 			productName = ProjectToDos;
-			productReference = F46BECFA18969D07009B5251 /* ProjectToDos.app */;
+			productReference = F46BECFA18969D07009B5251 /* GeoDO.app */;
 			productType = "com.apple.product-type.application";
 		};
-		F46BED1A18969D08009B5251 /* ProjectToDosTests */ = {
+		F46BED1A18969D08009B5251 /* GeoDOTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F46BED2F18969D08009B5251 /* Build configuration list for PBXNativeTarget "ProjectToDosTests" */;
+			buildConfigurationList = F46BED2F18969D08009B5251 /* Build configuration list for PBXNativeTarget "GeoDOTests" */;
 			buildPhases = (
 				F46BED1718969D08009B5251 /* Sources */,
 				F46BED1818969D08009B5251 /* Frameworks */,
@@ -383,9 +383,9 @@
 			dependencies = (
 				F46BED2118969D08009B5251 /* PBXTargetDependency */,
 			);
-			name = ProjectToDosTests;
+			name = GeoDOTests;
 			productName = ProjectToDosTests;
-			productReference = F46BED1B18969D08009B5251 /* ProjectToDosTests.xctest */;
+			productReference = F46BED1B18969D08009B5251 /* GeoDOTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -403,7 +403,7 @@
 					};
 				};
 			};
-			buildConfigurationList = F46BECF518969D07009B5251 /* Build configuration list for PBXProject "ProjectToDos" */;
+			buildConfigurationList = F46BECF518969D07009B5251 /* Build configuration list for PBXProject "GeoDO" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -416,8 +416,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F46BECF918969D07009B5251 /* ProjectToDos */,
-				F46BED1A18969D08009B5251 /* ProjectToDosTests */,
+				F46BECF918969D07009B5251 /* GeoDO */,
+				F46BED1A18969D08009B5251 /* GeoDOTests */,
 			);
 		};
 /* End PBXProject section */
@@ -507,7 +507,7 @@
 /* Begin PBXTargetDependency section */
 		F46BED2118969D08009B5251 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = F46BECF918969D07009B5251 /* ProjectToDos */;
+			target = F46BECF918969D07009B5251 /* GeoDO */;
 			targetProxy = F46BED2018969D08009B5251 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -619,9 +619,9 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "ProjectToDos/ProjectToDos-Prefix.pch";
-				INFOPLIST_FILE = "ProjectToDos/ProjectToDos-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "ProjectToDos/GeoDO-Prefix.pch";
+				INFOPLIST_FILE = "ProjectToDos/GeoDO-Info.plist";
+				PRODUCT_NAME = GeoDO;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -633,9 +633,9 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "ProjectToDos/ProjectToDos-Prefix.pch";
-				INFOPLIST_FILE = "ProjectToDos/ProjectToDos-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "ProjectToDos/GeoDO-Prefix.pch";
+				INFOPLIST_FILE = "ProjectToDos/GeoDO-Info.plist";
+				PRODUCT_NAME = GeoDO;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -656,8 +656,8 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "ProjectToDosTests/ProjectToDosTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "ProjectToDosTests/GeoDOTests-Info.plist";
+				PRODUCT_NAME = GeoDOTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -675,8 +675,8 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ProjectToDos/ProjectToDos-Prefix.pch";
-				INFOPLIST_FILE = "ProjectToDosTests/ProjectToDosTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "ProjectToDosTests/GeoDOTests-Info.plist";
+				PRODUCT_NAME = GeoDOTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -685,7 +685,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		F46BECF518969D07009B5251 /* Build configuration list for PBXProject "ProjectToDos" */ = {
+		F46BECF518969D07009B5251 /* Build configuration list for PBXProject "GeoDO" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F46BED2A18969D08009B5251 /* Debug */,
@@ -694,7 +694,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F46BED2C18969D08009B5251 /* Build configuration list for PBXNativeTarget "ProjectToDos" */ = {
+		F46BED2C18969D08009B5251 /* Build configuration list for PBXNativeTarget "GeoDO" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F46BED2D18969D08009B5251 /* Debug */,
@@ -703,7 +703,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F46BED2F18969D08009B5251 /* Build configuration list for PBXNativeTarget "ProjectToDosTests" */ = {
+		F46BED2F18969D08009B5251 /* Build configuration list for PBXNativeTarget "GeoDOTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F46BED3018969D08009B5251 /* Debug */,

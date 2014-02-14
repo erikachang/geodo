@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:ProjectToDos.xcodeproj">
+      location = "self:GeoDO.xcodeproj">
    </FileRef>
 </Workspace>
