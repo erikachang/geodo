@@ -95,7 +95,8 @@
     [self.sgmMapStyle setTintColor:[TDGlobalConfiguration fontColor]];
     [self.sgmMapStyle setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
     
-    [self.menuView setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
+    //[self.menuView setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -105,6 +106,10 @@
     [self.navigationController setNavigationBarHidden:NO];
 	// NOTE: This is optional, DDAnnotationCoordinateDidChangeNotification only fired in iPhone OS 3, not in iOS 4.
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(coordinateChanged_:) name:@"DDAnnotationCoordinateDidChangeNotification" object:nil];
+    
+    //parte da animação
+    UIDynamicAnimator *animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
+    self.animator = animator;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -283,7 +288,7 @@
 
 - (IBAction)showMenuDown:(id)sender {
     
-    if(_content.frame.origin.y == initialY) { //only show the menu if it is not already shown
+    if(_menuView.frame.origin.y == -158) { //only show the menu if it is not already shown
         [self showMenu];
     } else {
         [self hideMenu];
@@ -352,32 +357,48 @@
 -(void)showMenu{
     
     //slide the content view to the right to reveal the menu
-    [UIView animateWithDuration:.25
-                     animations:^{
-                         //+70 para deixar alinhado por enquanto.
-                         [_content setFrame:CGRectMake(_content.frame.origin.x, _menuView.frame.size.height+10, _content.frame.size.width, _content.frame.size.height)];
-                     }
-     ];
+    //[UIView animateWithDuration:.25
+    //                 animations:^{
+    //                     //+70 para deixar alinhado por enquanto.
+    //                     [_menuView setFrame:CGRectMake(_menuView.frame.origin.x, 0, _menuView.frame.size.width, _menuView.frame.size.height)];
+    //                 }
+    // ];
+    
+    UIGravityBehavior *gravityBeahvior = [[UIGravityBehavior alloc] initWithItems:@[self.menuView]];
+    [self.animator addBehavior:gravityBeahvior];
+    
+    UICollisionBehavior *collisionBehavior = [[UICollisionBehavior alloc] initWithItems:@[self.menuView]];
+    [collisionBehavior setTranslatesReferenceBoundsIntoBoundaryWithInsets:UIEdgeInsetsMake(-400, 0, self.view.bounds.size.height-158, 0)];
+
+    collisionBehavior.collisionDelegate = self;
+    
+    [self.animator addBehavior:collisionBehavior];
     
 }
 -(void)hideMenu{
     //slide the content view to the left to hide the menu
-    [UIView animateWithDuration:.25
-                     animations:^{
-                         [_content setFrame:CGRectMake(0, initialY, _content.frame.size.width, _content.frame.size.height)];
-                         
-                     }
-     ];
+    //[UIView animateWithDuration:.25
+    //                 animations:^{
+    //                     [_menuView setFrame:CGRectMake(0, -158, _menuView.frame.size.width, _menuView.frame.size.height)];
+    //
+    //                 }
+    // ];
+    
+    UIGravityBehavior *gravityBeahvior = [[UIGravityBehavior alloc] initWithItems:@[self.menuView]];
+    gravityBeahvior.gravityDirection = CGVectorMake(0, -158);
+    [self.animator addBehavior:gravityBeahvior];
+    
+    
 }
 
 #pragma mark - Gesture handlers -
 -(void)handleSwipeLeft:(UISwipeGestureRecognizer*)recognizer{
-    
-    if(_content.frame.origin.x != 0)
+    if(_menuView.frame.origin.y == 0)
         [self hideMenu];
 }
+
 -(void)handleSwipeRight:(UISwipeGestureRecognizer*)recognizer{
-    if(_content.frame.origin.x == 0)
+    if(_menuView.frame.origin.y == -158)
         [self showMenu];
 }
 @end
