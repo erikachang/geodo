@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F46BECF918969D07009B5251"
-               BuildableName = "ProjectToDos.app"
+               BuildableName = "GeoDO.app"
                BlueprintName = "GeoDO"
                ReferencedContainer = "container:GeoDO.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F46BED1A18969D08009B5251"
-               BuildableName = "ProjectToDosTests.xctest"
+               BuildableName = "GeoDOTests.xctest"
                BlueprintName = "GeoDOTests"
                ReferencedContainer = "container:GeoDO.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F46BECF918969D07009B5251"
-            BuildableName = "ProjectToDos.app"
+            BuildableName = "GeoDO.app"
             BlueprintName = "GeoDO"
             ReferencedContainer = "container:GeoDO.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F46BECF918969D07009B5251"
-            BuildableName = "ProjectToDos.app"
+            BuildableName = "GeoDO.app"
             BlueprintName = "GeoDO"
             ReferencedContainer = "container:GeoDO.xcodeproj">
          </BuildableReference>
@@ -80,7 +80,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F46BECF918969D07009B5251"
-            BuildableName = "ProjectToDos.app"
+            BuildableName = "GeoDO.app"
             BlueprintName = "GeoDO"
             ReferencedContainer = "container:GeoDO.xcodeproj">
          </BuildableReference>
