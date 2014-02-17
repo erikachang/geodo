@@ -288,7 +288,7 @@
 
 - (IBAction)showMenuDown:(id)sender {
     
-    if(_menuView.frame.origin.y == -158) { //only show the menu if it is not already shown
+    if(_menuView.frame.origin.y != 0) { //only show the menu if it is not already shown
         [self showMenu];
     } else {
         [self hideMenu];
@@ -328,34 +328,9 @@
     center.longitude = longitude;
     return center;
 }
-/*
- - (void)geoCodeUsingCoordinateToTextField:(CLLocation*)location
- {
- CLGeocoder* geocoder;
- if (!geocoder)
- geocoder = [[CLGeocoder alloc] init];
- 
- [geocoder reverseGeocodeLocation:location completionHandler:
- ^(NSArray* placemarks, NSError* error){
- if ([placemarks count] > 0)
- {
- CLPlacemark *placemark = [placemarks objectAtIndex:0];
- NSString *strCountry = [placemark country];
- NSString *strState = [placemark administrativeArea];
- NSString *strCity = [placemark locality];
- NSString *strAv = [placemark thoroughfare];
- NSString *strBairro = [placemark subLocality];
- 
- NSString *endereco = [[NSString alloc]initWithFormat:@"%@,%@. %@-%@, %@",strAv, strBairro,strCity,strState, strCountry];
- _txtEndereco.text = endereco;
- }
- }];
- }
- */
 
 #pragma mark - animations -
 -(void)showMenu{
-    
     //slide the content view to the right to reveal the menu
     //[UIView animateWithDuration:.25
     //                 animations:^{
@@ -363,32 +338,33 @@
     //                     [_menuView setFrame:CGRectMake(_menuView.frame.origin.x, 0, _menuView.frame.size.width, _menuView.frame.size.height)];
     //                 }
     // ];
+    [self.animator removeAllBehaviors];
     
-    UIGravityBehavior *gravityBeahvior = [[UIGravityBehavior alloc] initWithItems:@[self.menuView]];
+    UIGravityBehavior *gravityBeahvior = [[UIGravityBehavior alloc] initWithItems:@[self.menuView,self.btMenu]];
     [self.animator addBehavior:gravityBeahvior];
     
     UICollisionBehavior *collisionBehavior = [[UICollisionBehavior alloc] initWithItems:@[self.menuView]];
     [collisionBehavior setTranslatesReferenceBoundsIntoBoundaryWithInsets:UIEdgeInsetsMake(-400, 0, self.view.bounds.size.height-158, 0)];
 
     collisionBehavior.collisionDelegate = self;
-    
     [self.animator addBehavior:collisionBehavior];
     
+    UICollisionBehavior *collisionBehavior2 = [[UICollisionBehavior alloc] initWithItems:@[self.btMenu]];
+    [collisionBehavior2 setTranslatesReferenceBoundsIntoBoundaryWithInsets:UIEdgeInsetsMake(-400, 0, self.view.bounds.size.height-200, 0)];
+    
+    collisionBehavior2.collisionDelegate = self;
+    
+    [self.animator addBehavior:collisionBehavior2];
 }
+
 -(void)hideMenu{
-    //slide the content view to the left to hide the menu
-    //[UIView animateWithDuration:.25
-    //                 animations:^{
-    //                     [_menuView setFrame:CGRectMake(0, -158, _menuView.frame.size.width, _menuView.frame.size.height)];
-    //
-    //                 }
-    // ];
+    [UIView animateWithDuration:.25
+                     animations:^{
+                         [_menuView setFrame:CGRectMake(0, -158, _menuView.frame.size.width, _menuView.frame.size.height)];
+                         [_btMenu setFrame:CGRectMake(_btMenu.frame.origin.x, -5, _btMenu.frame.size.width, _btMenu.frame.size.height)];
     
-    UIGravityBehavior *gravityBeahvior = [[UIGravityBehavior alloc] initWithItems:@[self.menuView]];
-    gravityBeahvior.gravityDirection = CGVectorMake(0, -158);
-    [self.animator addBehavior:gravityBeahvior];
-    
-    
+                     }
+     ];
 }
 
 #pragma mark - Gesture handlers -
