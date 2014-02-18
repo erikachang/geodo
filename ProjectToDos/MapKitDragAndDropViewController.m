@@ -74,13 +74,13 @@
     [self.view setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
     
     [self.txtEndereco setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
-    [self.txtEndereco setTextColor:[TDGlobalConfiguration fontColor]];
-    [self.txtEndereco setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
+    //[self.txtEndereco setTextColor:[TDGlobalConfiguration fontColor]];
+    //[self.txtEndereco setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
     [self.txtEndereco setPlaceholder:@"Digite um endereço..."];
     
     [self.txtRaio setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
-    [self.txtRaio setTextColor:[TDGlobalConfiguration fontColor]];
-    [self.txtRaio setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
+    //[self.txtRaio setTextColor:[TDGlobalConfiguration fontColor]];
+    //[self.txtRaio setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
 
     [self.btnMyLocation setTintColor:[TDGlobalConfiguration buttonColor]];
     [self.btnOk setTintColor:[TDGlobalConfiguration buttonColor]];
