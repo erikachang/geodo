@@ -11,10 +11,16 @@
 #import "TDDateAndTimeViewController.h"
 #import "TDLocalExistenteViewController.h"
 #import "TDGlobalConfiguration.h"
+#import "APLPositionToBoundsMapping.h"
 
 @interface TDEditToDoViewController ()
+{
+    UIButton *btAux;
+}
 @property (weak, nonatomic) IBOutlet UIButton *addDateTimeNotificationButton;
 @property (weak, nonatomic) IBOutlet UIButton *addLocationNotificationButton;
+@property (nonatomic, readwrite) CGRect button1Bounds;
+@property (nonatomic, strong) UIDynamicAnimator *animator;
 @property (weak, nonatomic) IBOutlet UITextField *titleTextField;
 @property (weak, nonatomic) IBOutlet UITableView *remindersTableView;
 
@@ -76,8 +82,6 @@ short _editToDoViewControllerCharacterLimit = 40;
 }
 
 
-
-
 #pragma mark - Table View delegates
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -112,11 +116,54 @@ short _editToDoViewControllerCharacterLimit = 40;
     cell.lblText.text =[[reminders objectAtIndex:indexPath.row] notificationDescription];
     cell.lblText.numberOfLines = 0;
     
+    self.button1Bounds = cell.btRemove.bounds;
+    
     cell.btRemove.tag = indexPath.row;
-    [cell.btRemove addTarget:self action:@selector(btRemove_Click:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [cell.btRemove addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];       
     cell.accessoryType = UITableViewCellAccessoryNone;
     
     return cell;
+}
+
+- (IBAction)buttonAction:(id)sender
+{
+    UIButton *button1 = (UIButton *)sender;
+    button1.bounds = self.button1Bounds;
+    
+    btAux = button1;
+    
+    // UIDynamicAnimator instances are relatively cheap to create
+    UIDynamicAnimator *animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
+    animator.delegate = self;
+    
+    // APLPositionToBoundsMapping maps the center of an id<ResizableDynamicItem>
+    // (UIDynamicItem with mutable bounds) to its bounds.  As dynamics modifies
+    // the center.x, the changes are forwarded to the bounds.size.width.
+    // Similarly, as dynamics modifies the center.y, the changes are forwarded
+    // to bounds.size.height.
+    APLPositionToBoundsMapping *buttonBoundsDynamicItem = [[APLPositionToBoundsMapping alloc] initWithTarget:sender];
+    
+    // Create an attachment between the buttonBoundsDynamicItem and the initial
+    // value of the button's bounds.
+    UIAttachmentBehavior *attachmentBehavior = [[UIAttachmentBehavior alloc] initWithItem:buttonBoundsDynamicItem attachedToAnchor:buttonBoundsDynamicItem.center];
+    [attachmentBehavior setFrequency:2.0];
+    [attachmentBehavior setDamping:7.5];
+    [animator addBehavior:attachmentBehavior];
+    
+    UIPushBehavior *pushBehavior = [[UIPushBehavior alloc] initWithItems:@[buttonBoundsDynamicItem] mode:UIPushBehaviorModeInstantaneous];
+    pushBehavior.angle = M_PI_4;
+    pushBehavior.magnitude = .25;
+    [animator addBehavior:pushBehavior];
+    
+    [pushBehavior setActive:TRUE];
+    
+    self.animator = animator;
+}
+
+- (void)dynamicAnimatorDidPause:(UIDynamicAnimator*)animator
+{
+    [self btRemove_Click:btAux];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -154,8 +201,6 @@ short _editToDoViewControllerCharacterLimit = 40;
         [_tabView reloadData];
     }
 }
-
-
 
 #pragma mark - Parte do audio record
 
@@ -413,6 +458,7 @@ short _editToDoViewControllerCharacterLimit = 40;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     //parte do recorder
     if(![_toDo recorded]){
         _playButton.enabled = NO;
@@ -486,7 +532,6 @@ short _editToDoViewControllerCharacterLimit = 40;
     // Date and Time Notification button customization
     {
         [self.addDateTimeNotificationButton setTitle:@"+ Data/Hora" forState:UIControlStateNormal];
-        [self.addDateTimeNotificationButton addTarget:self action:@selector(gotoDateAndTime) forControlEvents:UIControlEventTouchDown];
         [self.addDateTimeNotificationButton setTitleColor:[TDGlobalConfiguration buttonColor] forState:UIControlStateNormal];
     }
     
@@ -500,6 +545,8 @@ short _editToDoViewControllerCharacterLimit = 40;
     self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
     self.locationManager.delegate = self;
     [self.locationManager startUpdatingLocation];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning
