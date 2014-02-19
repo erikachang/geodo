@@ -15,11 +15,10 @@
 
 @interface TDEditToDoViewController ()
 {
-    UIButton *btAux;
+    id btAux;
 }
 @property (weak, nonatomic) IBOutlet UIButton *addDateTimeNotificationButton;
 @property (weak, nonatomic) IBOutlet UIButton *addLocationNotificationButton;
-@property (nonatomic, readwrite) CGRect button1Bounds;
 @property (nonatomic, strong) UIDynamicAnimator *animator;
 @property (weak, nonatomic) IBOutlet UITextField *titleTextField;
 @property (weak, nonatomic) IBOutlet UITableView *remindersTableView;
@@ -116,11 +115,9 @@ short _editToDoViewControllerCharacterLimit = 40;
     cell.lblText.text =[[reminders objectAtIndex:indexPath.row] notificationDescription];
     cell.lblText.numberOfLines = 0;
     
-    self.button1Bounds = cell.btRemove.bounds;
-    
     cell.btRemove.tag = indexPath.row;
     
-    [cell.btRemove addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];       
+    [cell.btRemove addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
     cell.accessoryType = UITableViewCellAccessoryNone;
     
     return cell;
@@ -129,42 +126,32 @@ short _editToDoViewControllerCharacterLimit = 40;
 - (IBAction)buttonAction:(id)sender
 {
     UIButton *button1 = (UIButton *)sender;
-    button1.bounds = self.button1Bounds;
+    btAux = sender;
+
+    NSIndexPath *path = [NSIndexPath indexPathForRow:button1.tag inSection:0];
+    UITableViewCell *cell = [self.tabView cellForRowAtIndexPath:path];
     
-    btAux = button1;
-    
-    // UIDynamicAnimator instances are relatively cheap to create
+    UICollisionBehavior *collision = [[UICollisionBehavior alloc] initWithItems:@[cell]];
+    [collision setTranslatesReferenceBoundsIntoBoundaryWithInsets:UIEdgeInsetsMake(cell.bounds.size.width + cell.bounds.size.width, 0, cell.bounds.size.width + cell.bounds.size.width+1, -400)];
     UIDynamicAnimator *animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
+    
     animator.delegate = self;
     
-    // APLPositionToBoundsMapping maps the center of an id<ResizableDynamicItem>
-    // (UIDynamicItem with mutable bounds) to its bounds.  As dynamics modifies
-    // the center.x, the changes are forwarded to the bounds.size.width.
-    // Similarly, as dynamics modifies the center.y, the changes are forwarded
-    // to bounds.size.height.
-    APLPositionToBoundsMapping *buttonBoundsDynamicItem = [[APLPositionToBoundsMapping alloc] initWithTarget:sender];
+    UIGravityBehavior *gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[cell]];
     
-    // Create an attachment between the buttonBoundsDynamicItem and the initial
-    // value of the button's bounds.
-    UIAttachmentBehavior *attachmentBehavior = [[UIAttachmentBehavior alloc] initWithItem:buttonBoundsDynamicItem attachedToAnchor:buttonBoundsDynamicItem.center];
-    [attachmentBehavior setFrequency:2.0];
-    [attachmentBehavior setDamping:7.5];
-    [animator addBehavior:attachmentBehavior];
-    
-    UIPushBehavior *pushBehavior = [[UIPushBehavior alloc] initWithItems:@[buttonBoundsDynamicItem] mode:UIPushBehaviorModeInstantaneous];
-    pushBehavior.angle = M_PI_4;
-    pushBehavior.magnitude = .25;
-    [animator addBehavior:pushBehavior];
-    
-    [pushBehavior setActive:TRUE];
+    [gravityBehavior setGravityDirection:CGVectorMake(15.0, 0.0)];
+    [animator addBehavior:gravityBehavior];
+    [animator addBehavior:collision];
     
     self.animator = animator;
+
 }
 
-- (void)dynamicAnimatorDidPause:(UIDynamicAnimator*)animator
+- (void)dynamicAnimatorDidPause:(UIDynamicAnimator *)animator
 {
     [self btRemove_Click:btAux];
 }
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

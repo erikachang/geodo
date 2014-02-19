@@ -23,10 +23,6 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    
-    self.btRemove.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
-    self.btRemove.contentVerticalAlignment = UIControlContentHorizontalAlignmentFill;
-    
 }
 
 @end
