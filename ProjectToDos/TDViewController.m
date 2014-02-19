@@ -354,39 +354,12 @@ UITableViewCell *_firstCell;
     
     if (toDo.active) {
         [toDo togglePriority];
-        
-        if (toDo.priority) {
-            
-            [UIView animateWithDuration:.6 animations:^{
-                [self.toDosTableView beginUpdates];
-                
-                [self.toDosDataSource removeObjectAtIndex:indexPath.row];
-                [self.toDosDataSource insertObject:toDo atIndex:0];
-                
-                [self.toDosTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-                [self.toDosTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
-                [self.toDosTableView endUpdates];
-            }];
-        } else {
-            
-            NSIndexPath *newIndexPath = [self getFirstNonPriorityIndex];
-            
-            [UIView animateWithDuration:.6 animations:^{
-                [self.toDosTableView beginUpdates];
-                
-                [self.toDosDataSource removeObjectAtIndex:indexPath.row];
-                [self.toDosDataSource insertObject:toDo atIndex:newIndexPath.row];
-                
-                [self.toDosTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-                [self.toDosTableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-                [self.toDosTableView endUpdates];
-            }];
-        }
     }
+    [self.toDosTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
 }
 
 #pragma mark View delegates
-
+CAGradientLayer *grad;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -418,13 +391,14 @@ UITableViewCell *_firstCell;
     UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
     [longPressRecognizer setNumberOfTouchesRequired:1];
     [self.toDosTableView addGestureRecognizer:longPressRecognizer];
-    [self.view setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
-//    [self.toDosTableView setBackgroundColor:[TDGlobalConfiguration controlBackgroundColor]];
-    [self.toDosTableView setBackgroundColor:[UIColor clearColor]];
-
+    [self.toDosTableView setBackgroundColor:[TDGlobalConfiguration controlBackgroundColor]];
     [self.toDosTableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
     [self.searchAndAddTextField setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
     [self.searchAndAddTextField setTextColor:[TDGlobalConfiguration fontColor]];
+    
+    grad = [TDGlobalConfiguration gradientLayer];
+    grad.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
+    [self.view.layer insertSublayer:grad atIndex:0];
     
     //parte para notificacao
     self.locationManager = [[CLLocationManager alloc] init];

@@ -24,6 +24,7 @@
 
 @implementation TDEditToDoViewController
 
+CAGradientLayer *grad;
 short _editToDoViewControllerCharacterLimit = 40;
 
 - (IBAction)limitCharacterInput:(UITextField *)sender {
@@ -467,6 +468,9 @@ short _editToDoViewControllerCharacterLimit = 40;
     }
     //fim do recorder
     
+    grad = [TDGlobalConfiguration gradientLayer];
+    grad.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
+    [self.view.layer insertSublayer:grad atIndex:0];
     
 	// Do any additional setup after loading the view.
     [self.titleTextField setBorderStyle:UITextBorderStyleNone];
@@ -476,7 +480,7 @@ short _editToDoViewControllerCharacterLimit = 40;
     NSDictionary *sections = @{@"Lembre-me:":@"Lembre-me:"};
     [self.sectionsDic addEntriesFromDictionary:sections];
     [self.remindersTableView setBackgroundColor:[TDGlobalConfiguration controlBackgroundColor]];
-    [self.view setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
+//    [self.view setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
     
     // Adding Swip Gesture Recognizers
     UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRight:)];
