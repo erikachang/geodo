@@ -66,6 +66,7 @@
     
 }
 
+CAGradientLayer *grad;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
