@@ -12,10 +12,12 @@
 
 @interface TDDateAndTimeViewController : UITableViewController
 @property (weak, nonatomic) IBOutlet UITableViewCell *cllHorario;
+@property (strong, nonatomic) IBOutlet UITableViewCell *datePickerCell;
 @property (strong, nonatomic) IBOutlet UITableView *tblDateTime;
+@property (weak, nonatomic) IBOutlet UITableViewCell *hourPickerCell;
 
-@property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
-@property (weak, nonatomic) IBOutlet UIDatePicker *hourPicker;
+@property (strong, nonatomic) UIDatePicker *datePicker;
+@property (strong, nonatomic) UIDatePicker *hourPicker;
 @property (weak, nonatomic) IBOutlet UILabel *date;
 @property (weak, nonatomic) IBOutlet UILabel *dateDetails;
 @property (weak, nonatomic) IBOutlet UISwitch *switcher;

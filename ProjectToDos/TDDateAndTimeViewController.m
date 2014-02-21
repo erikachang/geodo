@@ -8,6 +8,7 @@
 
 #import "TDDateAndTimeViewController.h"
 #import "TDGlobalConfiguration.h"
+#define MAINLABEL_TAG 1
 
 @interface TDDateAndTimeViewController ()
 
@@ -15,8 +16,6 @@
 
 
 @implementation TDDateAndTimeViewController
-
-
 {
     NSMutableArray *days;
     BOOL data;
@@ -27,6 +26,7 @@
 - (IBAction)dateChanged:(UIDatePicker *)sender {
     [self.hourPicker setDate:[self.datePicker date]];
 }
+
 @synthesize superController;
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -46,6 +46,25 @@
     }
     
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    self.datePicker = [[UIDatePicker alloc] init];
+    [self.datePicker setDatePickerMode:UIDatePickerModeDate];
+    [self.datePicker addTarget:self  action:@selector(dateChanged:)
+         forControlEvents:UIControlEventValueChanged];
+    
+    self.hourPicker = [[UIDatePicker alloc] init];
+    [self.hourPicker setDatePickerMode:UIDatePickerModeTime];
+    
+    NSDate *date = [NSDate date];
+    self.datePicker.minimumDate = date;
+    self.hourPicker.minimumDate = date;
+    
+    [self.hourPickerCell.contentView addSubview:self.hourPicker];
+    [self.datePickerCell.contentView addSubview:self.datePicker];
+    
 }
 
 - (void)viewDidLoad
@@ -84,15 +103,11 @@
         [[cell textLabel] setTextColor:[TDGlobalConfiguration fontColor]];
         [[cell textLabel] setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
     }
-    
-    NSDate *date = [NSDate date];
-    self.datePicker.minimumDate = date;
-    self.hourPicker.minimumDate = date;
 
     days = [[NSMutableArray alloc] init];
     
     data = YES;
-    hours = NO;
+    hours = YES;
     weekDays = YES;
     
     self.hourDetail.alpha = 0;
