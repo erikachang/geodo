@@ -384,6 +384,10 @@ CAGradientLayer *grad;
 //        [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:[NSString stringWithFormat:@"Placeholder Todo %d", i]]];
 //    }
     
+    [self.navigationController.navigationBar setBarTintColor:[TDGlobalConfiguration navigationBarCoor]];
+    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSizeBig]], NSFontAttributeName, [TDGlobalConfiguration fontColor] , NSForegroundColorAttributeName, Nil]];
+    [self.navigationController.navigationBar setTintColor:[TDGlobalConfiguration fontColor]];
+    
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panLeft:)];
     panRecognizer.delegate = self;
     [self.toDosTableView addGestureRecognizer:panRecognizer];

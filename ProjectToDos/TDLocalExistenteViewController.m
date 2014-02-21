@@ -27,7 +27,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"Escolher local";
+//    self.title = @"Escolher local";
     
     [self.lblIdentificador setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
     [self.lblIdentificador setTextColor:[TDGlobalConfiguration fontColor]];

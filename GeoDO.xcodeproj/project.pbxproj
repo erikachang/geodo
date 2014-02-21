@@ -50,7 +50,7 @@
 		F46BED0E18969D07009B5251 /* TDAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F46BED0D18969D07009B5251 /* TDAppDelegate.m */; };
 		F46BED1118969D07009B5251 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F46BED0F18969D07009B5251 /* Main.storyboard */; };
 		F46BED1418969D07009B5251 /* TDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F46BED1318969D07009B5251 /* TDViewController.m */; };
-		F46BED1618969D07009B5251 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F46BED1518969D07009B5251 /* Images.xcassets */; };
+		F46BED1618969D07009B5251 /* image.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F46BED1518969D07009B5251 /* image.xcassets */; };
 		F46BED1D18969D08009B5251 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F46BED1C18969D08009B5251 /* XCTest.framework */; };
 		F46BED1E18969D08009B5251 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F46BECFD18969D07009B5251 /* Foundation.framework */; };
 		F46BED1F18969D08009B5251 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F46BED0118969D07009B5251 /* UIKit.framework */; };
@@ -138,7 +138,7 @@
 		F46BED1018969D07009B5251 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F46BED1218969D07009B5251 /* TDViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TDViewController.h; sourceTree = "<group>"; };
 		F46BED1318969D07009B5251 /* TDViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TDViewController.m; sourceTree = "<group>"; };
-		F46BED1518969D07009B5251 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		F46BED1518969D07009B5251 /* image.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = image.xcassets; sourceTree = "<group>"; };
 		F46BED1B18969D08009B5251 /* GeoDOTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GeoDOTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F46BED1C18969D08009B5251 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		F46BED2418969D08009B5251 /* GeoDOTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GeoDOTests-Info.plist"; sourceTree = "<group>"; };
@@ -260,7 +260,7 @@
 				F46BED0F18969D07009B5251 /* Main.storyboard */,
 				7D0E8D4018B24EB50026800A /* APLPositionToBoundsMapping.h */,
 				7D0E8D4118B24EB50026800A /* APLPositionToBoundsMapping.m */,
-				F46BED1518969D07009B5251 /* Images.xcassets */,
+				F46BED1518969D07009B5251 /* image.xcassets */,
 				F46BED0418969D07009B5251 /* Supporting Files */,
 				F43D507E18AA520800967C3F /* TDGlobalConfiguration.h */,
 				F43D507F18AA520800967C3F /* TDGlobalConfiguration.m */,
@@ -433,7 +433,7 @@
 				F423747E18AEB68100584C1A /* background.png in Resources */,
 				38BCD5C418A11C6900F5789A /* Checked.png in Resources */,
 				F43D508218AB855000967C3F /* alarm.wav in Resources */,
-				F46BED1618969D07009B5251 /* Images.xcassets in Resources */,
+				F46BED1618969D07009B5251 /* image.xcassets in Resources */,
 				F43D507C18AA511700967C3F /* Pause.png in Resources */,
 				F428118318A942A5008C8B51 /* configs.strings in Resources */,
 				F46BED0818969D07009B5251 /* InfoPlist.strings in Resources */,

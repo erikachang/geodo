@@ -41,12 +41,11 @@ short _editToDoViewControllerCharacterLimit = 40;
 - (IBAction)changeToDoNameAndViewTitle:(UITextField *)sender {
     [self resignFirstResponder];
     
-    if ([self.titleTextField.text isEqualToString:@""]) {
-        self.titleTextField.text = self.toDo.description;
+    if ([sender.text isEqualToString:@""]) {
+        sender.text = self.toDo.description;
     }
     else {
-        self.toDo.description = self.titleTextField.text;
-        self.title = self.titleTextField.text;
+        self.toDo.description = sender.text;
     }
 }
 
@@ -436,11 +435,29 @@ short _editToDoViewControllerCharacterLimit = 40;
     }
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.remindersTableView.frame.size.width, 25)];
+    [view setBackgroundColor:[TDGlobalConfiguration fontColor]];
+    
+    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(15, 0, self.remindersTableView.frame.size.width, view.frame.size.height)];
+    
+    [textField setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSizeSmall]]];
+//    [textField setBackgroundColor:[TDGlobalConfiguration fontColor]];
+    [textField setText:self.toDo.description];
+    [textField addTarget:self action:@selector(changeToDoNameAndViewTitle:) forControlEvents:UIControlEventEditingDidEndOnExit];
+    [textField addTarget:self action:@selector(limitCharacterInput:) forControlEvents:UIControlEventEditingChanged];
+    
+    [view addSubview:textField];
+    return view;
+}
+
 #pragma mark View Delegates
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [[self navigationController] setNavigationBarHidden:YES];
+    [[self navigationController] setNavigationBarHidden:NO];
+
 }
 
 - (void)viewDidLoad
@@ -506,10 +523,11 @@ short _editToDoViewControllerCharacterLimit = 40;
     [self.view.layer insertSublayer:grad atIndex:0];
     
 	// Do any additional setup after loading the view.
-    [self.titleTextField setBorderStyle:UITextBorderStyleNone];
-    [self.titleTextField setText:self.toDo.description];
-    [self.titleTextField setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
-    [self.titleTextField setTextColor:[TDGlobalConfiguration fontColor]];
+//    [self.titleTextField setBorderStyle:UITextBorderStyleNone];
+//    [self.titleTextField setText:self.toDo.description];
+//    [self.titleTextField setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
+//    [self.titleTextField setTextColor:[TDGlobalConfiguration fontColor]];
+    
     NSDictionary *sections = @{@"Lembre-me:":@"Lembre-me:"};
     [self.sectionsDic addEntriesFromDictionary:sections];
     [self.remindersTableView setBackgroundColor:[TDGlobalConfiguration controlBackgroundColor]];

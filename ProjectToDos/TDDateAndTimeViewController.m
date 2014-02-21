@@ -66,18 +66,37 @@
     
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 1)];
+    view.backgroundColor = [UIColor clearColor];
+    return view;
+}
+
 CAGradientLayer *grad;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
     [[self navigationController] setNavigationBarHidden:NO];
-    
     grad = [TDGlobalConfiguration gradientLayer];
     grad.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
     [self.view.layer insertSublayer:grad atIndex:0];
     
-    [self.navigationController.navigationBar setBarTintColor:[UIColor clearColor]];
+    [self.lblDomingo setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
+    [self.lblDomingo setTextColor:[TDGlobalConfiguration fontColor]];
+    [self.lblSegunda setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
+    [self.lblSegunda setTextColor:[TDGlobalConfiguration fontColor]];
+    [self.lblTerca setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
+    [self.lblTerca setTextColor:[TDGlobalConfiguration fontColor]];
+    [self.lblQuarta setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
+    [self.lblQuarta setTextColor:[TDGlobalConfiguration fontColor]];
+    [self.lblQuinta setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
+    [self.lblQuinta setTextColor:[TDGlobalConfiguration fontColor]];
+    [self.lblSexta setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
+    [self.lblSexta setTextColor:[TDGlobalConfiguration fontColor]];
+    [self.lblSabado setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
+    [self.lblSabado setTextColor:[TDGlobalConfiguration fontColor]];
     
     [self.view setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
     [self.switcher setOnTintColor:[TDGlobalConfiguration fontColor]];

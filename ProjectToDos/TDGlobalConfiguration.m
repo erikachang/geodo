@@ -35,7 +35,13 @@
 
 + (NSString *)fontName
 {
-    return @"Palatino-Bold";
+//    return @"Palatino-Bold";
+    return @"ArialHebrew-Bold";
+}
+
++ (float)fontSizeBig
+{
+    return 17.0;
 }
 
 + (float)fontSize
@@ -43,9 +49,19 @@
     return 15.0f;
 }
 
++ (float)fontSizeSmall
+{
+    return 13.0f;
+}
+
 + (short)characterLimit
 {
     return 40;
+}
+
++ (UIColor *)navigationBarCoor
+{
+    return [UIColor colorWithRed:.0f green:.6f blue:.8f alpha:1.0f];
 }
 
 + (CAGradientLayer *)gradientLayer
