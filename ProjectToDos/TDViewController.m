@@ -277,12 +277,12 @@ UITableViewCell *_firstCell;
             if (!todo.active) {
                 [toDosToBeDeleted addObject:todo];
                 [indexPaths addObject:[NSIndexPath indexPathForRow:row inSection:0]];
-                
             }
             row++;
         }
         
         [self.toDosDataSource removeObjectsInArray:toDosToBeDeleted];
+        [self removeNotificacoesFromToDo:toDosToBeDeleted];
         
         [self.toDosTableView beginUpdates];
         [self.toDosTableView deleteRowsAtIndexPaths:indexPaths
@@ -463,6 +463,27 @@ UITableViewCell *_firstCell;
     self.location = self.locationManager.location;
     
     [self.locationManager startMonitoringForRegion:local.regiao];
+}
+
+-(void)removeNotificacoesFromToDo :(NSMutableArray*)toDosToRemove
+{
+    for(TDToDo* toDo in toDosToRemove){
+        TDNotificationConfiguration *reminder = [[TDNotificationConfiguration alloc]init];
+        int count = [toDo reminders].count;
+        for(int i=0;i<count;i++){
+            //sempre será removido um reminder da lista, por isso é sempre 0.
+            reminder = [toDo reminders][0];
+            if(reminder.type == Location){
+                [toDo removeNotificationConfigurationBasedOnLocation: 0];
+            }
+            if(reminder.type == DateTime){
+                [toDo removeNotificationConfigurationBasedOnLocation: 0];
+                for(int j=0; j<reminder.arrayLocalNotifications.count;j++){
+                    [[UIApplication sharedApplication] cancelLocalNotification: reminder.arrayLocalNotifications[j]];
+                }
+            }
+        }
+    }
 }
 
 -(void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region {
