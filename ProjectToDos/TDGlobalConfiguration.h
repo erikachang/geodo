@@ -17,5 +17,6 @@
 + (NSString *)fontName;
 + (float)fontSize;
 + (short)characterLimit;
++ (CAGradientLayer *)gradientLayer;
 
 @end

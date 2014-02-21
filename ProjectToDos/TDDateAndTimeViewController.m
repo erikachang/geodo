@@ -72,6 +72,12 @@
 
     [[self navigationController] setNavigationBarHidden:NO];
     
+    grad = [TDGlobalConfiguration gradientLayer];
+    grad.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
+    [self.view.layer insertSublayer:grad atIndex:0];
+    
+    [self.navigationController.navigationBar setBarTintColor:[UIColor clearColor]];
+    
     [self.view setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
     [self.switcher setOnTintColor:[TDGlobalConfiguration fontColor]];
     [self.tableView setBackgroundColor:[TDGlobalConfiguration controlBackgroundColor]];
