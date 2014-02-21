@@ -8,7 +8,6 @@
 
 #import "TDDateAndTimeViewController.h"
 #import "TDGlobalConfiguration.h"
-#define MAINLABEL_TAG 1
 
 @interface TDDateAndTimeViewController ()
 
@@ -75,8 +74,8 @@
     
     [self.view setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
     [self.switcher setOnTintColor:[TDGlobalConfiguration fontColor]];
-    [self.tblDateTime setBackgroundColor:[TDGlobalConfiguration controlBackgroundColor]];
-    [[self.tblDateTime headerViewForSection:0].textLabel setTextColor:[TDGlobalConfiguration fontColor]];
+    [self.tableView setBackgroundColor:[TDGlobalConfiguration controlBackgroundColor]];
+    [[self.tableView headerViewForSection:0].textLabel setTextColor:[TDGlobalConfiguration fontColor]];
     [self.datePicker setBackgroundColor:[UIColor clearColor]];
     [self.datePicker setTintColor:[TDGlobalConfiguration fontColor]];
     [self.hourPicker setBackgroundColor:[UIColor clearColor]];
@@ -91,12 +90,12 @@
     [self.occurrence setTextColor:[TDGlobalConfiguration fontColor]];
     [self.occurrence setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
     
-    short numberOfCells = [self.tblDateTime numberOfRowsInSection:0];
+    short numberOfCells = [self.tableView numberOfRowsInSection:0];
     
     for (short i = 0; i < numberOfCells; i++) {
         NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
         
-        UITableViewCell *cell = [self.tblDateTime cellForRowAtIndexPath:path];
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:path];
         
         [cell setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
         [cell setTintColor:[TDGlobalConfiguration fontColor]];
@@ -114,10 +113,6 @@
     self.dateDetails.alpha = 0;
     self.occurrenceDetails.alpha = 0;
     self.tableView.alwaysBounceVertical = NO;
-    
-    self.todo = self.superController.toDo;
-    
-    NSLog(@"%@", self.todo.reminders.lastObject);
 }
 
 - (void)didReceiveMemoryWarning
@@ -133,19 +128,22 @@
         [self fadeOut:self.dateDetails withDuration:.5 andWait:.1];
         [self fadeIn:self.occurrenceDetails withDuration:0.5 andWait:0.2];
         [self.occurrenceDetails setText:@"Nenhuma"];
-    } else if ([days containsObject:[NSNumber numberWithInt:0]] && [days containsObject:[NSNumber numberWithInt:6]] && !([days containsObject:[NSNumber numberWithInt:1]] || [days containsObject:[NSNumber numberWithInt:2]] || [days containsObject:[NSNumber numberWithInt:3]] || [days containsObject:[NSNumber numberWithInt:4]] || [days containsObject:[NSNumber numberWithInt:5]]))
+        
+    } else if ([days containsObject:[NSNumber numberWithInt:0]] && [days containsObject:[NSNumber numberWithInt:6]] && [days count] == 2)
     {
         self.occurrenceDetails.alpha = 0;
         [self fadeOut:self.dateDetails withDuration:.5 andWait:.1];
         [self fadeIn:self.occurrenceDetails withDuration:0.5 andWait:0.2];
         [self.occurrenceDetails setText:@"Fins de semana"];
-    } else if (!([days containsObject:[NSNumber numberWithInt:0]] || [days containsObject:[NSNumber numberWithInt:6]]) && [days containsObject:[NSNumber numberWithInt:1]] && [days containsObject:[NSNumber numberWithInt:2]] && [days containsObject:[NSNumber numberWithInt:3]] && [days containsObject:[NSNumber numberWithInt:4]] && [days containsObject:[NSNumber numberWithInt:5]])
+        
+    } else if ([days count] == 5 && [days containsObject:[NSNumber numberWithInt:1]] && [days containsObject:[NSNumber numberWithInt:2]] && [days containsObject:[NSNumber numberWithInt:3]] && [days containsObject:[NSNumber numberWithInt:4]] && [days containsObject:[NSNumber numberWithInt:5]])
     {
         self.occurrenceDetails.alpha = 0;
         [self fadeOut:self.dateDetails withDuration:.5 andWait:.1];
         [self fadeIn:self.occurrenceDetails withDuration:0.5 andWait:0.2];
         [self.occurrenceDetails setText:@"Dias úteis"];
-    } else if ([days containsObject:[NSNumber numberWithInt:0]] && [days containsObject:[NSNumber numberWithInt:6]] && [days containsObject:[NSNumber numberWithInt:1]] && [days containsObject:[NSNumber numberWithInt:2]] && [days containsObject:[NSNumber numberWithInt:3]] && [days containsObject:[NSNumber numberWithInt:4]] && [days containsObject:[NSNumber numberWithInt:5]])
+        
+    } else if ([days count] == 7)
     {
         self.occurrenceDetails.alpha = 0;
         [self fadeOut:self.dateDetails withDuration:.5 andWait:.1];
@@ -303,96 +301,89 @@
 }
 
 - (float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0 && indexPath.row == 0) {
-        return 44;
-    } else if (indexPath.section == 0 && indexPath.row == 1) {
+    if (indexPath.row == 1) {
         if (hours == YES) {
             return 0;
         } else {
             return 180;
         }
-    } else if (indexPath.section == 0 && indexPath.row == 2) {
-        return 44;
     }
     
     if (self.switcher.on == NO) {
-        if (indexPath.section == 0 && indexPath.row == 3) {
+        if (indexPath.row == 3) {
             return 44;
-        } else if (indexPath.section == 0 && indexPath.row == 4) {
+        } else if (indexPath.row == 4) {
             if (data == YES) {
                 return 0;
             } else {
                 return 180;
             }
-        } if (indexPath.section == 0 && indexPath.row == 5) {
+        } if (indexPath.row == 5) {
             return 0;
-        } else if (indexPath.section == 0 && indexPath.row == 6) {
+        } else if (indexPath.row == 6) {
             return 0;
-        } else if (indexPath.section == 0 && indexPath.row == 7) {
+        } else if (indexPath.row == 7) {
             return 0;
-        } else if (indexPath.section == 0 && indexPath.row == 8) {
+        } else if (indexPath.row == 8) {
             return 0;
-        } else if (indexPath.section == 0 && indexPath.row == 9) {
+        } else if (indexPath.row == 9) {
             return 0;
-        } else if (indexPath.section == 0 && indexPath.row == 10) {
+        } else if (indexPath.row == 10) {
             return 0;
-        } else if (indexPath.section == 0 && indexPath.row == 11) {
+        } else if (indexPath.row == 11) {
             return 0;
-        } else if (indexPath.section == 0 && indexPath.row == 12) {
+        } else if (indexPath.row == 12) {
             return 0;
         }
     } else {
-        if (indexPath.section == 0 && indexPath.row == 5) {
-            return 44;
-        } else if (indexPath.section == 0 && indexPath.row == 6) {
+        if (indexPath.row == 6) {
             if (weekDays == YES) {
                 return 0;
             } else {
                 return 44;
             }
-        } else if (indexPath.section == 0 && indexPath.row == 7) {
+        } else if (indexPath.row == 7) {
             if (weekDays == YES) {
                 return 0;
             } else {
                 return 44;
             }
-        } else if (indexPath.section == 0 && indexPath.row == 8) {
+        } else if (indexPath.row == 8) {
             if (weekDays == YES) {
                 return 0;
             } else {
                 return 44;
             }
-        } else if (indexPath.section == 0 && indexPath.row == 9) {
+        } else if (indexPath.row == 9) {
             if (weekDays == YES) {
                 return 0;
             } else {
                 return 44;
             }
-        } else if (indexPath.section == 0 && indexPath.row == 10) {
+        } else if (indexPath.row == 10) {
             if (weekDays == YES) {
                 return 0;
             } else {
                 return 44;
             }
-        } else if (indexPath.section == 0 && indexPath.row == 11) {
+        } else if (indexPath.row == 11) {
             if (weekDays == YES) {
                 return 0;
             } else {
                 return 44;
             }
-        } else if (indexPath.section == 0 && indexPath.row == 12) {
+        } else if (indexPath.row == 12) {
             if (weekDays == YES) {
                 return 0;
             } else {
                 return 44;
             }
-        } else if (indexPath.section == 0 && indexPath.row == 3) {
+        } else if (indexPath.row == 3) {
             return 0;
-        } else if (indexPath.section == 0 && indexPath.row == 4) {
+        } else if (indexPath.row == 4) {
             return 0;
         }
     }
-    
     return 44;
 }
 

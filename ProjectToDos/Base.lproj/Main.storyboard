@@ -488,7 +488,6 @@
                         <outlet property="occurrenceDetails" destination="L2C-0R-JCQ" id="8iT-ay-Kbw"/>
                         <outlet property="recurrent" destination="3hJ-Ul-cce" id="RvQ-LX-kGT"/>
                         <outlet property="switcher" destination="KNb-yB-X8j" id="7Wn-gg-hwf"/>
-                        <outlet property="tblDateTime" destination="lUI-2y-iSO" id="mwC-dP-hsg"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EgD-b2-98F" userLabel="First Responder" sceneMemberID="firstResponder"/>
