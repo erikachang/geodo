@@ -401,6 +401,11 @@
     weekDays = YES;
     [self.tableView beginUpdates];
     [self.tableView endUpdates];
+    
+    if (self.switcher.on) {
+        NSDate *date = [NSDate distantPast];
+        [self.hourPicker setMinimumDate:date];
+    }
 }
 
 -(void)fadeOut:(UIView*)viewToDissolve withDuration:(NSTimeInterval)duration   andWait:(NSTimeInterval)wait
