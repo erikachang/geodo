@@ -85,6 +85,16 @@
     return view;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 22;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 20;
+}
+
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 25)];
@@ -127,6 +137,10 @@ CAGradientLayer *grad;
         [[cell textLabel] setTextColor:[TDGlobalConfiguration fontColor]];
         [[cell textLabel] setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
     }
+    
+    [(UITableViewCell *)self.cells[0] setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+    [(UITableViewCell *)self.cells[3] setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+    [(UITableViewCell *)self.cells[5] setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 
     days = [[NSMutableArray alloc] init];
     
@@ -297,9 +311,11 @@ CAGradientLayer *grad;
 }
 
 - (IBAction)switched:(UISwitch *)sender {
+
+    [self.tableView beginUpdates];
     data = YES;
     weekDays = YES;
-    [self.tableView beginUpdates];
+    hours = YES;
     [self.tableView endUpdates];
     
     if (self.switcher.on) {

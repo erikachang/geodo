@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x"
+      "scale" : "1x",
+      "filename" : "plus_datetime32x32.png"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "plus_datetime.png"
+      "scale" : "2x"
     }
   ],
   "info" : {

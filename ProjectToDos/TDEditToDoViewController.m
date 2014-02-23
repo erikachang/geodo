@@ -113,8 +113,8 @@ short _editToDoViewControllerCharacterLimit = 40;
     NSArray *reminders = self.toDo.reminders;
     
     [cell setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
-    [cell.textLabel setTextColor:[TDGlobalConfiguration fontColor]];
-    [cell.textLabel setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
+    [cell.lblText setTextColor:[TDGlobalConfiguration fontColor]];
+    [cell.lblText setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
     
     cell.lblText.text =[[reminders objectAtIndex:indexPath.row] notificationDescription];
     cell.lblText.numberOfLines = 0;
@@ -441,6 +441,11 @@ short _editToDoViewControllerCharacterLimit = 40;
     }
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 22;
+}
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.remindersTableView.frame.size.width, 25)];
@@ -592,6 +597,14 @@ UITableViewCell *_firstCell;
     grad = [TDGlobalConfiguration gradientLayer];
     grad.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
     [self.view.layer insertSublayer:grad atIndex:0];
+    
+    NSMutableArray *barButtons = [[NSMutableArray alloc] init];
+    UIBarButtonItem *locationBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"plus_map"] style:UIBarButtonItemStylePlain target:self action:@selector(btLocal_click:)];
+    UIBarButtonItem *dateBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"plus_datetime"] style:UIBarButtonItemStylePlain target:self action:@selector(gotoDateAndTime)];
+    [barButtons addObject:locationBarButton];
+    [barButtons addObject:dateBarButton];
+    
+    self.navigationItem.rightBarButtonItems = barButtons;
     
 	// Do any additional setup after loading the view.
 //    [self.titleTextField setBorderStyle:UITextBorderStyleNone];

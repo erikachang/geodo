@@ -30,11 +30,15 @@
 @synthesize mapView;
 @synthesize superController;
 
-
+CAGradientLayer *grad;
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"Onde?";
+    
+    grad = [TDGlobalConfiguration gradientLayer];
+    grad.frame = self.view.frame;
+    [self.view.layer insertSublayer:grad atIndex:0];
     
 	CLLocationCoordinate2D theCoordinate;
 	theCoordinate.latitude = -30.060351;
