@@ -32,6 +32,10 @@
 CAGradientLayer *grad;
 short _editToDoViewControllerCharacterLimit = 40;
 
+- (void)hideKeyboard {
+    [self.view endEditing:YES];
+}
+
 - (IBAction)limitCharacterInput:(UITextField *)sender {
     if (sender.text.length >= _editToDoViewControllerCharacterLimit) {
         sender.text = [sender.text substringToIndex:_editToDoViewControllerCharacterLimit];
@@ -328,6 +332,8 @@ short _editToDoViewControllerCharacterLimit = 40;
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    [self hideKeyboard];
+    
     if([[segue identifier] isEqualToString:@"AddLocationNotification"])
     {
         MapKitDragAndDropViewController *child = (MapKitDragAndDropViewController *)segue.destinationViewController;
@@ -452,6 +458,71 @@ short _editToDoViewControllerCharacterLimit = 40;
     return view;
 }
 
+#pragma mark Pan Gesture
+
+- (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer {
+    CGPoint translation = [gestureRecognizer translationInView:[self.remindersTableView superview]];
+    // Handle horizontal pan only
+    return fabsf(translation.x) > fabsf(translation.y);
+}
+
+CGPoint _originalCenter, _cellLocation;
+BOOL _markComplete, _detailToDo;
+UITableViewCell *_firstCell;
+- (void)panLeft:(UIPanGestureRecognizer *)recognizer {
+    // When the pan begins, take note of what cell the gesture started at and its location.
+    if (recognizer.state == UIGestureRecognizerStateBegan) {
+        
+        _cellLocation = [recognizer locationInView:self.remindersTableView];
+        NSIndexPath *indexPath = [self.remindersTableView indexPathForRowAtPoint:_cellLocation];
+        _firstCell = [self.remindersTableView cellForRowAtIndexPath:indexPath];
+        _originalCenter = _firstCell.center;
+    }
+    
+    // Translates the cell, following the user's gesture.
+    if (recognizer.state == UIGestureRecognizerStateChanged) {
+        
+        CGPoint translation = [recognizer translationInView:_firstCell];
+        _firstCell.center = CGPointMake(_originalCenter.x + translation.x, _originalCenter.y);
+        
+        // Checks whether the cell has been moved to the far left or the far right
+        // and flags an action as a consequence.
+//        _detailToDo = _firstCell.frame.origin.x < -_firstCell.frame.size.width / 3; // Panning to the left brings up the detailed ToDo View.
+        _markComplete = _firstCell.frame.origin.x > _firstCell.frame.size.width/ 3; // Panning to the right marks the task as complete.
+    }
+    
+    // When the user let go of the touch screen, decides whether an action needs to be taken and performs it.
+    if (recognizer.state == UIGestureRecognizerStateEnded) {
+        
+        CGRect originalFrame = CGRectMake(0, _firstCell.frame.origin.y,
+                                          _firstCell.bounds.size.width, _firstCell.bounds.size.height);
+        
+        if (!_markComplete) {
+            // if the item is not being deleted, snap back to the original location
+            [UIView animateWithDuration:0.2
+                             animations:^{
+                                 _firstCell.frame = originalFrame;
+                             }
+             ];
+        } else {
+            
+            NSIndexPath *indexPath = [self.remindersTableView indexPathForRowAtPoint:_cellLocation];
+            
+            TDNotificationConfiguration *reminder = [self.toDo.reminders objectAtIndex:indexPath.row];
+            
+            [self.toDo removeNotificationConfigurationBasedOnLocation:indexPath.row];
+            
+            if (reminder.type == DateTime) {
+                for(int i=0; i<reminder.arrayLocalNotifications.count;i++) {
+                    [[UIApplication sharedApplication] cancelLocalNotification: reminder.arrayLocalNotifications[i]];
+                }
+            }
+            
+            [self.remindersTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
+        }
+    }
+}
+
 #pragma mark View Delegates
 
 - (void)viewWillAppear:(BOOL)animated
@@ -534,9 +605,17 @@ short _editToDoViewControllerCharacterLimit = 40;
 //    [self.view setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
     
     // Adding Swip Gesture Recognizers
-    UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRight:)];
-    [swipeRecognizer setDirection:UISwipeGestureRecognizerDirectionRight];
-    [self.view addGestureRecognizer:swipeRecognizer];
+//    UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRight:)];
+//    [swipeRecognizer setDirection:UISwipeGestureRecognizerDirectionRight];
+//    [self.view addGestureRecognizer:swipeRecognizer];
+    
+    UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panLeft:)];
+    [self.remindersTableView addGestureRecognizer:panRecognizer];
+    
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
+    tapRecognizer.numberOfTapsRequired = 1;
+    tapRecognizer.numberOfTouchesRequired = 1;
+    [self.view addGestureRecognizer:tapRecognizer];
     
     // Date and Time Notification button customization
     {

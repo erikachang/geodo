@@ -37,16 +37,9 @@
 }
 
 #pragma mark Custom methods
-- (NSIndexPath *)getFirstNonPriorityIndex
-{
-    int row = 0;
-    for (TDToDo *toDo in self.toDosDataSource) {
-        if (!toDo.priority) {
-            return [NSIndexPath indexPathForRow:row inSection:0];
-        }
-        row++;
-    }
-    return nil;
+
+- (void)hideKeyboard {
+    [self.view endEditing:YES];
 }
 
 - (NSAttributedString *)strikeThroughText:(NSString *)text
@@ -103,11 +96,8 @@
     [self.toDosTableView beginUpdates];
     {
         TDToDo *newTodo = [[TDToDo alloc] initWithDescription:sender.text];
-        NSIndexPath *path = [self getFirstNonPriorityIndex];
         
-        if (!path) {
-            path = [NSIndexPath indexPathForItem:0 inSection:0];
-        }
+        NSIndexPath *path = [NSIndexPath indexPathForItem:0 inSection:0];
         
         [self.toDosDataSource insertObject:newTodo atIndex:path.row];
         [self.toDosTableView insertRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationTop];
@@ -164,9 +154,14 @@ NSIndexPath *_previousIndexPath;
 }
 
 - (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer {
-    CGPoint translation = [gestureRecognizer translationInView:[self.toDosTableView superview]];
-    // Handle horizontal pan only
-    return fabsf(translation.x) > fabsf(translation.y);
+    
+    if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
+        CGPoint translation = [gestureRecognizer translationInView:[self.toDosTableView superview]];
+        // Handle horizontal pan only
+        return fabsf(translation.x) > fabsf(translation.y);
+    }
+    
+    return NO;
 }
 
 CGPoint _originalCenter, _cellLocation;
@@ -222,7 +217,7 @@ UITableViewCell *_firstCell;
             
             if (toDo.active) {
                 
-                NSIndexPath *newIndexPath = [self getFirstNonPriorityIndex];
+                NSIndexPath *newIndexPath = [NSIndexPath indexPathForItem:0 inSection:0];//[self getFirstNonPriorityIndex];
                 
                 [UIView animateWithDuration:.6 animations:^{
                     [self.toDosTableView beginUpdates];
@@ -350,11 +345,14 @@ UITableViewCell *_firstCell;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [self hideKeyboard];
+    
     TDToDo *toDo = [self.toDosDataSource objectAtIndex:indexPath.row];
     
     if (toDo.active) {
         [toDo togglePriority];
     }
+    
     [self.toDosTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
 }
 
@@ -425,6 +423,8 @@ CAGradientLayer *grad;
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    [self hideKeyboard];
+    
     TDEditToDoViewController *editView = [segue destinationViewController];
     
     NSIndexPath *indexPath = [self.toDosTableView indexPathForRowAtPoint:_cellLocation];
