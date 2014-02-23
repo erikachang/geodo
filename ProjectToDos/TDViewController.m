@@ -88,10 +88,12 @@
 }
 
 - (IBAction)addNewToDo:(UITextField *)sender {
-    if ([sender.text isEqualToString:@""] || [sender.text isEqualToString:@":Completas"])
-        return;
     
     self.isFiltering = NO;
+    if ([sender.text isEqualToString:@""] || [sender.text isEqualToString:@":Completas"]) {
+        return;
+    }
+    
     [self.toDosTableView reloadData];
     [self.toDosTableView beginUpdates];
     {
@@ -113,43 +115,49 @@ TDToDo *_selectedToDo;
 NSIndexPath *_previousIndexPath;
 - (void)longPress:(UILongPressGestureRecognizer *)gestureRecognizer
 {
-    CGPoint touchLocation = [gestureRecognizer locationInView:self.toDosTableView];
-    
-    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+    if (!self.isFiltering) {
+        CGPoint touchLocation = [gestureRecognizer locationInView:self.toDosTableView];
         
-        if ([self.searchAndAddTextField isFirstResponder]) {
-            [self.searchAndAddTextField resignFirstResponder];
-        }
-        
-        _previousIndexPath = [self.toDosTableView indexPathForRowAtPoint:touchLocation];
-        _selectedToDo = [self.toDosDataSource objectAtIndex:_previousIndexPath.row];
-    } else if (gestureRecognizer.state == UIGestureRecognizerStateChanged) {
-        NSIndexPath *indexPathAtTouchLocation =  [self.toDosTableView indexPathForRowAtPoint:touchLocation];
-        
-        if (indexPathAtTouchLocation && indexPathAtTouchLocation.row != _previousIndexPath.row) {
+        if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
             
-            [self.toDosTableView beginUpdates];
-            {
-                [self.toDosTableView deleteRowsAtIndexPaths:@[_previousIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
+            [self hideKeyboard];
+            
+            _previousIndexPath = [self.toDosTableView indexPathForRowAtPoint:touchLocation];
+            if (_previousIndexPath) {
+                _selectedToDo = [self.toDosDataSource objectAtIndex:_previousIndexPath.row];
+            }
+        } else if (gestureRecognizer.state == UIGestureRecognizerStateChanged) {
+            
+            NSIndexPath *indexPathAtTouchLocation =  [self.toDosTableView indexPathForRowAtPoint:touchLocation];
+            
+            if (indexPathAtTouchLocation) {
                 
-                // Depending on the relative position of the cell, its re-insertion in the table must consider its new position after its removal.
-                if (indexPathAtTouchLocation.row > _previousIndexPath.row) {
+                if (indexPathAtTouchLocation && indexPathAtTouchLocation.row != _previousIndexPath.row) {
                     
-                    [self.toDosDataSource insertObject:_selectedToDo atIndex:indexPathAtTouchLocation.row+1];
-                    [self.toDosDataSource removeObjectAtIndex:_previousIndexPath.row];
-                } else {
-                    
-                    [self.toDosDataSource removeObjectAtIndex:_previousIndexPath.row];
-                    [self.toDosDataSource insertObject:_selectedToDo atIndex:indexPathAtTouchLocation.row];
+                    [self.toDosTableView beginUpdates];
+                    {
+                        [self.toDosTableView deleteRowsAtIndexPaths:@[_previousIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
+                        
+                        // Depending on the relative position of the cell, its re-insertion in the table must consider its new position after its removal.
+                        if (indexPathAtTouchLocation.row > _previousIndexPath.row) {
+                            
+                            [self.toDosDataSource insertObject:_selectedToDo atIndex:indexPathAtTouchLocation.row+1];
+                            [self.toDosDataSource removeObjectAtIndex:_previousIndexPath.row];
+                        } else {
+                            
+                            [self.toDosDataSource removeObjectAtIndex:_previousIndexPath.row];
+                            [self.toDosDataSource insertObject:_selectedToDo atIndex:indexPathAtTouchLocation.row];
+                        }
+                        
+                        [self.toDosTableView insertRowsAtIndexPaths:@[indexPathAtTouchLocation] withRowAnimation:UITableViewRowAnimationLeft];
+                    };
+                    [self.toDosTableView endUpdates];
+                    _previousIndexPath =  [self.toDosTableView indexPathForRowAtPoint:touchLocation];
                 }
-                
-                [self.toDosTableView insertRowsAtIndexPaths:@[indexPathAtTouchLocation] withRowAnimation:UITableViewRowAnimationLeft];
-            };
-            [self.toDosTableView endUpdates];
-            _previousIndexPath =  [self.toDosTableView indexPathForRowAtPoint:touchLocation];
+            }
+        } else if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+            [self.toDosTableView reloadData];
         }
-    } else if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        [self.toDosTableView reloadData];
     }
 }
 
@@ -381,6 +389,8 @@ CAGradientLayer *grad;
 //    for (int i = 0; i < 1000; i++) {
 //        [self.toDosDataSource addObject:[[TDToDo alloc] initWithDescription:[NSString stringWithFormat:@"Placeholder Todo %d", i]]];
 //    }
+    
+    self.toDosTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
     [self.navigationController.navigationBar setBarTintColor:[TDGlobalConfiguration navigationBarCoor]];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSizeBig]], NSFontAttributeName, [TDGlobalConfiguration fontColor] , NSForegroundColorAttributeName, Nil]];
