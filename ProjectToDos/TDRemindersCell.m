@@ -7,9 +7,9 @@
 //
 
 #import "TDRemindersCell.h"
+#import "APLPositionToBoundsMapping.h"
 
 @implementation TDRemindersCell
-
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -23,7 +23,6 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    
 }
 
 @end

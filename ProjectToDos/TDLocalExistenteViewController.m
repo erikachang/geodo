@@ -24,10 +24,15 @@
     [self.navigationController setNavigationBarHidden:NO];
 }
 
+CAGradientLayer *grad;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"Escolher local";
+//    self.title = @"Escolher local";
+    
+    grad = [TDGlobalConfiguration gradientLayer];
+    grad.frame = self.view.frame;
+    [self.view.layer insertSublayer:grad atIndex:0];
     
     [self.lblIdentificador setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
     [self.lblIdentificador setTextColor:[TDGlobalConfiguration fontColor]];
@@ -64,6 +69,8 @@
     [cell.lblIdentificador setText:[arrayItems objectAtIndex:indexPath.row]];
     
     [cell setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
+    [cell.lblIdentificador setTextColor:[TDGlobalConfiguration fontColor]];
+    [cell.lblIdentificador setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
     
     cell.btConfirma.tag = indexPath.row;
     [cell.btConfirma addTarget:self action:@selector(btConfirma_Click:) forControlEvents:UIControlEventTouchUpInside];

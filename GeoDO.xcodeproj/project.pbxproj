@@ -31,8 +31,10 @@
 		38D4A4FC189FE1240020723A /* SL_Localidades.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D4A4FA189FE1240020723A /* SL_Localidades.m */; };
 		38E17DAC18A0FB2E0051A27A /* TDLocalExistenteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E17DAB18A0FB2E0051A27A /* TDLocalExistenteViewController.m */; };
 		38E17DAF18A103960051A27A /* TDLocaisCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E17DAE18A103960051A27A /* TDLocaisCell.m */; };
+		7D0E8D4218B24EB50026800A /* APLPositionToBoundsMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0E8D4118B24EB50026800A /* APLPositionToBoundsMapping.m */; };
 		A0C3F39F189F22C100F97340 /* TDDateAndTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C3F39E189F22C100F97340 /* TDDateAndTimeViewController.m */; };
 		F406A4E91897DD1E0004F19E /* TDToDo.m in Sources */ = {isa = PBXBuildFile; fileRef = F406A4E81897DD1E0004F19E /* TDToDo.m */; };
+		F423747E18AEB68100584C1A /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = F423747D18AEB68100584C1A /* background.png */; };
 		F428118318A942A5008C8B51 /* configs.strings in Resources */ = {isa = PBXBuildFile; fileRef = F428118218A942A5008C8B51 /* configs.strings */; };
 		F43D507918AA48E400967C3F /* TDToDoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F43D507818AA48E400967C3F /* TDToDoCell.m */; };
 		F43D507C18AA511700967C3F /* Pause.png in Resources */ = {isa = PBXBuildFile; fileRef = F43D507A18AA511700967C3F /* Pause.png */; };
@@ -48,7 +50,7 @@
 		F46BED0E18969D07009B5251 /* TDAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F46BED0D18969D07009B5251 /* TDAppDelegate.m */; };
 		F46BED1118969D07009B5251 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F46BED0F18969D07009B5251 /* Main.storyboard */; };
 		F46BED1418969D07009B5251 /* TDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F46BED1318969D07009B5251 /* TDViewController.m */; };
-		F46BED1618969D07009B5251 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F46BED1518969D07009B5251 /* Images.xcassets */; };
+		F46BED1618969D07009B5251 /* image.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F46BED1518969D07009B5251 /* image.xcassets */; };
 		F46BED1D18969D08009B5251 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F46BED1C18969D08009B5251 /* XCTest.framework */; };
 		F46BED1E18969D08009B5251 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F46BECFD18969D07009B5251 /* Foundation.framework */; };
 		F46BED1F18969D08009B5251 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F46BED0118969D07009B5251 /* UIKit.framework */; };
@@ -106,10 +108,13 @@
 		38E17DAB18A0FB2E0051A27A /* TDLocalExistenteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDLocalExistenteViewController.m; sourceTree = "<group>"; };
 		38E17DAD18A103960051A27A /* TDLocaisCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDLocaisCell.h; sourceTree = "<group>"; };
 		38E17DAE18A103960051A27A /* TDLocaisCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDLocaisCell.m; sourceTree = "<group>"; };
+		7D0E8D4018B24EB50026800A /* APLPositionToBoundsMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APLPositionToBoundsMapping.h; sourceTree = "<group>"; };
+		7D0E8D4118B24EB50026800A /* APLPositionToBoundsMapping.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APLPositionToBoundsMapping.m; sourceTree = "<group>"; };
 		A0C3F39D189F22C100F97340 /* TDDateAndTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDDateAndTimeViewController.h; sourceTree = "<group>"; };
 		A0C3F39E189F22C100F97340 /* TDDateAndTimeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDDateAndTimeViewController.m; sourceTree = "<group>"; };
 		F406A4E71897DD1E0004F19E /* TDToDo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDToDo.h; sourceTree = "<group>"; };
 		F406A4E81897DD1E0004F19E /* TDToDo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDToDo.m; sourceTree = "<group>"; };
+		F423747D18AEB68100584C1A /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		F428118218A942A5008C8B51 /* configs.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = configs.strings; sourceTree = "<group>"; };
 		F43D507718AA48E400967C3F /* TDToDoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDToDoCell.h; sourceTree = "<group>"; };
 		F43D507818AA48E400967C3F /* TDToDoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDToDoCell.m; sourceTree = "<group>"; };
@@ -132,7 +137,7 @@
 		F46BED1018969D07009B5251 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F46BED1218969D07009B5251 /* TDViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TDViewController.h; sourceTree = "<group>"; };
 		F46BED1318969D07009B5251 /* TDViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TDViewController.m; sourceTree = "<group>"; };
-		F46BED1518969D07009B5251 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		F46BED1518969D07009B5251 /* image.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = image.xcassets; sourceTree = "<group>"; };
 		F46BED1B18969D08009B5251 /* GeoDOTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GeoDOTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F46BED1C18969D08009B5251 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		F46BED2418969D08009B5251 /* GeoDOTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GeoDOTests-Info.plist"; sourceTree = "<group>"; };
@@ -251,7 +256,9 @@
 				F46BED0C18969D07009B5251 /* TDAppDelegate.h */,
 				F46BED0D18969D07009B5251 /* TDAppDelegate.m */,
 				F46BED0F18969D07009B5251 /* Main.storyboard */,
-				F46BED1518969D07009B5251 /* Images.xcassets */,
+				7D0E8D4018B24EB50026800A /* APLPositionToBoundsMapping.h */,
+				7D0E8D4118B24EB50026800A /* APLPositionToBoundsMapping.m */,
+				F46BED1518969D07009B5251 /* image.xcassets */,
 				F46BED0418969D07009B5251 /* Supporting Files */,
 				F43D507E18AA520800967C3F /* TDGlobalConfiguration.h */,
 				F43D507F18AA520800967C3F /* TDGlobalConfiguration.m */,
@@ -262,6 +269,7 @@
 		F46BED0418969D07009B5251 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F423747D18AEB68100584C1A /* background.png */,
 				F43D508318AB89B400967C3F /* myLocation.png */,
 				F43D508118AB855000967C3F /* alarm.wav */,
 				F482269918AA67B600846900 /* priority_16x16.png */,
@@ -422,9 +430,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				F482269418A9B20400846900 /* Tutorial.storyboard in Resources */,
+				F423747E18AEB68100584C1A /* background.png in Resources */,
 				38BCD5C418A11C6900F5789A /* Checked.png in Resources */,
 				F43D508218AB855000967C3F /* alarm.wav in Resources */,
-				F46BED1618969D07009B5251 /* Images.xcassets in Resources */,
+				F46BED1618969D07009B5251 /* image.xcassets in Resources */,
 				F43D507C18AA511700967C3F /* Pause.png in Resources */,
 				F428118318A942A5008C8B51 /* configs.strings in Resources */,
 				F46BED0818969D07009B5251 /* InfoPlist.strings in Resources */,
@@ -473,6 +482,7 @@
 				F4A7C3F11899707F00CB8B0C /* TDNotificationConfiguration.m in Sources */,
 				38D4A4FC189FE1240020723A /* SL_Localidades.m in Sources */,
 				38A4F2AA18A8F5A60018FD93 /* TDMapaLocaisViewController.m in Sources */,
+				7D0E8D4218B24EB50026800A /* APLPositionToBoundsMapping.m in Sources */,
 				38A4F2AD18A8F5F80018FD93 /* TD_RegiaoToDo.m in Sources */,
 				F4941B631897D16200894C8B /* TDEditToDoViewController.m in Sources */,
 				F46BED0E18969D07009B5251 /* TDAppDelegate.m in Sources */,

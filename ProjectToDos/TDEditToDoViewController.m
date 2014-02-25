@@ -11,10 +11,15 @@
 #import "TDDateAndTimeViewController.h"
 #import "TDLocalExistenteViewController.h"
 #import "TDGlobalConfiguration.h"
+#import "APLPositionToBoundsMapping.h"
 
 @interface TDEditToDoViewController ()
+{
+    id btAux;
+}
 @property (weak, nonatomic) IBOutlet UIButton *addDateTimeNotificationButton;
 @property (weak, nonatomic) IBOutlet UIButton *addLocationNotificationButton;
+@property (nonatomic, strong) UIDynamicAnimator *animator;
 @property (weak, nonatomic) IBOutlet UITextField *titleTextField;
 @property (weak, nonatomic) IBOutlet UITableView *remindersTableView;
 
@@ -24,7 +29,12 @@
 
 @implementation TDEditToDoViewController
 
+CAGradientLayer *grad;
 short _editToDoViewControllerCharacterLimit = 40;
+
+- (void)hideKeyboard {
+    [self.view endEditing:YES];
+}
 
 - (IBAction)limitCharacterInput:(UITextField *)sender {
     if (sender.text.length >= _editToDoViewControllerCharacterLimit) {
@@ -35,12 +45,11 @@ short _editToDoViewControllerCharacterLimit = 40;
 - (IBAction)changeToDoNameAndViewTitle:(UITextField *)sender {
     [self resignFirstResponder];
     
-    if ([self.titleTextField.text isEqualToString:@""]) {
-        self.titleTextField.text = self.toDo.description;
+    if ([sender.text isEqualToString:@""]) {
+        sender.text = self.toDo.description;
     }
     else {
-        self.toDo.description = self.titleTextField.text;
-        self.title = self.titleTextField.text;
+        self.toDo.description = sender.text;
     }
 }
 
@@ -76,8 +85,6 @@ short _editToDoViewControllerCharacterLimit = 40;
 }
 
 
-
-
 #pragma mark - Table View delegates
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -106,18 +113,49 @@ short _editToDoViewControllerCharacterLimit = 40;
     NSArray *reminders = self.toDo.reminders;
     
     [cell setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
-    [cell.textLabel setTextColor:[TDGlobalConfiguration fontColor]];
-    [cell.textLabel setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
+    [cell.lblText setTextColor:[TDGlobalConfiguration fontColor]];
+    [cell.lblText setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
     
     cell.lblText.text =[[reminders objectAtIndex:indexPath.row] notificationDescription];
     cell.lblText.numberOfLines = 0;
     
     cell.btRemove.tag = indexPath.row;
-    [cell.btRemove addTarget:self action:@selector(btRemove_Click:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [cell.btRemove addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
     cell.accessoryType = UITableViewCellAccessoryNone;
     
     return cell;
 }
+
+- (IBAction)buttonAction:(id)sender
+{
+    UIButton *button1 = (UIButton *)sender;
+    btAux = sender;
+
+    NSIndexPath *path = [NSIndexPath indexPathForRow:button1.tag inSection:0];
+    UITableViewCell *cell = [self.tabView cellForRowAtIndexPath:path];
+    
+    UICollisionBehavior *collision = [[UICollisionBehavior alloc] initWithItems:@[cell]];
+    [collision setTranslatesReferenceBoundsIntoBoundaryWithInsets:UIEdgeInsetsMake(cell.bounds.size.width + cell.bounds.size.width, 0, cell.bounds.size.width + cell.bounds.size.width+1, -400)];
+    UIDynamicAnimator *animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
+    
+    animator.delegate = self;
+    
+    UIGravityBehavior *gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[cell]];
+    
+    [gravityBehavior setGravityDirection:CGVectorMake(15.0, 0.0)];
+    [animator addBehavior:gravityBehavior];
+    [animator addBehavior:collision];
+    
+    self.animator = animator;
+
+}
+
+- (void)dynamicAnimatorDidPause:(UIDynamicAnimator *)animator
+{
+    [self btRemove_Click:btAux];
+}
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -154,8 +192,6 @@ short _editToDoViewControllerCharacterLimit = 40;
         [_tabView reloadData];
     }
 }
-
-
 
 #pragma mark - Parte do audio record
 
@@ -296,6 +332,8 @@ short _editToDoViewControllerCharacterLimit = 40;
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    [self hideKeyboard];
+    
     if([[segue identifier] isEqualToString:@"AddLocationNotification"])
     {
         MapKitDragAndDropViewController *child = (MapKitDragAndDropViewController *)segue.destinationViewController;
@@ -403,16 +441,105 @@ short _editToDoViewControllerCharacterLimit = 40;
     }
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 22;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.remindersTableView.frame.size.width, 25)];
+    [view setBackgroundColor:[TDGlobalConfiguration fontColor]];
+    
+    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(15, 0, self.remindersTableView.frame.size.width, view.frame.size.height)];
+    
+    [textField setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSizeSmall]]];
+//    [textField setBackgroundColor:[TDGlobalConfiguration fontColor]];
+    [textField setText:self.toDo.description];
+    [textField addTarget:self action:@selector(changeToDoNameAndViewTitle:) forControlEvents:UIControlEventEditingDidEndOnExit];
+    [textField addTarget:self action:@selector(limitCharacterInput:) forControlEvents:UIControlEventEditingChanged];
+    
+    [view addSubview:textField];
+    return view;
+}
+
+#pragma mark Pan Gesture
+
+- (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer {
+    CGPoint translation = [gestureRecognizer translationInView:[self.remindersTableView superview]];
+    // Handle horizontal pan only
+    return fabsf(translation.x) > fabsf(translation.y);
+}
+
+CGPoint _originalCenter, _cellLocation;
+BOOL _markComplete, _detailToDo;
+UITableViewCell *_firstCell;
+- (void)panLeft:(UIPanGestureRecognizer *)recognizer {
+    // When the pan begins, take note of what cell the gesture started at and its location.
+    if (recognizer.state == UIGestureRecognizerStateBegan) {
+        
+        _cellLocation = [recognizer locationInView:self.remindersTableView];
+        NSIndexPath *indexPath = [self.remindersTableView indexPathForRowAtPoint:_cellLocation];
+        _firstCell = [self.remindersTableView cellForRowAtIndexPath:indexPath];
+        _originalCenter = _firstCell.center;
+    }
+    
+    // Translates the cell, following the user's gesture.
+    if (recognizer.state == UIGestureRecognizerStateChanged) {
+        
+        CGPoint translation = [recognizer translationInView:_firstCell];
+        _firstCell.center = CGPointMake(_originalCenter.x + translation.x, _originalCenter.y);
+        
+        // Checks whether the cell has been moved to the far left or the far right
+        // and flags an action as a consequence.
+//        _detailToDo = _firstCell.frame.origin.x < -_firstCell.frame.size.width / 3; // Panning to the left brings up the detailed ToDo View.
+        _markComplete = _firstCell.frame.origin.x > _firstCell.frame.size.width/ 3; // Panning to the right marks the task as complete.
+    }
+    
+    // When the user let go of the touch screen, decides whether an action needs to be taken and performs it.
+    if (recognizer.state == UIGestureRecognizerStateEnded) {
+        
+        CGRect originalFrame = CGRectMake(0, _firstCell.frame.origin.y,
+                                          _firstCell.bounds.size.width, _firstCell.bounds.size.height);
+        
+        if (!_markComplete) {
+            // if the item is not being deleted, snap back to the original location
+            [UIView animateWithDuration:0.2
+                             animations:^{
+                                 _firstCell.frame = originalFrame;
+                             }
+             ];
+        } else {
+            
+            NSIndexPath *indexPath = [self.remindersTableView indexPathForRowAtPoint:_cellLocation];
+            
+            TDNotificationConfiguration *reminder = [self.toDo.reminders objectAtIndex:indexPath.row];
+            
+            [self.toDo removeNotificationConfigurationBasedOnLocation:indexPath.row];
+            
+            if (reminder.type == DateTime) {
+                for(int i=0; i<reminder.arrayLocalNotifications.count;i++) {
+                    [[UIApplication sharedApplication] cancelLocalNotification: reminder.arrayLocalNotifications[i]];
+                }
+            }
+            
+            [self.remindersTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
+        }
+    }
+}
+
 #pragma mark View Delegates
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [[self navigationController] setNavigationBarHidden:YES];
+    [[self navigationController] setNavigationBarHidden:NO];
+
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     //parte do recorder
     if(![_toDo recorded]){
         _playButton.enabled = NO;
@@ -467,26 +594,45 @@ short _editToDoViewControllerCharacterLimit = 40;
     }
     //fim do recorder
     
+    grad = [TDGlobalConfiguration gradientLayer];
+    grad.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
+    [self.view.layer insertSublayer:grad atIndex:0];
+    
+    NSMutableArray *barButtons = [[NSMutableArray alloc] init];
+    UIBarButtonItem *locationBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"plus_map"] style:UIBarButtonItemStylePlain target:self action:@selector(btLocal_click:)];
+    UIBarButtonItem *dateBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"plus_datetime"] style:UIBarButtonItemStylePlain target:self action:@selector(gotoDateAndTime)];
+    [barButtons addObject:locationBarButton];
+    [barButtons addObject:dateBarButton];
+    
+    self.navigationItem.rightBarButtonItems = barButtons;
     
 	// Do any additional setup after loading the view.
-    [self.titleTextField setBorderStyle:UITextBorderStyleNone];
-    [self.titleTextField setText:self.toDo.description];
-    [self.titleTextField setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
-    [self.titleTextField setTextColor:[TDGlobalConfiguration fontColor]];
+//    [self.titleTextField setBorderStyle:UITextBorderStyleNone];
+//    [self.titleTextField setText:self.toDo.description];
+//    [self.titleTextField setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
+//    [self.titleTextField setTextColor:[TDGlobalConfiguration fontColor]];
+    
     NSDictionary *sections = @{@"Lembre-me:":@"Lembre-me:"};
     [self.sectionsDic addEntriesFromDictionary:sections];
     [self.remindersTableView setBackgroundColor:[TDGlobalConfiguration controlBackgroundColor]];
-    [self.view setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
+//    [self.view setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
     
     // Adding Swip Gesture Recognizers
-    UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRight:)];
-    [swipeRecognizer setDirection:UISwipeGestureRecognizerDirectionRight];
-    [self.view addGestureRecognizer:swipeRecognizer];
+//    UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRight:)];
+//    [swipeRecognizer setDirection:UISwipeGestureRecognizerDirectionRight];
+//    [self.view addGestureRecognizer:swipeRecognizer];
+    
+    UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panLeft:)];
+    [self.remindersTableView addGestureRecognizer:panRecognizer];
+    
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
+    tapRecognizer.numberOfTapsRequired = 1;
+    tapRecognizer.numberOfTouchesRequired = 1;
+    [self.view addGestureRecognizer:tapRecognizer];
     
     // Date and Time Notification button customization
     {
         [self.addDateTimeNotificationButton setTitle:@"+ Data/Hora" forState:UIControlStateNormal];
-        [self.addDateTimeNotificationButton addTarget:self action:@selector(gotoDateAndTime) forControlEvents:UIControlEventTouchDown];
         [self.addDateTimeNotificationButton setTitleColor:[TDGlobalConfiguration buttonColor] forState:UIControlStateNormal];
     }
     
@@ -500,6 +646,8 @@ short _editToDoViewControllerCharacterLimit = 40;
     self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
     self.locationManager.delegate = self;
     [self.locationManager startUpdatingLocation];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning

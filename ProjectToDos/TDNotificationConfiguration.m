@@ -27,27 +27,23 @@
             isRecorrente=YES;
             self.weekDays = aWeekDays;
         }
-        if(!isRecorrente){
+        if (!isRecorrente) {
             self.type = DateTime;
-            NSDateComponents *componentsDate = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:aDate];
-            NSInteger day = [componentsDate day];
-            NSInteger month = [componentsDate month];
-            NSInteger year = [componentsDate year];
-            
-            NSDateComponents *componentsHour = [[NSCalendar currentCalendar] components:NSCalendarUnitHour | NSCalendarUnitMinute fromDate:aTime];
-            NSInteger hour = [componentsHour hour];
-            NSInteger minute = [componentsHour minute];
         
-            NSString* descricaoData = [[NSString alloc]initWithFormat: @"%i/%i/%i",day,month,year];
-            NSString* descricaoHora = [[NSString alloc]initWithFormat: @"%i:%i",hour,minute];
-            self.notificationDescription = [NSString stringWithFormat:@"No dia: %@ às %@", descricaoData,descricaoHora];
+            NSDateFormatter *data = [[NSDateFormatter alloc] init];
+            [data setDateFormat:@"dd/MM/yyyy"];
+            NSString *descricaoData = [data stringFromDate:aDate];
+            NSDateFormatter *hora = [[NSDateFormatter alloc] init];
+            [hora setDateFormat:@"HH:mm"]; //24hr time format
+            NSString *descricaoHora = [hora stringFromDate:aTime];
+            self.notificationDescription = [NSString stringWithFormat:@"No dia: %@ às %@", descricaoData, descricaoHora];
         }
-        else{
+        else {
             self.type = DateTime;
-            NSDateComponents *componentsHour = [[NSCalendar currentCalendar] components:NSCalendarUnitHour | NSCalendarUnitMinute fromDate:aTime];
-            NSInteger hour = [componentsHour hour];
-            NSInteger minute = [componentsHour minute];
-            NSString* descricaoHora = [[NSString alloc]initWithFormat: @"%i:%i",hour,minute];
+            
+            NSDateFormatter *hora = [[NSDateFormatter alloc] init];
+            [hora setDateFormat:@"HH:mm"]; //24hr time format
+            NSString *descricaoHora = [hora stringFromDate:aTime];
             
             NSString *descricaoDias = [[NSString alloc]init];
             for(int i =0; i<self.weekDays.count;i++){

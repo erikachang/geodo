@@ -13,10 +13,7 @@
 
 @end
 
-
 @implementation TDDateAndTimeViewController
-
-
 {
     NSMutableArray *days;
     BOOL data;
@@ -27,6 +24,7 @@
 - (IBAction)dateChanged:(UIDatePicker *)sender {
     [self.hourPicker setDate:[self.datePicker date]];
 }
+
 @synthesize superController;
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -48,61 +46,117 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    self.datePicker = [[UIDatePicker alloc] init];
+    [self.datePicker setDatePickerMode:UIDatePickerModeDate];
+    [self.datePicker addTarget:self  action:@selector(dateChanged:)
+         forControlEvents:UIControlEventValueChanged];
+    
+    self.hourPicker = [[UIDatePicker alloc] init];
+    [self.hourPicker setDatePickerMode:UIDatePickerModeTime];
+    
+    NSDate *date = [NSDate date];
+    self.datePicker.minimumDate = date;
+    self.hourPicker.minimumDate = date;
+    
+    [((UITableViewCell *)self.cells[1]).contentView addSubview:self.hourPicker];
+    [((UITableViewCell *)self.cells[4]).contentView addSubview:self.datePicker];
+    
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.cells.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return self.cells[indexPath.row];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 25)];
+    [view setBackgroundColor:[TDGlobalConfiguration fontColor]];
+    
+    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(15, 0, self.tableView.frame.size.width, view.frame.size.height)];
+    
+    [textField setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSizeSmall]]];
+    //    [textField setBackgroundColor:[TDGlobalConfiguration fontColor]];
+    [textField setText:@"Selecione uma ocasião:"];
+    
+    [view addSubview:textField];
+    return view;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 22;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 20;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 25)];
+    [view setBackgroundColor:[TDGlobalConfiguration fontColor]];
+    
+    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, view.frame.size.height)];
+    
+    [textField setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSizeSmall]]];
+    //    [textField setBackgroundColor:[TDGlobalConfiguration fontColor]];
+    [textField setTextAlignment:NSTextAlignmentCenter];
+    [textField setText:@"Configure sua notificação"];
+    
+    [view addSubview:textField];
+    return view;
+}
+
+CAGradientLayer *grad;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
     [[self navigationController] setNavigationBarHidden:NO];
+    grad = [TDGlobalConfiguration gradientLayer];
+    grad.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
+    [self.view.layer insertSublayer:grad atIndex:0];
     
-    [self.view setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
     [self.switcher setOnTintColor:[TDGlobalConfiguration fontColor]];
-    [self.tblDateTime setBackgroundColor:[TDGlobalConfiguration controlBackgroundColor]];
-    [[self.tblDateTime headerViewForSection:0].textLabel setTextColor:[TDGlobalConfiguration fontColor]];
-    [self.datePicker setBackgroundColor:[UIColor clearColor]];
-    [self.datePicker setTintColor:[TDGlobalConfiguration fontColor]];
-    [self.hourPicker setBackgroundColor:[UIColor clearColor]];
-    [self.hourPicker setTintColor:[TDGlobalConfiguration fontColor]];
-
-    [self.hour setTextColor:[TDGlobalConfiguration fontColor]];
-    [self.hour setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
-    [self.recurrent setTextColor:[TDGlobalConfiguration fontColor]];
-    [self.recurrent setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
-    [self.date setTextColor:[TDGlobalConfiguration fontColor]];
-    [self.date setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
-    [self.occurrence setTextColor:[TDGlobalConfiguration fontColor]];
-    [self.occurrence setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
+    [self.tableView setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
     
-    short numberOfCells = [self.tblDateTime numberOfRowsInSection:0];
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
-    for (short i = 0; i < numberOfCells; i++) {
-        NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
-        
-        UITableViewCell *cell = [self.tblDateTime cellForRowAtIndexPath:path];
-        
+    for (UILabel *label in self.labels) {
+        [label setTextColor:[TDGlobalConfiguration fontColor]];
+        [label setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
+    }
+    
+    for (UITableViewCell *cell in self.cells) {
         [cell setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
         [cell setTintColor:[TDGlobalConfiguration fontColor]];
         [[cell textLabel] setTextColor:[TDGlobalConfiguration fontColor]];
         [[cell textLabel] setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
     }
     
-    NSDate *date = [NSDate date];
-    self.datePicker.minimumDate = date;
-    self.hourPicker.minimumDate = date;
+    [(UITableViewCell *)self.cells[0] setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+    [(UITableViewCell *)self.cells[3] setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+    [(UITableViewCell *)self.cells[5] setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 
     days = [[NSMutableArray alloc] init];
     
     data = YES;
-    hours = NO;
+    hours = YES;
     weekDays = YES;
     
     self.hourDetail.alpha = 0;
     self.dateDetails.alpha = 0;
     self.occurrenceDetails.alpha = 0;
     self.tableView.alwaysBounceVertical = NO;
-    
-    self.todo = self.superController.toDo;
-    
-    NSLog(@"%@", self.todo.reminders.lastObject);
 }
 
 - (void)didReceiveMemoryWarning
@@ -118,19 +172,22 @@
         [self fadeOut:self.dateDetails withDuration:.5 andWait:.1];
         [self fadeIn:self.occurrenceDetails withDuration:0.5 andWait:0.2];
         [self.occurrenceDetails setText:@"Nenhuma"];
-    } else if ([days containsObject:[NSNumber numberWithInt:0]] && [days containsObject:[NSNumber numberWithInt:6]] && !([days containsObject:[NSNumber numberWithInt:1]] || [days containsObject:[NSNumber numberWithInt:2]] || [days containsObject:[NSNumber numberWithInt:3]] || [days containsObject:[NSNumber numberWithInt:4]] || [days containsObject:[NSNumber numberWithInt:5]]))
+        
+    } else if ([days containsObject:[NSNumber numberWithInt:0]] && [days containsObject:[NSNumber numberWithInt:6]] && [days count] == 2)
     {
         self.occurrenceDetails.alpha = 0;
         [self fadeOut:self.dateDetails withDuration:.5 andWait:.1];
         [self fadeIn:self.occurrenceDetails withDuration:0.5 andWait:0.2];
         [self.occurrenceDetails setText:@"Fins de semana"];
-    } else if (!([days containsObject:[NSNumber numberWithInt:0]] || [days containsObject:[NSNumber numberWithInt:6]]) && [days containsObject:[NSNumber numberWithInt:1]] && [days containsObject:[NSNumber numberWithInt:2]] && [days containsObject:[NSNumber numberWithInt:3]] && [days containsObject:[NSNumber numberWithInt:4]] && [days containsObject:[NSNumber numberWithInt:5]])
+        
+    } else if ([days count] == 5 && [days containsObject:[NSNumber numberWithInt:1]] && [days containsObject:[NSNumber numberWithInt:2]] && [days containsObject:[NSNumber numberWithInt:3]] && [days containsObject:[NSNumber numberWithInt:4]] && [days containsObject:[NSNumber numberWithInt:5]])
     {
         self.occurrenceDetails.alpha = 0;
         [self fadeOut:self.dateDetails withDuration:.5 andWait:.1];
         [self fadeIn:self.occurrenceDetails withDuration:0.5 andWait:0.2];
         [self.occurrenceDetails setText:@"Dias úteis"];
-    } else if ([days containsObject:[NSNumber numberWithInt:0]] && [days containsObject:[NSNumber numberWithInt:6]] && [days containsObject:[NSNumber numberWithInt:1]] && [days containsObject:[NSNumber numberWithInt:2]] && [days containsObject:[NSNumber numberWithInt:3]] && [days containsObject:[NSNumber numberWithInt:4]] && [days containsObject:[NSNumber numberWithInt:5]])
+        
+    } else if ([days count] == 7)
     {
         self.occurrenceDetails.alpha = 0;
         [self fadeOut:self.dateDetails withDuration:.5 andWait:.1];
@@ -170,225 +227,110 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-    if (indexPath.row == 0 && hours == NO) {
-        hours = YES;
-    } else if (indexPath.row == 0 && hours == YES) {
-        [self fadeOut:self.hourDetail withDuration:.5 andWait:.1];
-        hours = NO;
-    } else if (indexPath.row == 3 && data == NO) {
-        data = YES;
-    } else if (indexPath.row == 3 && data == YES) {
-        [self fadeOut:self.dateDetails withDuration:.5 andWait:.1];
-        data = NO;
-    } else if (indexPath.row == 5 && weekDays == NO) {
-        weekDays = YES;
-    } else if (indexPath.row == 5 && data == YES) {
-        weekDays = NO;
-    } else if (indexPath.row == 6) {
-        if (!([days containsObject:[NSNumber numberWithInt:0]])) {
-            cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            [days addObject:[NSNumber numberWithInt:0]];
+    short dayOfWeek;
+    switch (indexPath.row) {
+        case 0:
+            hours = !hours;
+            if (!hours) {
+                [self fadeOut:self.hourDetail withDuration:.5 andWait:.1];
+            } else {
+                NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
+                [outputFormatter setDateFormat:@"HH:mm"]; //24hr time format
+                NSString *dateString = [outputFormatter stringFromDate:self.hourPicker.date];
+                
+                [self fadeOut:self.hourDetail withDuration:.5 andWait:.1];
+                [self fadeIn:self.hourDetail withDuration:.5 andWait:.1];
+                [self.hourDetail setText:dateString];
+            }
+            break;
+        case 3:
+            data = !data;
+            if (!data) {
+                [self fadeOut:self.dateDetails withDuration:.5 andWait:.1];
+            } else {
+                NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
+                [outputFormatter setDateFormat:@"dd/MM/yyyy"];
+                NSString *dateString = [outputFormatter stringFromDate:self.hourPicker.date];
+                
+                [self fadeOut:self.dateDetails withDuration:.5 andWait:.1];
+                [self fadeIn:self.dateDetails withDuration:.5 andWait:.1];
+                [self.dateDetails setText:dateString];
+
+            }
+            break;
+        case 5:
+            weekDays = !weekDays;
+            break;
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+        case 10:
+        case 11:
+        case 12:
+            dayOfWeek = indexPath.row - 6;
+            if (!([days containsObject:[NSNumber numberWithInt:dayOfWeek]])) {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                [days addObject:[NSNumber numberWithInt:dayOfWeek]];
+            } else {
+                cell.accessoryType = UITableViewCellAccessoryNone;
+                [days removeObject:[NSNumber numberWithInt:dayOfWeek]];
+            }
             [self returnWeekDays];
-        }
-        else {
-            cell.accessoryType = UITableViewCellAccessoryNone;
-            [days removeObject:[NSNumber numberWithInt:0]];
-            [self returnWeekDays];
-        }
-    } else if (indexPath.row == 7) {
-        if (!([days containsObject:[NSNumber numberWithInt:1]])) {
-            cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            [days addObject:[NSNumber numberWithInt:1]];
-            [self returnWeekDays];
-        }
-        else {
-            cell.accessoryType = UITableViewCellAccessoryNone;
-            [days removeObject:[NSNumber numberWithInt:1]];
-            [self returnWeekDays];
-        }
-    } else if (indexPath.row == 8) {
-        if (!([days containsObject:[NSNumber numberWithInt:2]])) {
-            cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            [days addObject:[NSNumber numberWithInt:2]];
-            [self returnWeekDays];
-        }
-        else {
-            cell.accessoryType = UITableViewCellAccessoryNone;
-            [days removeObject:[NSNumber numberWithInt:2]];
-            [self returnWeekDays];
-        }
-    } else if (indexPath.row == 9) {
-        if (!([days containsObject:[NSNumber numberWithInt:3]])) {
-            cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            [days addObject:[NSNumber numberWithInt:3]];
-            [self returnWeekDays];
-        }
-        else {
-            cell.accessoryType = UITableViewCellAccessoryNone;
-            [days removeObject:[NSNumber numberWithInt:3]];
-            [self returnWeekDays];
-        }
-    } else if (indexPath.row == 10) {
-        if (!([days containsObject:[NSNumber numberWithInt:4]])) {
-            cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            [days addObject:[NSNumber numberWithInt:4]];
-            [self returnWeekDays];
-        }
-        else {
-            cell.accessoryType = UITableViewCellAccessoryNone;
-            [days removeObject:[NSNumber numberWithInt:4]];
-            [self returnWeekDays];
-        }
-    } else if (indexPath.row == 11) {
-        if (!([days containsObject:[NSNumber numberWithInt:5]])) {
-            cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            [days addObject:[NSNumber numberWithInt:5]];
-            [self returnWeekDays];
-        }
-        else {
-            cell.accessoryType = UITableViewCellAccessoryNone;
-            [days removeObject:[NSNumber numberWithInt:5]];
-            [self returnWeekDays];
-        }
-    } else if (indexPath.row == 12) {
-        if (!([days containsObject:[NSNumber numberWithInt:6]])) {
-            cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            [days addObject:[NSNumber numberWithInt:6]];
-            [self returnWeekDays];
-        }
-        else {
-            cell.accessoryType = UITableViewCellAccessoryNone;
-            [days removeObject:[NSNumber numberWithInt:6]];
-            [self returnWeekDays];
-        }
+        default:
+            break;
     }
     
     [self.tableView beginUpdates];
     [self.tableView endUpdates];
-    
-    if (hours == YES && indexPath.row == 0) {
-        NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
-        [outputFormatter setDateFormat:@"HH:mm"]; //24hr time format
-        NSString *dateString = [outputFormatter stringFromDate:self.hourPicker.date];
-        
-        [self fadeOut:self.hourDetail withDuration:.5 andWait:.1];
-        [self fadeIn:self.hourDetail withDuration:.5 andWait:.1];
-        [self.hourDetail setText:dateString];
-    } else if (data == YES && indexPath.row == 3) {
-        NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
-        [outputFormatter setDateFormat:@"dd/MM/yyyy"];
-        NSString *dateString = [outputFormatter stringFromDate:self.hourPicker.date];
-        
-        [self fadeOut:self.dateDetails withDuration:.5 andWait:.1];
-        [self fadeIn:self.dateDetails withDuration:.5 andWait:.1];
-        [self.dateDetails setText:dateString];
-    }
     
     cell.selected = NO;
 }
 
 - (float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0 && indexPath.row == 0) {
-        return 44;
-    } else if (indexPath.section == 0 && indexPath.row == 1) {
-        if (hours == YES) {
-            return 0;
-        } else {
-            return 180;
-        }
-    } else if (indexPath.section == 0 && indexPath.row == 2) {
-        return 44;
-    }
-    
-    if (self.switcher.on == NO) {
-        if (indexPath.section == 0 && indexPath.row == 3) {
+    switch (indexPath.row) {
+        case 1:
+            return hours ? 0 : 180;
+            break;
+        case 3:
+            return self.switcher.on ? 0 : 44;
+            break;
+        case 4:
+            return (!self.switcher.on && !data) ? 180 : 0;
+            break;
+        case 5:
+            return self.switcher.on ? 44 : 0;
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+        case 10:
+        case 11:
+        case 12:
+            return (!self.switcher.on || weekDays) ? 0 : 44;
+            break;
+        default:
             return 44;
-        } else if (indexPath.section == 0 && indexPath.row == 4) {
-            if (data == YES) {
-                return 0;
-            } else {
-                return 180;
-            }
-        } if (indexPath.section == 0 && indexPath.row == 5) {
-            return 0;
-        } else if (indexPath.section == 0 && indexPath.row == 6) {
-            return 0;
-        } else if (indexPath.section == 0 && indexPath.row == 7) {
-            return 0;
-        } else if (indexPath.section == 0 && indexPath.row == 8) {
-            return 0;
-        } else if (indexPath.section == 0 && indexPath.row == 9) {
-            return 0;
-        } else if (indexPath.section == 0 && indexPath.row == 10) {
-            return 0;
-        } else if (indexPath.section == 0 && indexPath.row == 11) {
-            return 0;
-        } else if (indexPath.section == 0 && indexPath.row == 12) {
-            return 0;
-        }
-    } else {
-        if (indexPath.section == 0 && indexPath.row == 5) {
-            return 44;
-        } else if (indexPath.section == 0 && indexPath.row == 6) {
-            if (weekDays == YES) {
-                return 0;
-            } else {
-                return 44;
-            }
-        } else if (indexPath.section == 0 && indexPath.row == 7) {
-            if (weekDays == YES) {
-                return 0;
-            } else {
-                return 44;
-            }
-        } else if (indexPath.section == 0 && indexPath.row == 8) {
-            if (weekDays == YES) {
-                return 0;
-            } else {
-                return 44;
-            }
-        } else if (indexPath.section == 0 && indexPath.row == 9) {
-            if (weekDays == YES) {
-                return 0;
-            } else {
-                return 44;
-            }
-        } else if (indexPath.section == 0 && indexPath.row == 10) {
-            if (weekDays == YES) {
-                return 0;
-            } else {
-                return 44;
-            }
-        } else if (indexPath.section == 0 && indexPath.row == 11) {
-            if (weekDays == YES) {
-                return 0;
-            } else {
-                return 44;
-            }
-        } else if (indexPath.section == 0 && indexPath.row == 12) {
-            if (weekDays == YES) {
-                return 0;
-            } else {
-                return 44;
-            }
-        } else if (indexPath.section == 0 && indexPath.row == 3) {
-            return 0;
-        } else if (indexPath.section == 0 && indexPath.row == 4) {
-            return 0;
-        }
+            break;
     }
-    
-    return 44;
 }
 
 - (IBAction)switched:(UISwitch *)sender {
+
+    [self.tableView beginUpdates];
     data = YES;
     weekDays = YES;
-    [self.tableView beginUpdates];
+    hours = YES;
     [self.tableView endUpdates];
+    
+    if (self.switcher.on) {
+        NSDate *date = [NSDate distantPast];
+        [self.hourPicker setMinimumDate:date];
+    }
 }
 
--(void)fadeOut:(UIView*)viewToDissolve withDuration:(NSTimeInterval)duration   andWait:(NSTimeInterval)wait
+-(void)fadeOut:(UIView*)viewToDissolve withDuration:(NSTimeInterval)duration
+       andWait:(NSTimeInterval)wait
 {
     [UIView beginAnimations: @"Fade Out" context:nil];
     // wait for time before begin
@@ -398,7 +340,8 @@
     viewToDissolve.alpha = 0.0;
     [UIView commitAnimations];
 }
--(void)fadeIn:(UIView*)viewToFadeIn withDuration:(NSTimeInterval)duration         andWait:(NSTimeInterval)wait
+-(void)fadeIn:(UIView*)viewToFadeIn withDuration:(NSTimeInterval)duration
+      andWait:(NSTimeInterval)wait
 {
     [UIView beginAnimations: @"Fade In" context:nil];
     // wait for time before begin

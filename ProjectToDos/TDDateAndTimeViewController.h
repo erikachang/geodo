@@ -11,18 +11,14 @@
 #import "TDEditToDoViewController.h"
 
 @interface TDDateAndTimeViewController : UITableViewController
-@property (weak, nonatomic) IBOutlet UITableViewCell *cllHorario;
-@property (strong, nonatomic) IBOutlet UITableView *tblDateTime;
+@property (strong, nonatomic) IBOutletCollection(UITableViewCell) NSArray *cells;
+@property (strong, nonatomic) IBOutletCollection(UILabel) NSArray *labels;
 
-@property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
-@property (weak, nonatomic) IBOutlet UIDatePicker *hourPicker;
-@property (weak, nonatomic) IBOutlet UILabel *date;
+@property (strong, nonatomic) UIDatePicker *datePicker;
+@property (strong, nonatomic) UIDatePicker *hourPicker;
 @property (weak, nonatomic) IBOutlet UILabel *dateDetails;
 @property (weak, nonatomic) IBOutlet UISwitch *switcher;
-@property (weak, nonatomic) IBOutlet UILabel *recurrent;
-@property (weak, nonatomic) IBOutlet UILabel *hour;
 @property (weak, nonatomic) IBOutlet UILabel *hourDetail;
-@property (weak, nonatomic) IBOutlet UILabel *occurrence;
 @property (weak, nonatomic) IBOutlet UILabel *occurrenceDetails;
 
 @property (strong, nonatomic) TDToDo *todo;

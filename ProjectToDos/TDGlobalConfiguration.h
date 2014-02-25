@@ -15,7 +15,11 @@
 + (UIColor *)controlBackgroundColor;
 + (UIColor *)buttonColor;
 + (NSString *)fontName;
++ (float)fontSizeBig;
 + (float)fontSize;
++ (float)fontSizeSmall;
 + (short)characterLimit;
++ (UIColor *)navigationBarCoor;
++ (CAGradientLayer *)gradientLayer;
 
 @end

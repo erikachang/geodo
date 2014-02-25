@@ -19,7 +19,7 @@
 #import "TDViewController.h"
 
 
-@interface TDEditToDoViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, AVAudioRecorderDelegate, AVAudioPlayerDelegate>
+@interface TDEditToDoViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, AVAudioRecorderDelegate, AVAudioPlayerDelegate, UIDynamicAnimatorDelegate>
 
 @property (strong, nonatomic) TDToDo *toDo;
 
