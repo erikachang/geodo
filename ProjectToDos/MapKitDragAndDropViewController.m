@@ -78,13 +78,13 @@ CAGradientLayer *grad;
     [self.view setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
     
     [self.txtEndereco setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
-    [self.txtEndereco setTextColor:[TDGlobalConfiguration fontColor]];
-    [self.txtEndereco setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
+    //[self.txtEndereco setTextColor:[TDGlobalConfiguration fontColor]];
+    //[self.txtEndereco setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
     [self.txtEndereco setPlaceholder:@"Digite um endereço..."];
     
     [self.txtRaio setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
-    [self.txtRaio setTextColor:[TDGlobalConfiguration fontColor]];
-    [self.txtRaio setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
+    //[self.txtRaio setTextColor:[TDGlobalConfiguration fontColor]];
+    //[self.txtRaio setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
 
     [self.btnMyLocation setTintColor:[TDGlobalConfiguration buttonColor]];
     [self.btnOk setTintColor:[TDGlobalConfiguration buttonColor]];
@@ -99,7 +99,8 @@ CAGradientLayer *grad;
     [self.sgmMapStyle setTintColor:[TDGlobalConfiguration fontColor]];
     [self.sgmMapStyle setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
     
-    [self.menuView setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
+    //[self.menuView setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -109,6 +110,10 @@ CAGradientLayer *grad;
     [self.navigationController setNavigationBarHidden:NO];
 	// NOTE: This is optional, DDAnnotationCoordinateDidChangeNotification only fired in iPhone OS 3, not in iOS 4.
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(coordinateChanged_:) name:@"DDAnnotationCoordinateDidChangeNotification" object:nil];
+    
+    //parte da animação
+    UIDynamicAnimator *animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
+    self.animator = animator;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -287,7 +292,7 @@ CAGradientLayer *grad;
 
 - (IBAction)showMenuDown:(id)sender {
     
-    if(_content.frame.origin.y == initialY) { //only show the menu if it is not already shown
+    if(_menuView.frame.origin.y != 0) { //only show the menu if it is not already shown
         [self showMenu];
     } else {
         [self hideMenu];
@@ -327,61 +332,53 @@ CAGradientLayer *grad;
     center.longitude = longitude;
     return center;
 }
-/*
- - (void)geoCodeUsingCoordinateToTextField:(CLLocation*)location
- {
- CLGeocoder* geocoder;
- if (!geocoder)
- geocoder = [[CLGeocoder alloc] init];
- 
- [geocoder reverseGeocodeLocation:location completionHandler:
- ^(NSArray* placemarks, NSError* error){
- if ([placemarks count] > 0)
- {
- CLPlacemark *placemark = [placemarks objectAtIndex:0];
- NSString *strCountry = [placemark country];
- NSString *strState = [placemark administrativeArea];
- NSString *strCity = [placemark locality];
- NSString *strAv = [placemark thoroughfare];
- NSString *strBairro = [placemark subLocality];
- 
- NSString *endereco = [[NSString alloc]initWithFormat:@"%@,%@. %@-%@, %@",strAv, strBairro,strCity,strState, strCountry];
- _txtEndereco.text = endereco;
- }
- }];
- }
- */
 
 #pragma mark - animations -
 -(void)showMenu{
-    
     //slide the content view to the right to reveal the menu
-    [UIView animateWithDuration:.25
-                     animations:^{
-                         //+70 para deixar alinhado por enquanto.
-                         [_content setFrame:CGRectMake(_content.frame.origin.x, _menuView.frame.size.height+10, _content.frame.size.width, _content.frame.size.height)];
-                     }
-     ];
+    //[UIView animateWithDuration:.25
+    //                 animations:^{
+    //                     //+70 para deixar alinhado por enquanto.
+    //                     [_menuView setFrame:CGRectMake(_menuView.frame.origin.x, 0, _menuView.frame.size.width, _menuView.frame.size.height)];
+    //                 }
+    // ];
+    [self.animator removeAllBehaviors];
     
+    UIGravityBehavior *gravityBeahvior = [[UIGravityBehavior alloc] initWithItems:@[self.menuView,self.btMenu]];
+    [self.animator addBehavior:gravityBeahvior];
+    
+    UICollisionBehavior *collisionBehavior = [[UICollisionBehavior alloc] initWithItems:@[self.menuView]];
+    [collisionBehavior setTranslatesReferenceBoundsIntoBoundaryWithInsets:UIEdgeInsetsMake(-400, 0, self.view.bounds.size.height-158, 0)];
+
+    collisionBehavior.collisionDelegate = self;
+    [self.animator addBehavior:collisionBehavior];
+    
+    UICollisionBehavior *collisionBehavior2 = [[UICollisionBehavior alloc] initWithItems:@[self.btMenu]];
+    [collisionBehavior2 setTranslatesReferenceBoundsIntoBoundaryWithInsets:UIEdgeInsetsMake(-400, 0, self.view.bounds.size.height-200, 0)];
+    
+    collisionBehavior2.collisionDelegate = self;
+    
+    [self.animator addBehavior:collisionBehavior2];
 }
+
 -(void)hideMenu{
-    //slide the content view to the left to hide the menu
     [UIView animateWithDuration:.25
                      animations:^{
-                         [_content setFrame:CGRectMake(0, initialY, _content.frame.size.width, _content.frame.size.height)];
-                         
+                         [_menuView setFrame:CGRectMake(0, -158, _menuView.frame.size.width, _menuView.frame.size.height)];
+                         [_btMenu setFrame:CGRectMake(_btMenu.frame.origin.x, -5, _btMenu.frame.size.width, _btMenu.frame.size.height)];
+    
                      }
      ];
 }
 
 #pragma mark - Gesture handlers -
 -(void)handleSwipeLeft:(UISwipeGestureRecognizer*)recognizer{
-    
-    if(_content.frame.origin.x != 0)
+    if(_menuView.frame.origin.y == 0)
         [self hideMenu];
 }
+
 -(void)handleSwipeRight:(UISwipeGestureRecognizer*)recognizer{
-    if(_content.frame.origin.x == 0)
+    if(_menuView.frame.origin.y == -158)
         [self showMenu];
 }
 @end

@@ -177,8 +177,8 @@ short _editToDoViewControllerCharacterLimit = 40;
                 }
                 if(reminder.type == DateTime){
                     [_toDo removeNotificationConfigurationBasedOnLocation: i];
-                    for(int i=0; i<reminder.arrayLocalNotifications.count;i++){
-                        [[UIApplication sharedApplication] cancelLocalNotification: reminder.arrayLocalNotifications[i]];
+                    for(int j=0; j<reminder.arrayLocalNotifications.count;j++){
+                        [[UIApplication sharedApplication] cancelLocalNotification: reminder.arrayLocalNotifications[j]];
                     }
                     break;
                 }

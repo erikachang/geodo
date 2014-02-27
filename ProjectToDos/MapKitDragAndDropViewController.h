@@ -17,9 +17,11 @@
 #import "SL_Localidades.h"
 #import "SL_armazenaDados.h"
 
-@interface MapKitDragAndDropViewController : UIViewController{
+@interface MapKitDragAndDropViewController : UIViewController <UICollisionBehaviorDelegate>{
 	MKMapView *mapView;
 }
+@property (nonatomic, strong) UIDynamicAnimator *animator;
+
 @property (weak, nonatomic) IBOutlet UILabel *lblOptions;
 @property (weak, nonatomic) IBOutlet UILabel *lblRadius;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *sgmMapStyle;
