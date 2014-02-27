@@ -283,6 +283,7 @@ UITableViewCell *_firstCell;
         }
         
         [self.toDosDataSource removeObjectsInArray:toDosToBeDeleted];
+        [self removeNotificacoesFromToDo:toDosToBeDeleted];
         [self.toDosTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
     }
 }
