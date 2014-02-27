@@ -273,24 +273,17 @@ UITableViewCell *_firstCell;
     if (motion == UIEventSubtypeMotionShake) {
         
         NSMutableArray *toDosToBeDeleted = [[NSMutableArray alloc] init];
-        NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
         int row = 0;
         
         for (TDToDo *todo in self.toDosDataSource) {
             if (!todo.active) {
                 [toDosToBeDeleted addObject:todo];
-                [indexPaths addObject:[NSIndexPath indexPathForRow:row inSection:0]];
-                
             }
             row++;
         }
         
         [self.toDosDataSource removeObjectsInArray:toDosToBeDeleted];
-        
-        [self.toDosTableView beginUpdates];
-        [self.toDosTableView deleteRowsAtIndexPaths:indexPaths
-                                   withRowAnimation:UITableViewRowAnimationAutomatic];
-        [self.toDosTableView endUpdates];
+        [self.toDosTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
     }
 }
 
@@ -303,11 +296,7 @@ UITableViewCell *_firstCell;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (self.isFiltering) {
-        return self.filteredToDosDataSource.count;
-    } else {
-        return self.toDosDataSource.count;
-    }
+    return self.isFiltering ? self.filteredToDosDataSource.count : self.toDosDataSource.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -330,23 +319,20 @@ UITableViewCell *_firstCell;
     }
     
     [cell.priorityIcon setHidden:YES];
-//    [cell setBackgroundColor:[TDGlobalConfiguration backgroundColor]];
     [cell setBackgroundColor:[UIColor clearColor]];
     [cell.toDoLabel setFont:[UIFont fontWithName:[TDGlobalConfiguration fontName] size:[TDGlobalConfiguration fontSize]]];
     [cell.toDoLabel setTextColor:[TDGlobalConfiguration fontColor]];
         
     if (todo.active) {
-        if (todo.priority) {
-            [cell.priorityIcon setHidden:NO];
-        }
-        cell.toDoLabel.attributedText = nil;
-        cell.toDoLabel.text = todo.description;
+        [cell.priorityIcon setHidden:!todo.priority];
+        [cell.toDoLabel setAttributedText:nil];
+        [cell.toDoLabel setText:todo.description];
     } else {
-        cell.toDoLabel.text = nil;
-        cell.toDoLabel.attributedText = [self strikeThroughText:todo.description];
+        [cell.toDoLabel setText:nil];
+        [cell.toDoLabel setAttributedText:[self strikeThroughText:todo.description]];
     }
     
-    cell.toDoLabel.tag = indexPath.row;
+//    cell.toDoLabel.tag = indexPath.row;
     
     return cell;
 }
@@ -439,12 +425,7 @@ CAGradientLayer *grad;
     
     NSIndexPath *indexPath = [self.toDosTableView indexPathForRowAtPoint:_cellLocation];
 
-    if (self.isFiltering) {
-        editView.toDo = [self.filteredToDosDataSource objectAtIndex:indexPath.row];
-    } else {
-        editView.toDo = [self.toDosDataSource objectAtIndex:indexPath.row];
-    }
-    [editView setSuperController:self];
+    editView.toDo = self.isFiltering ? [self.filteredToDosDataSource objectAtIndex:indexPath.row] : [self.toDosDataSource objectAtIndex:indexPath.row];
 }
 
 #pragma mark - Parte da notificacao por local
