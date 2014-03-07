@@ -13,7 +13,8 @@
 @synthesize listToDos;
 @synthesize regionIdentifier;
 
--(id) initAll: (NSString*) ident with : (TDToDo*) toDo{
+- (instancetype)initAll:(NSString*)ident with:(TDToDo*)toDo
+{
     self = [super init];
     
     if (self) {
@@ -25,19 +26,18 @@
     return self;
 }
 
--(void) addToDo : (TDToDo*) toDo{
+- (void)addToDo:(TDToDo*)toDo
+{
     [listToDos addObject:toDo];
 }
 
--(void) removeToDo : (TDToDo*)toDo{
+- (void)removeToDo:(TDToDo*)toDo
+{
     [listToDos removeObject:toDo];
 }
 
--(BOOL) hasToDo{
-    if(listToDos.count==0){
-        return NO;
-    }else{
-        return YES;
-    }
+- (BOOL)hasToDo
+{
+    return listToDos.count != 0;
 }
 @end

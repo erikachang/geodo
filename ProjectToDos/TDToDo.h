@@ -27,6 +27,6 @@
 - (void)toggleActive;
 - (void)togglePriority;
 
--(void)removeNotificationConfigurationBasedOnLocation:(int)indiceNotificationConfiguration;
--(BOOL) hasReminderByRegion : (NSString*)regionIdentifier;
+- (void)removeNotificationConfigurationBasedOnLocation:(int)indiceNotificationConfiguration;
+- (BOOL)hasReminderByRegion:(NSString*)regionIdentifier;
 @end

@@ -12,8 +12,7 @@
 
 - (instancetype)initWithDescription:(NSString *)aDescription
 {
-    if (self = [super init])
-    {
+    if (self = [super init]) {
         _description = aDescription;
         _active = YES;
         _priority = NO;
@@ -56,8 +55,8 @@
 
 -(BOOL) hasReminderByRegion : (NSString*)regionIdentifier
 {
-    for(TDNotificationConfiguration *notification in _reminders){
-        if([notification.location.regiao.identifier isEqualToString:regionIdentifier]){
+    for(TDNotificationConfiguration *notification in _reminders) {
+        if([notification.location.regiao.identifier isEqualToString:regionIdentifier]) {
             return true;
         }
     }

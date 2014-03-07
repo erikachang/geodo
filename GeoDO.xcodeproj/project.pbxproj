@@ -59,7 +59,6 @@
 		F482269418A9B20400846900 /* Tutorial.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F482269318A9B20400846900 /* Tutorial.storyboard */; };
 		F482269818A9B62200846900 /* TDTutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F482269718A9B62200846900 /* TDTutorialViewController.m */; };
 		F482269A18AA67B600846900 /* priority_16x16.png in Resources */ = {isa = PBXBuildFile; fileRef = F482269918AA67B600846900 /* priority_16x16.png */; };
-		F48226A418AB020000846900 /* bookmark.png in Resources */ = {isa = PBXBuildFile; fileRef = F48226A318AB020000846900 /* bookmark.png */; };
 		F4941B631897D16200894C8B /* TDEditToDoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4941B621897D16200894C8B /* TDEditToDoViewController.m */; };
 		F4A7C3F11899707F00CB8B0C /* TDNotificationConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A7C3F01899707F00CB8B0C /* TDNotificationConfiguration.m */; };
 /* End PBXBuildFile section */
@@ -183,16 +182,10 @@
 		38D4A4ED189FE1000020723A /* DDManagemViews */ = {
 			isa = PBXGroup;
 			children = (
-				38A4F2A818A8F5A60018FD93 /* TDMapaLocaisViewController.h */,
-				38A4F2A918A8F5A60018FD93 /* TDMapaLocaisViewController.m */,
 				38D4A4EE189FE1170020723A /* DDAnnotation.h */,
 				38D4A4EF189FE1170020723A /* DDAnnotation.m */,
 				38D4A4F0189FE1170020723A /* DDAnnotationView.h */,
 				38D4A4F1189FE1170020723A /* DDAnnotationView.m */,
-				38D4A4F2189FE1170020723A /* MapKitDragAndDropViewController.h */,
-				38D4A4F3189FE1170020723A /* MapKitDragAndDropViewController.m */,
-				38E17DAA18A0FB2E0051A27A /* TDLocalExistenteViewController.h */,
-				38E17DAB18A0FB2E0051A27A /* TDLocalExistenteViewController.m */,
 			);
 			name = DDManagemViews;
 			sourceTree = "<group>";
@@ -210,8 +203,6 @@
 				F406A4E81897DD1E0004F19E /* TDToDo.m */,
 				F4A7C3EF1899707F00CB8B0C /* TDNotificationConfiguration.h */,
 				F4A7C3F01899707F00CB8B0C /* TDNotificationConfiguration.m */,
-				A0C3F39D189F22C100F97340 /* TDDateAndTimeViewController.h */,
-				A0C3F39E189F22C100F97340 /* TDDateAndTimeViewController.m */,
 			);
 			name = Objects;
 			sourceTree = "<group>";
@@ -254,7 +245,7 @@
 				38D4A4ED189FE1000020723A /* DDManagemViews */,
 				F4A7C40F189C528C00CB8B0C /* Custom Controls */,
 				F406A4E61897DD0A0004F19E /* Objects */,
-				F4941B5D1897CE9B00894C8B /* ToDoManagementViews */,
+				F4941B5D1897CE9B00894C8B /* GeoDOViewControllers */,
 				F46BED0C18969D07009B5251 /* TDAppDelegate.h */,
 				F46BED0D18969D07009B5251 /* TDAppDelegate.m */,
 				F46BED0F18969D07009B5251 /* Main.storyboard */,
@@ -328,15 +319,23 @@
 			name = Tutorial;
 			sourceTree = "<group>";
 		};
-		F4941B5D1897CE9B00894C8B /* ToDoManagementViews */ = {
+		F4941B5D1897CE9B00894C8B /* GeoDOViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				38A4F2A818A8F5A60018FD93 /* TDMapaLocaisViewController.h */,
+				38A4F2A918A8F5A60018FD93 /* TDMapaLocaisViewController.m */,
+				38D4A4F2189FE1170020723A /* MapKitDragAndDropViewController.h */,
+				38D4A4F3189FE1170020723A /* MapKitDragAndDropViewController.m */,
+				38E17DAA18A0FB2E0051A27A /* TDLocalExistenteViewController.h */,
+				38E17DAB18A0FB2E0051A27A /* TDLocalExistenteViewController.m */,
+				A0C3F39D189F22C100F97340 /* TDDateAndTimeViewController.h */,
+				A0C3F39E189F22C100F97340 /* TDDateAndTimeViewController.m */,
 				F46BED1218969D07009B5251 /* TDViewController.h */,
 				F46BED1318969D07009B5251 /* TDViewController.m */,
 				F4941B611897D16200894C8B /* TDEditToDoViewController.h */,
 				F4941B621897D16200894C8B /* TDEditToDoViewController.m */,
 			);
-			name = ToDoManagementViews;
+			name = GeoDOViewControllers;
 			sourceTree = "<group>";
 		};
 		F4A7C40F189C528C00CB8B0C /* Custom Controls */ = {
@@ -396,7 +395,7 @@
 		F46BECF218969D07009B5251 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				CLASSPREFIX = TD;
+				CLASSPREFIX = GD;
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "The ToDo Party";
 				TargetAttributes = {

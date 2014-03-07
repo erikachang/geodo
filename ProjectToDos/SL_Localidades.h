@@ -18,5 +18,5 @@
 @property float longitude;
 @property float raio;
 
--(id) initAll: (NSString*) ident with : (float) latitude with : (float) longitude with : (float) raio;
+- (id)initAll:(NSString*)ident with:(float)latitude with:(float)longitude with:(float)raio;
 @end

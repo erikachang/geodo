@@ -14,8 +14,8 @@
 @property NSString* regionIdentifier;
 @property NSMutableArray* listToDos;
 
--(id) initAll: (NSString*) ident with : (TDToDo*) toDo;
--(void)addToDo : (TDToDo*) toDo;
--(void)removeToDo : (TDToDo*) toDo;
--(BOOL)hasToDo;
+- (instancetype)initAll:(NSString*)ident with:(TDToDo*)toDo;
+- (void)addToDo:(TDToDo*)toDo;
+- (void)removeToDo:(TDToDo*)toDo;
+- (BOOL)hasToDo;
 @end

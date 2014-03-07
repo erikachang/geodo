@@ -12,7 +12,7 @@
 
 @implementation TDNotificationConfiguration
 
--(instancetype)initWithDate:(NSDate *)aDate andTime:(NSDate *)aTime orWeekDays:(NSMutableArray *)aWeekDays
+- (instancetype)initWithDate:(NSDate *)aDate andTime:(NSDate *)aTime orWeekDays:(NSMutableArray *)aWeekDays
 {
     if (self = [super init])
     {
@@ -83,7 +83,7 @@
     return self;
 }
 
--(instancetype)initWithLocation:(SL_Localidades *)aLocation
+- (instancetype)initWithLocation:(SL_Localidades *)aLocation
 {
     if (self = [super init])
     {
@@ -94,7 +94,7 @@
     return self;
 }
 
--(void)addLocalnotifications:(UILocalNotification *)object{
+- (void)addLocalnotifications:(UILocalNotification *)object{
     if(_arrayLocalNotifications==nil){
         _arrayLocalNotifications = [[NSMutableArray alloc]init];
     }
